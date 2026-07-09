@@ -5,6 +5,8 @@ class base_test extends uvm_test;
   uvm_factory factory;
   led_env     env;
 
+  localparam time UVM_PHASE_DRAIN_TIME = 1000ns;
+
   function new(string name, uvm_component parent);
     super.new(name, parent);
   endfunction
@@ -24,6 +26,10 @@ class base_test extends uvm_test;
     factory = uvm_factory::get();
     factory.print();
     uvm_top.print_topology();
+  endfunction
+
+  function void set_run_phase_drain_time(uvm_phase phase);
+    phase.phase_done.set_drain_time(this, UVM_PHASE_DRAIN_TIME);
   endfunction
 
 endclass

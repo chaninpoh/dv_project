@@ -54,7 +54,7 @@ Do not proceed to the next phase until the current gate is **PASS**.
 cd /path/to/{{PROJECT_ROOT}}
 source {{SETUP_SCRIPT}}
 cd {{SIM_DIR}}
-chmod +x check_phase*_gate.sh 2>/dev/null
+chmod +x run_sim.csh check_phase*_gate.sh 2>/dev/null
 ```
 
 ### Agent / user roles
@@ -76,6 +76,27 @@ chmod +x check_phase*_gate.sh 2>/dev/null
 **Gate criteria (every phase):** phase marker in sim log; zero `UVM_ERROR` / `UVM_FATAL`; no compile `error-` / `syntax error`.
 
 **On gate FAIL:** grep logs for the error text → open **`FIX.md`** quick lookup table → apply fix → re-run `make {{RUN_TARGET}} TESTNAME=<test> SEED=0` → prompt `check logfiles` again.
+
+### UVM test conventions (all phases)
+
+Every UVM test **`run_phase`** must set **{{UVM_PHASE_DRAIN_TIME}}** phase drain time after `drop_objection` so monitors, drivers, and scoreboard TLM can flush before the run phase ends.
+
+| Phase | Pattern |
+|---|---|
+| 1 | `phase.drop_objection(this);` then `phase.phase_done.set_drain_time(this, {{UVM_PHASE_DRAIN_TIME}});` in standalone gate test |
+| 2–5 | Tests extending `{{BASE_TEST}}`: `phase.drop_objection(this);` then `set_run_phase_drain_time(phase);` |
+
+**`{{BASE_TEST}}` helper** (define once in `tb/{{BASE_TEST}}.sv`):
+
+```systemverilog
+localparam time UVM_PHASE_DRAIN_TIME = {{UVM_PHASE_DRAIN_TIME}};
+
+function void set_run_phase_drain_time(uvm_phase phase);
+  phase.phase_done.set_drain_time(this, UVM_PHASE_DRAIN_TIME);
+endfunction
+```
+
+Do **not** call `super` in UVM phase methods (project convention).
 
 ---
 
@@ -150,6 +171,8 @@ Reply after run with: check logfiles
 ```systemverilog
 `uvm_info("{{PHASE1_ID}}", "{{PHASE1_MARKER}} bring-up complete", UVM_LOW)
 ```
+
+**`run_phase` drain time (required):** after `drop_objection`, call `phase.phase_done.set_drain_time(this, {{UVM_PHASE_DRAIN_TIME}});`
 
 ### `{{TB_TOP}}.sv` include order (required)
 
@@ -245,7 +268,7 @@ make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
 `uvm_info(get_type_name(), "Build phase for <component_name>", UVM_LOW)
 ```
 
-**Sanity test:** `{{PHASE2_TEST}}` extends `{{BASE_TEST}}`.
+**Sanity test:** `{{PHASE2_TEST}}` extends `{{BASE_TEST}}`. End `run_phase` with `set_run_phase_drain_time(phase)` ({{UVM_PHASE_DRAIN_TIME}}).
 
 ### Phase 2 marker
 
@@ -289,6 +312,10 @@ make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 6. **User runs:** `make {{RUN_TARGET}} TESTNAME=<test> SEED=0`
 7. **User prompts** log check
 8. Proceed only on PASS
+
+Each P0 test `run_phase` must call `set_run_phase_drain_time(phase)` after `drop_objection` ({{UVM_PHASE_DRAIN_TIME}}).
+
+**Incremental run rule (mandatory):** After each new **component**, **sequence**, or **test**, the agent stops and prints `make {{RUN_TARGET}} TESTNAME=<test> SEED=0`. User runs on VM → prompts `check logfiles` → agent continues.
 
 ### Phase 3 marker (per test)
 
@@ -437,6 +464,7 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 | `{{PHASE1_ID}}` | PHASE1_TB_TOP | `uvm_info` id |
 | `{{EXAMPLE_P0_TEST}}` | led_decimal_42_test | Sample P0 test |
 | `{{RUN_TARGET}}` | dv | Makefile target (`make dv`) |
+| `{{UVM_PHASE_DRAIN_TIME}}` | 1000ns | Run-phase drain after `drop_objection` (all tests) |
 | `{{REGRESS_BATCH}}` | regress_p0.sh | Local P0 batch script (Phase 4) |
 | `{{FARM_SUBMIT_CMD}}` | *(optional)* | Farm submit, e.g. `bsub regress_p0.sh` |
 | `FIX.md` | FIX.md | Known errors and fixes (all phases) |

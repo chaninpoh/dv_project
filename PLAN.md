@@ -36,7 +36,7 @@ Do not ask the agent to proceed to the next phase until the current gate is **PA
 cd /path/to/dv_project/LED_MUX_CONTROLLER_stu
 source proj1.setup
 cd sim
-chmod +x check_phase1_gate.sh check_phase2_gate.sh check_phase3_gate.sh 2>/dev/null
+chmod +x run_sim.csh check_phase1_gate.sh check_phase2_gate.sh check_phase3_gate.sh 2>/dev/null
 ```
 
 ### Phase 1 — commands to run
@@ -101,6 +101,38 @@ make dv TESTNAME=<testname> SEED=0
 
 `make dv` invokes `run_sim.csh` (compile + elaborate + simulate). Override `TESTNAME` and `SEED` per test.
 
+### UVM test conventions (all phases)
+
+Every UVM test **`run_phase`** must set a **1000 ns phase drain time** after dropping the run-phase objection so monitors, drivers, and scoreboard TLM paths can flush before the phase ends.
+
+| Phase | Where to set | Value |
+|---|---|---|
+| 1 | `phase1_tb_top_test` (extends `uvm_test`) | `1000ns` via `localparam UVM_PHASE_DRAIN_TIME` |
+| 2–5 | Tests extending `base_test` | Call `set_run_phase_drain_time(phase)` after `drop_objection` (`base_test` defines `UVM_PHASE_DRAIN_TIME = 1000ns`) |
+
+**Required pattern** (after all stimulus / checks in `run_phase`):
+
+```systemverilog
+phase.drop_objection(this);
+phase.phase_done.set_drain_time(this, 1000ns);   // Phase 1 standalone tests
+
+// OR, for tests extending base_test:
+phase.drop_objection(this);
+set_run_phase_drain_time(phase);
+```
+
+**`base_test` helper** (`tb/base_test.sv`):
+
+```systemverilog
+localparam time UVM_PHASE_DRAIN_TIME = 1000ns;
+
+function void set_run_phase_drain_time(uvm_phase phase);
+  phase.phase_done.set_drain_time(this, UVM_PHASE_DRAIN_TIME);
+endfunction
+```
+
+Do **not** call `super` in UVM phase methods (project convention). Phase 3+ P0 tests inherit drain time via `set_run_phase_drain_time(phase)` at the end of every `run_phase`.
+
 ---
 
 ## Phase overview
@@ -153,7 +185,13 @@ PHASE 1 : testbench top
 Recommended SystemVerilog:
 
 ```systemverilog
-`uvm_info("PHASE1_TB_TOP", "PHASE 1 : testbench top bring-up complete", UVM_LOW)
+task run_phase(uvm_phase phase);
+  phase.raise_objection(this);
+  #1200ns;  // past reset release
+  `uvm_info("PHASE1_TB_TOP", "PHASE 1 : testbench top bring-up complete", UVM_LOW)
+  phase.drop_objection(this);
+  phase.phase_done.set_drain_time(this, 1000ns);
+endtask
 ```
 
 The review gate searches for `PHASE 1 : testbench top` (prefix match).
@@ -484,6 +522,7 @@ Per ARCHITECTURE.md §3 and §4, integrate in this order. **Stop after each row,
 | Step | Task | Output |
 |---|---|---|
 | 2.1 | Create **`base_test`** extending `uvm_test` | `tb/base_test.sv` |
+| 2.1a | Add `UVM_PHASE_DRAIN_TIME = 1000ns` and `set_run_phase_drain_time(phase)` helper | `tb/base_test.sv` |
 | 2.2 | In `build_phase`: create minimal **`led_env`** (empty or stub) via factory | `tb/led_env.sv` |
 | 2.3 | Set `uvm_config_db` for `is_active = UVM_ACTIVE` on both agents (paths match env hierarchy) | `base_test.sv` |
 | 2.4 | In **`end_of_elaboration_phase`**, add factory dump (required): | `base_test.sv` |
@@ -573,6 +612,7 @@ task run_phase(uvm_phase phase);
   // Final phase gate marker
   `uvm_info("PHASE2_AGENTS", "PHASE 2 : uvm agents integration complete", UVM_LOW)
   phase.drop_objection(this);
+  set_run_phase_drain_time(phase);  // 1000ns — see §UVM test conventions
 endtask
 ```
 
@@ -640,7 +680,7 @@ Full string from sanity test: `PHASE 2 : uvm agents integration complete` (gate 
 
 ```text
 LED_MUX_CONTROLLER_stu/tb/
-  base_test.sv                  # factory.print + print_topology in end_of_elaboration_phase
+  base_test.sv                  # factory.print + print_topology; UVM_PHASE_DRAIN_TIME + drain helper
   led_env.sv                    # apb_agt + led_agt only (no scb/cov)
   phase2_agent_sanity_test.sv   # extends base_test; phase + agent checks
   test_lib.svh                  # include phase2 test
@@ -782,6 +822,25 @@ python scripts/generate_testplan.py --owner "slpoh" --tier p0
 ```
 
 **Rule:** Finish **one** P0 test (compile, sim, gate PASS) before starting the next. Do not batch multiple tests without a green gate in between.
+
+**Incremental run rule (mandatory):** After **each** new or modified **component**, **sequence**, or **test** is added, the agent must **stop** and print the `make dv` command for the user. The user runs on the VM and prompts `check logfiles` before the agent adds the next item.
+
+| Step type | Verify with | Example |
+|---|---|---|
+| New component (scoreboard, SVA, env hook) | Compile + prior gate test still runs | `make dv TESTNAME=phase2_agent_sanity_test SEED=0` until first P0 test exists |
+| New sequence | Compile + test that uses it (or compile-only via phase2 until test wired) | After `led_reset_seq`: run `led_reset_values_test` once created |
+| New P0 test | Full per-test gate (§3.8) | `make dv TESTNAME=led_reset_values_test SEED=0` |
+
+**Agent prompt template (after every addition):**
+
+```text
+--- Phase 3 checkpoint ---
+Added      : <component | sequence | test name>
+Files      : <paths>
+Run on VM  : make dv TESTNAME=<test> SEED=0
+Expected   : compile clean; sim log for <test>
+Next step  : (do not proceed until user prompts check logfiles)
+```
 
 ---
 
@@ -925,7 +984,7 @@ For **each** row in §3.2, complete these steps:
 | 3.3.1 | Open matching row in `LED_MUX_CONTROLLER_testplan.xlsx` (Priority **P0**) |
 | 3.3.2 | Create **`<testname>_test.sv`** extending **`base_test`** (not `phase2_agent_sanity_test`) |
 | 3.3.3 | In `build_phase`: `factory.set_type_override` only if needed; else default factory create |
-| 3.3.4 | In `run_phase`: `raise_objection` → start virtual/child sequences from Excel **Test Steps** → `drop_objection` |
+| 3.3.4 | In `run_phase`: `raise_objection` → start virtual/child sequences from Excel **Test Steps** → `drop_objection` → `set_run_phase_drain_time(phase)` (1000ns) |
 | 3.3.5 | Add phase marker: `` `uvm_info("PHASE3_P0", "PHASE 3 : P0 <testname> complete", UVM_LOW) `` |
 | 3.3.6 | Register in **`test_lib.svh`** |
 | 3.3.7 | **User runs:** `make dv TESTNAME=<testname> SEED=0` |
@@ -966,6 +1025,7 @@ class led_decimal_42_test extends base_test;
     vseq.start(env.apb_agt.sequencer, env.led_agt.sequencer); // or virtual sequencer
   `uvm_info("PHASE3_P0", "PHASE 3 : P0 led_decimal_42_test complete", UVM_LOW)
     phase.drop_objection(this);
+    set_run_phase_drain_time(phase);
   endtask
 endclass
 ```

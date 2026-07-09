@@ -24,6 +24,7 @@ class phase2_agent_sanity_test extends base_test;
     `uvm_info("PHASE2_AGENTS", "PHASE 2 : uvm agents integration complete", UVM_LOW)
 
     phase.drop_objection(this);
+    set_run_phase_drain_time(phase);
   endtask
 
 endclass

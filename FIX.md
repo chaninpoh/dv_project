@@ -23,6 +23,7 @@
 |---|---|---|---|
 | FIX-001 | 1 | `test_lib` / duplicate class / already defined | [§FIX-001](#fix-001-test_lib-compiled-twice-via-dutf) |
 | FIX-002 | All | VCS / make not found on Windows | [§FIX-002](#fix-002-cannot-run-vcs-on-windows) |
+| FIX-016 | All | `run_sim.csh` / `execvp` / `Permission denied` / Error 127 | [§FIX-016](#fix-016-run_simcsh-not-executable) |
 | FIX-003 | 1–2 | `uvm_config_db::get failed` / `NOVIF` | [§FIX-003](#fix-003-uvm_config_db-vif-lookup-failed) |
 | FIX-004 | 1+ | Phase marker not found in sim log | [§FIX-004](#fix-004-phase-marker-missing-in-sim-log) |
 | FIX-005 | 1 | `Error-` / `Syntax error` in `dut_comp.log` | [§FIX-005](#fix-005-vcs-compile-errors) |
@@ -59,6 +60,18 @@
 | **Cause** | Synopsys VCS is licensed on the **course Linux VM** only |
 | **Fix** | Run `source proj1.setup && make dv TESTNAME=<test> SEED=0` on the VM. Sync project via git/shared folder. Prompt agent `check logfiles` after run. |
 | **Verify** | Logs appear under `LED_MUX_CONTROLLER_stu/sim/` |
+
+### FIX-016: `run_sim.csh` not executable
+
+| | |
+|---|---|
+| **Symptom** | `make dv` fails immediately; no `dut_comp.log` created |
+| **Log** | `make: execvp: .../run_sim.csh: Permission denied` and `Error 127` on `run_dv` |
+| **Cause** | `sim/run_sim.csh` lost execute permission (common after sync from Windows/git) |
+| **Fix** | From `sim/`: `chmod +x run_sim.csh` |
+| **Also** | One-time per VM session: `chmod +x run_sim.csh check_phase*_gate.sh` |
+| **Note** | `sim/makefile` invokes `csh run_sim.csh` so `make dv` works even without `+x`; `chmod` still needed if you run `./run_sim.csh` directly |
+| **Verify** | `make dv TESTNAME=<test> SEED=0` starts; `vcs` line appears in terminal or `dut_comp.log` |
 
 ### FIX-003: `uvm_config_db` vif lookup failed
 
@@ -222,4 +235,4 @@ Copy this block when you document a new issue:
 
 ---
 
-*Last updated: FIX-015 — missing `-CFLAGS -DVCS` / DPI-DIFNF `uvm_glob_to_re`. Extend as new failures are found.*
+*Last updated: FIX-016 — `run_sim.csh` permission denied / Error 127. Extend as new failures are found.*

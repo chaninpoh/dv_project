@@ -1,3 +1,4 @@
+`include "led_scoreboard.sv"
 `include "led_env.sv"
 `include "base_test.sv"
 `include "phase1_tb_top_test.sv"
