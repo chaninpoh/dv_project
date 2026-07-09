@@ -2,3 +2,5 @@
 `include "base_test.sv"
 `include "phase1_tb_top_test.sv"
 `include "phase2_agent_sanity_test.sv"
+`include "sequences/led_reset_seq.sv"
+`include "led_reset_values_test.sv"

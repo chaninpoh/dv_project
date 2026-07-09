@@ -1,5 +1,5 @@
 // LED interface — SPEC §4.1
-interface led_if (input logic clk, rst_n);
+interface led_if (input logic clk, ref logic rst_n);
 
   logic [19:0] error_q;
   logic [7:0]  seg_out;

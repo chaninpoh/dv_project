@@ -58,4 +58,11 @@ module top_tb;
     $fsdbDumpvars(0, top_tb);
   end
 
+  bind dut_inst led_mux_sva i_led_mux_sva (
+    .clk     (clk),
+    .rst_n   (rst_n),
+    .sel_out (led_vif.sel_out),
+    .seg_out (led_vif.seg_out)
+  );
+
 endmodule

@@ -1,7 +1,7 @@
 Command: /home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/./dut_simv +UVM_TESTNAME=phase2_agent_sanity_test +ntb_random_seed=0 -l phase2_agent_sanity_test_seed_0_sim.log +UVM_NO_RELNOTES -cm line+tgl+cond+fsm+branch+assert -assert summary -assert report=dut_sva.rpt -debug_access+all -cm line+tgl+cond+fsm+branch+assert -cm_name phase2_agent_sanity_test_0 +fsdb+sva_success
 Chronologic VCS simulator copyright 1991-2024
 Contains Synopsys proprietary information.
-Compiler version W-2024.09-SP2_Full64; Runtime version W-2024.09-SP2_Full64;  Jul  9 23:31 2026
+Compiler version W-2024.09-SP2_Full64; Runtime version W-2024.09-SP2_Full64;  Jul 10 00:56 2026
 UVM_INFO @ 0: reporter [RNTST] Running test phase2_agent_sanity_test...
 *Verdi* Loading libsscore_vcs202409.so
 FSDB Dumper for VCS, Release Verdi_W-2024.09-SP2, Linux x86_64/64bit, 03/03/2025
@@ -10,20 +10,21 @@ FSDB Dumper for VCS, Release Verdi_W-2024.09-SP2, Linux x86_64/64bit, 03/03/2025
 *Verdi* : Create FSDB file 'waveform.fsdb'
 *Verdi* : Begin traversing the scope (top_tb), layer (0).
 *Verdi* : End of traversing.
-UVM_INFO ../tb/base_test.sv(13) @ 0: uvm_test_top [phase2_agent_sanity_test] Build phase for base_test
-UVM_INFO ../tb/led_env.sv(13) @ 0: uvm_test_top.env [led_env] Build phase for led_env
+UVM_INFO ../tb/base_test.sv(15) @ 0: uvm_test_top [phase2_agent_sanity_test] Build phase for base_test
+UVM_INFO ../tb/led_env.sv(14) @ 0: uvm_test_top.env [led_env] Build phase for led_env
 UVM_INFO ../tb/apb_agent/apb_agent.sv(23) @ 0: uvm_test_top.env.apb_agt [apb_agent] Build phase for apb_agent
 UVM_INFO ../tb/apb_agent/apb_driver.sv(20) @ 0: uvm_test_top.env.apb_agt.driver [apb_driver] Build phase for apb_driver
 UVM_INFO ../tb/apb_agent/apb_monitor.sv(26) @ 0: uvm_test_top.env.apb_agt.monitor [apb_monitor] Build phase for apb_monitor
 UVM_INFO ../tb/led_agent/led_agent.sv(24) @ 0: uvm_test_top.env.led_agt [led_agent] Build phase for led_agent
 UVM_INFO ../tb/led_agent/led_driver.sv(20) @ 0: uvm_test_top.env.led_agt.driver [led_driver] Build phase for led_driver
 UVM_INFO ../tb/led_agent/led_monitor.sv(24) @ 0: uvm_test_top.env.led_agt.monitor [led_monitor] Build phase for led_monitor
+UVM_INFO ../tb/led_scoreboard.sv(26) @ 0: uvm_test_top.env.scb [led_scoreboard] Build phase for led_scoreboard
 UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_factory.svh(1645) @ 0: reporter [UVM/FACTORY/PRINT] 
 #### Factory Configuration (*)
 
   No instance or type overrides are registered with this factory
 
-All types registered with the factory: 70 total
+All types registered with the factory: 71 total
   Type Name
   ---------
   apb_agent
@@ -35,6 +36,7 @@ All types registered with the factory: 70 total
   led_driver
   led_env
   led_monitor
+  led_scoreboard
   led_transaction
   phase1_tb_top_test
   phase2_agent_sanity_test
@@ -52,43 +54,47 @@ Name                       Type                      Size  Value
 uvm_test_top               phase2_agent_sanity_test  -     @346 
   env                      led_env                   -     @366 
     apb_agt                apb_agent                 -     @377 
-      driver               apb_driver                -     @534 
-        rsp_port           uvm_analysis_port         -     @553 
-        seq_item_port      uvm_seq_item_pull_port    -     @543 
-      monitor              apb_monitor               -     @563 
-        analysis_port      uvm_analysis_port         -     @577 
-      sequencer            uvm_sequencer             -     @397 
-        rsp_export         uvm_analysis_export       -     @406 
-        seq_item_export    uvm_seq_item_pull_imp     -     @524 
+      driver               apb_driver                -     @543 
+        rsp_port           uvm_analysis_port         -     @562 
+        seq_item_port      uvm_seq_item_pull_port    -     @552 
+      monitor              apb_monitor               -     @572 
+        analysis_port      uvm_analysis_port         -     @586 
+      sequencer            uvm_sequencer             -     @406 
+        rsp_export         uvm_analysis_export       -     @415 
+        seq_item_export    uvm_seq_item_pull_imp     -     @533 
         arbitration_queue  array                     0     -    
         lock_queue         array                     0     -    
         num_last_reqs      integral                  32    'd1  
         num_last_rsps      integral                  32    'd1  
     led_agt                led_agent                 -     @386 
-      driver               led_driver                -     @607 
-        rsp_port           uvm_analysis_port         -     @626 
-        seq_item_port      uvm_seq_item_pull_port    -     @616 
-      monitor              led_monitor               -     @598 
-        analysis_port      uvm_analysis_port         -     @778 
-      sequencer            uvm_sequencer             -     @636 
-        rsp_export         uvm_analysis_export       -     @645 
-        seq_item_export    uvm_seq_item_pull_imp     -     @763 
+      driver               led_driver                -     @616 
+        rsp_port           uvm_analysis_port         -     @635 
+        seq_item_port      uvm_seq_item_pull_port    -     @625 
+      monitor              led_monitor               -     @607 
+        analysis_port      uvm_analysis_port         -     @787 
+      sequencer            uvm_sequencer             -     @645 
+        rsp_export         uvm_analysis_export       -     @654 
+        seq_item_export    uvm_seq_item_pull_imp     -     @772 
         arbitration_queue  array                     0     -    
         lock_queue         array                     0     -    
         num_last_reqs      integral                  32    'd1  
         num_last_rsps      integral                  32    'd1  
+    scb                    led_scoreboard            -     @395 
+      apb_imp              uvm_analysis_imp_apb      -     @805 
+      led_imp              uvm_analysis_imp_led      -     @815 
 ----------------------------------------------------------------
 
 UVM_INFO ../tb/phase2_agent_sanity_test.sv(12) @ 0: uvm_test_top [PHASE1_TB_TOP] PHASE 1 : testbench top bring-up complete
 UVM_INFO ../tb/phase2_agent_sanity_test.sv(17) @ 0: uvm_test_top [phase2_agent_sanity_test] PHASE 2 : apb_agent instantiated
 UVM_INFO ../tb/phase2_agent_sanity_test.sv(22) @ 0: uvm_test_top [phase2_agent_sanity_test] PHASE 2 : led_agent instantiated
 UVM_INFO ../tb/phase2_agent_sanity_test.sv(24) @ 0: uvm_test_top [PHASE2_AGENTS] PHASE 2 : uvm agents integration complete
-UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_objection.svh(1276) @ 0: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
-UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_report_server.svh(904) @ 0: reporter [UVM/REPORT/SERVER] 
+SEL_OUT 000000
+UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_objection.svh(1276) @ 1000000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_report_server.svh(904) @ 1000000: reporter [UVM/REPORT/SERVER] 
 --- UVM Report Summary ---
 
 ** Report counts by severity
-UVM_INFO :   16
+UVM_INFO :   17
 UVM_WARNING :    0
 UVM_ERROR :    0
 UVM_FATAL :    0
@@ -106,16 +112,17 @@ UVM_FATAL :    0
 [led_driver]     1
 [led_env]     1
 [led_monitor]     1
+[led_scoreboard]     1
 [phase2_agent_sanity_test]     3
 
 $finish called from file "/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_root.svh", line 527.
-$finish at simulation time                    0
+$finish at simulation time              1000000
 
 =========== Generating Assertion Summary ==========
 
 "uvm_pkg.\uvm_reg_map::do_read .unnamed$$_0.unnamed$$_1", 0 attempts, 0 successes, 0 failures, 0 incompletes
 "uvm_pkg.\uvm_reg_map::do_write .unnamed$$_0.unnamed$$_1", 0 attempts, 0 successes, 0 failures, 0 incompletes
-"vcs_paramclassrepository.\uvm_component_name_check_visitor::visit .unnamed$$_0", 43 attempts, 43 successes, 0 failures, 0 incompletes
+"vcs_paramclassrepository.\uvm_component_name_check_visitor::visit .unnamed$$_0", 46 attempts, 46 successes, 0 failures, 0 incompletes
 Summary: 3 assertions, 1 with attempts, 0 with failures
 
 ===========     End Assertion Summary    ==========
@@ -125,6 +132,6 @@ Summary: 3 assertions, 1 with attempts, 0 with failures
 VCS Coverage Metrics: during simulation line, cond, FSM, branch, tgl was monitored
 ---------------------------------------------------------------------------
            V C S   S i m u l a t i o n   R e p o r t 
-Time: 0 ps
+Time: 1000000 ps
 CPU Time:      0.280 seconds;       Data structure size:   0.6Mb
-Thu Jul  9 23:31:32 2026
+Fri Jul 10 00:56:44 2026
