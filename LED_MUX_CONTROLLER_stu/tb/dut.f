@@ -13,5 +13,4 @@
 +incdir+../tb/led_agent
 ../tb/apb_agent/apb_if.sv
 ../tb/led_agent/led_if.sv
-../tb/test_lib.svh
 ../tb/top_tb.sv
