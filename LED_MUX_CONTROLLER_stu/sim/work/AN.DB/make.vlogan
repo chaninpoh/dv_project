@@ -1,0 +1,87 @@
+
+VLOGAN	= vlogan
+VLOGAN_OPT	= -kdb=common_elab -kdb +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2 +incdir+../src/ +incdir+../tb/ +incdir+../tb/led_agent +incdir+../tb/dp_agent -sverilog -work default -full64
+
+all :		_VCSgd_Pt99wd_1.db \
+	_VCSgd_sNBczd_1.db \
+	_VCSgd_TpJJoe_1.db \
+	_VCSgd_BH2cDe_1.db \
+	_VCSgd_tOxcme_1.db \
+	_VCSgd_GTgIyb_1.db \
+	_VCSgd_0ZD7lc_1.db \
+	_VCSgd_5cB4J_1.db \
+	_VCSgd_RxJwMc_1.db \
+	_VCSgd_MD6TIe_1.db \
+	_VCSgd_sSLMp_1.db \
+	_VCSgd_xoAtUb_1.db \
+	_VCSgd_RxxYQd_1.db \
+	_VCSgd_ddXjh_1.db \
+	_VCSgd_fNWsQe_1.db \
+	_VCSgd_nGFE7b_1.db \
+
+
+
+_VCSgd_Pt99wd_1.db :	../tb/led_agent/led_agent_pkg.svh 
+		${VLOGAN}  ${VLOGAN_OPT} ../tb/led_agent/led_agent_pkg.svh
+
+
+_VCSgd_sNBczd_1.db :	../tb/dp_agent/dp_agent_pkg.svh 
+		${VLOGAN}  ${VLOGAN_OPT} ../tb/dp_agent/dp_agent_pkg.svh
+
+
+_VCSgd_TpJJoe_1.db :	../tb/my_testbench_pkg.svh 
+		${VLOGAN}  ${VLOGAN_OPT} ../tb/my_testbench_pkg.svh
+
+
+_VCSgd_BH2cDe_1.db :	../src/dp_mux.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/dp_mux.sv
+
+
+_VCSgd_tOxcme_1.db :	../src/sdram_model.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/sdram_model.sv
+
+
+_VCSgd_GTgIyb_1.db :	../src/ODDR2_behav.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/ODDR2_behav.sv
+
+
+_VCSgd_0ZD7lc_1.db :	../src/dcm_165Mhz_model.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/dcm_165Mhz_model.sv
+
+
+_VCSgd_5cB4J_1.db :	../src/sdram_controller.v 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/sdram_controller.v
+
+
+_VCSgd_RxJwMc_1.db :	../src/debounce_explicit.v 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/debounce_explicit.v
+
+
+_VCSgd_MD6TIe_1.db :	../src/LED_mux.v 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/LED_mux.v
+
+
+_VCSgd_sSLMp_1.db :	../src/bin2bcd.v 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/bin2bcd.v
+
+
+_VCSgd_xoAtUb_1.db :	../src/dut.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../src/dut.sv
+
+
+_VCSgd_RxxYQd_1.db :	../tb/led_agent/led_if.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../tb/led_agent/led_if.sv
+
+
+_VCSgd_ddXjh_1.db :	../tb/dp_if.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../tb/dp_if.sv
+
+
+_VCSgd_fNWsQe_1.db :	../tb/dp_sva.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../tb/dp_sva.sv
+
+
+_VCSgd_nGFE7b_1.db :	../tb/top.sv 
+		${VLOGAN}  ${VLOGAN_OPT} ../tb/top.sv
+
+

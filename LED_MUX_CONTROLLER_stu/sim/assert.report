@@ -1,0 +1,7 @@
+Info: "../tb/dp_sva.sv", 77: top.dut_inst.m3.dp_sva_inst.CHECKER_FOR_DIGIT_3_0: at time 22070000 ps
+$time checker_for_led_digit3_0 PASSES
+Info: "../tb/dp_sva.sv", 78: top.dut_inst.m3.dp_sva_inst.CHECKER_FOR_DIGIT_4_0: at time 22070000 ps
+$time checker_for_led_digit4_0 PASSES
+Info: "../tb/dp_sva.sv", 79: top.dut_inst.m3.dp_sva_inst.CHECKER_FOR_DIGIT_5_0: at time 22070000 ps
+$time checker_for_led_digit5_0 PASSES
+Summary: 9 assertions, 6 with attempts, 0 with failures

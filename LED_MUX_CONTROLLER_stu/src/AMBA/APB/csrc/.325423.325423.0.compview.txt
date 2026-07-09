@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1772765914.193611939, "rt":0.39, "ut":0.15, "st":0.08}}
+{"vcselab":{"timestamp_begin":1772765914.657492334, "rt":0.31, "ut":0.15, "st":0.07}}
+{"link":{"timestamp_begin":1772765915.030426609, "rt":0.27, "ut":0.10, "st":0.08}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1772765913.839695829}
+{"VCS_COMP_START_TIME": 1772765913.839695829}
+{"VCS_COMP_END_TIME": 1772765915.754583662}
+{"VCS_USER_OPTIONS": "-timescale=1ns/1ps -R APB_DUT.sv APB_Master.sv APB_Slave.sv apb_interconnect_fabric.sv APB_TB.sv -sverilog +vcs+flush+all -debug_access+all +v2k"}
+{"vcs1": {"peak_mem": 312300}}
+{"vcselab": {"peak_mem": 170708}}

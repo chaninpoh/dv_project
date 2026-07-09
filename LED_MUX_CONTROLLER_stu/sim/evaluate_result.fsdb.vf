@@ -1,0 +1,8 @@
+@FSDB rc file Version 1.0
+[VRTL_FILE_HEADER]
+# !! DON'T EDIT [VRTL_FILE_HEADER] SESSION !!
+Version = 1
+[VRTL_FILE_SOURCE]
+FileType = split
+File1 = /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/sim/waveform.fsdb
+File2 = /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/sim/evaluate_result.fsdb

@@ -1,0 +1,218 @@
+verdiWindowResize -win $_Verdi_1 "270" "81" "900" "700"
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+verdiWindowResize -win $_Verdi_1 "270" "81" "900" "700"
+debLoadSimResult \
+           /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/waveform.fsdb
+verdiSetActWin -win $_nWave2
+verdiWindowResize -win $_Verdi_1 "159" "21" "900" "700"
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+debLoadSimResult \
+           /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/waveform.fsdb
+verdiSetActWin -win $_nWave2
+wvGetSignalOpen -win $_nWave2
+wvGetSignalSetScope -win $_nWave2 "/APB_TB"
+wvGetSignalSetScope -win $_nWave2 "/APB_TB/D0"
+wvGetSignalSetScope -win $_nWave2 "/APB_TB/D0"
+wvGetSignalSetScope -win $_nWave2 "/APB_TB/D0/f0"
+wvGetSignalSetScope -win $_nWave2 "/APB_TB/D0/f0/A0"
+wvGetSignalSetScope -win $_nWave2 "/APB_TB/D0/M0"
+wvDisplayGridCount -win $_nWave2 -off
+wvCloseGetStreamsDialog -win $_nWave2
+wvAttrOrderConfigDlg -win $_nWave2 -close
+wvCloseDetailsViewDlg -win $_nWave2
+wvCloseDetailsViewDlg -win $_nWave2 -streamLevel
+wvCloseFilterColorizeDlg -win $_nWave2
+wvGetSignalClose -win $_nWave2
+wvReloadFile -win $_nWave2
+wvGetSignalOpen -win $_nWave2
+wvSetPosition -win $_nWave2 {("G1" 9)}
+wvSetPosition -win $_nWave2 {("G1" 9)}
+wvAddSignal -win $_nWave2 -clear
+wvAddSignal -win $_nWave2 -group {"G1" \
+{/APB_TB/D0/M0/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M0/i_command} \
+{/APB_TB/D0/M0/i_data_in\[31:0\]} \
+{/APB_TB/D0/M0/i_pclk} \
+{/APB_TB/D0/M0/i_prdata\[31:0\]} \
+{/APB_TB/D0/M0/i_pready} \
+{/APB_TB/D0/M0/i_prstn} \
+{/APB_TB/D0/M0/i_pslverr} \
+{/APB_TB/D0/M0/i_start} \
+}
+wvAddSignal -win $_nWave2 -group {"G2" \
+}
+wvSelectSignal -win $_nWave2 {( "G1" 1 2 3 4 5 6 7 8 9 )} 
+wvSetPosition -win $_nWave2 {("G1" 9)}
+wvSetCursor -win $_nWave2 1873300.000000
+debImport "-dbdir" \
+          "/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/simv.daidir"
+verdiSetActWin -dock widgetDock_MTB_SOURCE_TAB_1
+verdiWindowResize -win $_Verdi_1 "0" "21" "900" "700"
+verdiDockWidgetSetCurTab -dock widgetDock_<Decl._Tree>
+verdiSetActWin -dock widgetDock_<Decl._Tree>
+verdiDockWidgetSetCurTab -dock widgetDock_<Inst._Tree>
+verdiSetActWin -dock widgetDock_<Inst._Tree>
+verdiDockWidgetSetCurTab -dock widgetDock_<Message>
+verdiSetActWin -dock widgetDock_<Message>
+wvCreateWindow
+verdiSetActWin -win $_nWave3
+wvSetPosition -win $_nWave3 {("G1" 0)}
+wvOpenFile -win $_nWave3 \
+           {/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/waveform.fsdb}
+wvGetSignalOpen -win $_nWave3
+wvGetSignalSetScope -win $_nWave3 "/APB_TB"
+wvGetSignalSetScope -win $_nWave3 "/APB_TB/D0"
+wvGetSignalSetScope -win $_nWave3 "/APB_TB/D0/M0"
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvAddSignal -win $_nWave3 -clear
+wvAddSignal -win $_nWave3 -group {"G1" \
+{/APB_TB/D0/M0/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M0/i_command} \
+{/APB_TB/D0/M0/i_data_in\[31:0\]} \
+{/APB_TB/D0/M0/i_pclk} \
+{/APB_TB/D0/M0/i_prdata\[31:0\]} \
+{/APB_TB/D0/M0/i_pready} \
+{/APB_TB/D0/M0/i_prstn} \
+{/APB_TB/D0/M0/i_pslverr} \
+{/APB_TB/D0/M0/i_start} \
+}
+wvAddSignal -win $_nWave3 -group {"G2" \
+}
+wvSelectSignal -win $_nWave3 {( "G1" 1 2 3 4 5 6 7 8 9 )} 
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvAddSignal -win $_nWave3 -clear
+wvAddSignal -win $_nWave3 -group {"G1" \
+{/APB_TB/D0/M0/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M0/i_command} \
+{/APB_TB/D0/M0/i_data_in\[31:0\]} \
+{/APB_TB/D0/M0/i_pclk} \
+{/APB_TB/D0/M0/i_prdata\[31:0\]} \
+{/APB_TB/D0/M0/i_pready} \
+{/APB_TB/D0/M0/i_prstn} \
+{/APB_TB/D0/M0/i_pslverr} \
+{/APB_TB/D0/M0/i_start} \
+}
+wvAddSignal -win $_nWave3 -group {"G2" \
+}
+wvSelectSignal -win $_nWave3 {( "G1" 1 2 3 4 5 6 7 8 9 )} 
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvGetSignalClose -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvSelectSignal -win $_nWave3 {( "G1" 4 )} 
+wvZoom -win $_nWave3 0.000000 1725419.040903
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvSelectSignal -win $_nWave3 {( "G1" 6 )} 
+wvSetCursor -win $_nWave3 2752114.668547 -snap {("G1" 1)}
+wvSelectSignal -win $_nWave3 {( "G1" 1 )} 
+wvSelectAll -win $_nWave3
+wvCut -win $_nWave3
+wvSetPosition -win $_nWave3 {("G1" 0)}
+wvGetSignalOpen -win $_nWave3
+wvGetSignalSetScope -win $_nWave3 "/APB_TB"
+wvGetSignalSetScope -win $_nWave3 "/APB_TB/D0"
+wvGetSignalSetScope -win $_nWave3 "/APB_TB/D0/M0"
+wvGetSignalSetScope -win $_nWave3 "/APB_TB/D0/M1"
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvAddSignal -win $_nWave3 -clear
+wvAddSignal -win $_nWave3 -group {"G1" \
+{/APB_TB/D0/M1/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M1/i_command} \
+{/APB_TB/D0/M1/i_data_in\[31:0\]} \
+{/APB_TB/D0/M1/i_pclk} \
+{/APB_TB/D0/M1/i_prdata\[31:0\]} \
+{/APB_TB/D0/M1/i_pready} \
+{/APB_TB/D0/M1/i_prstn} \
+{/APB_TB/D0/M1/i_pslverr} \
+{/APB_TB/D0/M1/i_start} \
+}
+wvAddSignal -win $_nWave3 -group {"G2" \
+}
+wvSelectSignal -win $_nWave3 {( "G1" 1 2 3 4 5 6 7 8 9 )} 
+wvSetPosition -win $_nWave3 {("G1" 9)}
+wvGetSignalSetScope -win $_nWave3 "/APB_TB/D0/M2"
+wvSetPosition -win $_nWave3 {("G1" 18)}
+wvSetPosition -win $_nWave3 {("G1" 18)}
+wvAddSignal -win $_nWave3 -clear
+wvAddSignal -win $_nWave3 -group {"G1" \
+{/APB_TB/D0/M1/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M1/i_command} \
+{/APB_TB/D0/M1/i_data_in\[31:0\]} \
+{/APB_TB/D0/M1/i_pclk} \
+{/APB_TB/D0/M1/i_prdata\[31:0\]} \
+{/APB_TB/D0/M1/i_pready} \
+{/APB_TB/D0/M1/i_prstn} \
+{/APB_TB/D0/M1/i_pslverr} \
+{/APB_TB/D0/M1/i_start} \
+{/APB_TB/D0/M2/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M2/i_command} \
+{/APB_TB/D0/M2/i_data_in\[31:0\]} \
+{/APB_TB/D0/M2/i_pclk} \
+{/APB_TB/D0/M2/i_prdata\[31:0\]} \
+{/APB_TB/D0/M2/i_pready} \
+{/APB_TB/D0/M2/i_prstn} \
+{/APB_TB/D0/M2/i_pslverr} \
+{/APB_TB/D0/M2/i_start} \
+}
+wvAddSignal -win $_nWave3 -group {"G2" \
+}
+wvSelectSignal -win $_nWave3 {( "G1" 10 11 12 13 14 15 16 17 18 )} 
+wvSetPosition -win $_nWave3 {("G1" 18)}
+wvSetPosition -win $_nWave3 {("G1" 18)}
+wvSetPosition -win $_nWave3 {("G1" 18)}
+wvAddSignal -win $_nWave3 -clear
+wvAddSignal -win $_nWave3 -group {"G1" \
+{/APB_TB/D0/M1/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M1/i_command} \
+{/APB_TB/D0/M1/i_data_in\[31:0\]} \
+{/APB_TB/D0/M1/i_pclk} \
+{/APB_TB/D0/M1/i_prdata\[31:0\]} \
+{/APB_TB/D0/M1/i_pready} \
+{/APB_TB/D0/M1/i_prstn} \
+{/APB_TB/D0/M1/i_pslverr} \
+{/APB_TB/D0/M1/i_start} \
+{/APB_TB/D0/M2/i_addr_in\[31:0\]} \
+{/APB_TB/D0/M2/i_command} \
+{/APB_TB/D0/M2/i_data_in\[31:0\]} \
+{/APB_TB/D0/M2/i_pclk} \
+{/APB_TB/D0/M2/i_prdata\[31:0\]} \
+{/APB_TB/D0/M2/i_pready} \
+{/APB_TB/D0/M2/i_prstn} \
+{/APB_TB/D0/M2/i_pslverr} \
+{/APB_TB/D0/M2/i_start} \
+}
+wvAddSignal -win $_nWave3 -group {"G2" \
+}
+wvSelectSignal -win $_nWave3 {( "G1" 10 11 12 13 14 15 16 17 18 )} 
+wvSetPosition -win $_nWave3 {("G1" 18)}
+wvGetSignalClose -win $_nWave3
+wvZoomAll -win $_nWave3
+wvSelectSignal -win $_nWave3 {( "G1" 15 )} 
+wvSelectSignal -win $_nWave3 {( "G1" 10 )} 
+wvSetOptions -win $_nWave3 -hierName on
+wvSelectAll -win $_nWave3
+wvCut -win $_nWave3
+wvSetPosition -win $_nWave3 {("G1" 0)}
+debImport "-dbdir" \
+          "/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/simv.daidir"
+verdiSetActWin -dock widgetDock_<Inst._Tree>
+verdiWindowResize -win $_Verdi_1 "150" "21" "900" "700"
+debLoadSimResult \
+           /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/waveform.fsdb
+verdiSetActWin -win $_nWave4
+debExit

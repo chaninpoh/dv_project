@@ -1,0 +1,3 @@
+Command Line: /home/synopsys/vcs/W-2024.09-SP2/linux64/bin/elabcom -simflow -KDBRESOLVER -simvdaidir /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/sim/dut_simv.daidir -saveLevel -ssv -ssy -q -logdir /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/sim/dut_simv.daidir/kdbresolverLog
+uname(Linux psdc-eda01.psdc.org.my 4.18.0-553.105.1.el8_10.x86_64 #1 SMP Tue Feb 17 05:17:39 EST 2026 x86_64)
+au time 0.338763 0.207858 0.034141 delta 119287808 119287808 total 376160256 376160256

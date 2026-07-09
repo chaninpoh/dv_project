@@ -1,0 +1,11 @@
+vcs +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2 +incdir+../src/ +incdir+../tb/ +incdir+../tb/f2s_s2f_agent +incdir+../tb/dp_agent -sverilog -kdb  /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/uvm_pkg.sv  +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2 +incdir+../src/ +incdir+../tb/ +incdir+../tb/f2s_s2f_agent +incdir+../tb/dp_agent -sverilog -kdb   ../src/dp_mux.sv ../src/sdram_model.sv ../src/ODDR2_behav.sv ../src/dcm_165Mhz_model.sv ../src/sdram_controller.v ../src/debounce_explicit.v ../src/LED_mux.v ../src/bin2bcd.v /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/uvm_macros.svh ../tb/f2s_s2f_agent/f2s_s2f_agent_pkg.svh ../tb/dp_agent/dp_agent_pkg.svh ../tb/my_testbench_pkg.svh ../tb/f2s_s2f_if.sv ../tb/dp_if.sv ../tb/dp_sva.sv ../tb/top.sv -timescale=1ns/1ps top /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/dpi/uvm_dpi.cc  -CFLAGS -DVCS -kdb -debug_access -l sim.log -cm line+cond+fsm+tgl+branch+assert  -work default -full -vso cso -vso_opts buildname=new -R
+./simv +UVM_TESTNAME=master_basic_test +ntb_random_seed="1" -assert report -assert verbose -cm assert  -l sim_master_basic_test_"1".log -cm line+cond+fsm+tgl+branch -cm_name master_basic_test_"1" -vso cso -vso_opts testname=master_basic_test
+
+
+//convert to VDB to HM
+$CSO_HOME/bin/driver --vdb2hm --vdbdir simv.vdb -target_metric group.inst
+--target_metric {group.inst, group.def, assert.inst, asssert.def,
+ line.inst, line.def, fsm.inst, fsm.def, tgl.inst, tgl.def}
+
+//generate new cfg file
+ $CSO_HOME/bin/driver --gencfg --out cfg2.txt --workdir new_vso1  

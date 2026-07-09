@@ -1,0 +1,201 @@
+version: (200506)
+
+available memory: 64M bytes
+used memory: 417792 bytes [need 408K bytes if disable swap]
+
+used block: 23 [memory(23) file(0)]
+                 [ 8K(19) 64K(4) { total 408K bytes } ]
+overhead: (9514) bytes for (23) blocks [Average: (413) bytes/block]
+
+write  => 0(times) 0K(bytes) [0K bytes to file]
+read   => 4(times) 163K(bytes) [27K bytes compressed data from file]
+access => 1771791(times) 13885M(bytes)
+          [hit ratio: 99.9998%]
+
+time: write(0) read(0)  unit: second
+
+swap file directory: (/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog)
+used swap file number: (5)
+
+
+
+swap file manager:
+arrSize: (256)
+idxCnt: (6)
+closeHead: (1)
+closeTail: (5)
+openCnt: (1)
+fid(5): fd(0) fileName(NULL)
+	mode(rb)	hot(4) cool(0) pos(0)
+fid(4): fd(0) fileName(NULL)
+	mode(rb)	hot(3) cool(5) pos(0)
+fid(3): fd(0) fileName(NULL)
+	mode(rb)	hot(1) cool(4) pos(0)
+fid(2): fd(30) fileName(/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog/_swap_0001#-1583374860#339555)
+	size(0) lastModTime(0) curModTime(1772766596)
+	mode(w+b)	hot(3) cool(1) pos(0)
+fid(1): fd(0) fileName(NULL)
+	mode(rb)	hot(2) cool(3) pos(0)
+fid(0): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+Swap system is reset at (Fri Mar  6 12:11:41 2026
+)
+version: (200506)
+
+available memory: 64M bytes
+used memory: 499712 bytes [need 408K bytes if disable swap]
+
+used block: 26 [memory(26) file(0)]
+                 [ 8K(21) 64K(5) { total 488K bytes } ]
+overhead: (9514) bytes for (26) blocks [Average: (365) bytes/block]
+
+write  => 0(times) 0K(bytes) [0K bytes to file]
+read   => 5(times) 209K(bytes) [34K bytes compressed data from file]
+access => 1864112(times) 14611M(bytes)
+          [hit ratio: 99.9997%]
+
+time: write(0) read(0)  unit: second
+
+swap file directory: (/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog)
+used swap file number: (6)
+
+
+
+swap file manager:
+arrSize: (256)
+idxCnt: (8)
+closeHead: (6)
+closeTail: (7)
+openCnt: (1)
+fid(7): fd(60) fileName(/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog/_swap_0001#-1583374860#339555)
+	size(0) lastModTime(0) curModTime(1772770301)
+	mode(w+b)	hot(0) cool(6) pos(0)
+fid(6): fd(0) fileName(NULL)
+	mode(rb)	hot(7) cool(0) pos(0)
+fid(5): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(4): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(3): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(2): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(1): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(0): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+Swap system is reset at (Fri Mar  6 12:14:00 2026
+)
+version: (200506)
+
+available memory: 64M bytes
+used memory: 622592 bytes [need 408K bytes if disable swap]
+
+used block: 34 [memory(34) file(0)]
+                 [ 8K(28) 64K(6) { total 608K bytes } ]
+overhead: (9514) bytes for (34) blocks [Average: (279) bytes/block]
+
+write  => 0(times) 0K(bytes) [0K bytes to file]
+read   => 6(times) 255K(bytes) [42K bytes compressed data from file]
+access => 2656217(times) 20817M(bytes)
+          [hit ratio: 99.9998%]
+
+time: write(0) read(0)  unit: second
+
+swap file directory: (/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog)
+used swap file number: (8)
+
+
+
+swap file manager:
+arrSize: (256)
+idxCnt: (10)
+closeHead: (8)
+closeTail: (9)
+openCnt: (1)
+fid(9): fd(59) fileName(/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog/_swap_0001#-1583374860#339555)
+	size(0) lastModTime(0) curModTime(1772770441)
+	mode(w+b)	hot(0) cool(8) pos(0)
+fid(8): fd(0) fileName(NULL)
+	mode(rb)	hot(9) cool(0) pos(0)
+fid(7): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(6): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(5): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(4): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(3): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(2): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(1): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(0): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+Swap system is reset at (Fri Mar  6 12:18:58 2026
+)
+version: (200506)
+
+available memory: 64M bytes
+used memory: 811008 bytes [need 408K bytes if disable swap]
+
+used block: 43 [memory(43) file(0)]
+                 [ 8K(35) 64K(8) { total 792K bytes } ]
+overhead: (9514) bytes for (43) blocks [Average: (221) bytes/block]
+
+write  => 0(times) 0K(bytes) [0K bytes to file]
+read   => 8(times) 319K(bytes) [53K bytes compressed data from file]
+access => 3054494(times) 23945M(bytes)
+          [hit ratio: 99.9997%]
+
+time: write(0) read(0)  unit: second
+
+swap file directory: (/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog)
+used swap file number: (13)
+
+
+
+swap file manager:
+arrSize: (256)
+idxCnt: (14)
+closeHead: (10)
+closeTail: (13)
+openCnt: (3)
+fid(13): fd(1073741825) fileName(/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/simv.daidir/kdb.elab++/work.lib++/APB_Master.sv.tdc)
+	size(5867) lastModTime(1772770730) curModTime(1772770730)
+	mode(rb)	hot(0) cool(11) pos(0)
+fid(12): fd(0) fileName(/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/simv.daidir/kdb.elab++/work.lib++/APB_DUT.sv.tdc)
+	size(11361) lastModTime(1772770730) curModTime(1772770730)
+	mode(rb)	hot(0) cool(0) pos(0)
+fid(11): fd(58) fileName(/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog/_swap_0001#-1583374860#339555)
+	size(0) lastModTime(0) curModTime(1772770738)
+	mode(w+b)	hot(13) cool(10) pos(0)
+fid(10): fd(1073741824) fileName(/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/simv.daidir/kdb.elab++/work.lib++/apb_interconnect_fabric.sv.tdc)
+	size(12630) lastModTime(1772770730) curModTime(1772770730)
+	mode(rb)	hot(11) cool(0) pos(0)
+fid(9): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(8): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(7): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(6): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(5): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(4): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(3): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(2): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(1): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+fid(0): fd(0) fileName(NULL)
+	mode(NULL)	hot(0) cool(0) pos(0)
+==================================================
+mySelf(0x26822570) pre(0x213c3af0) next((nil))
+version(200506)
+date(Mar  1 2025 20:26:47)

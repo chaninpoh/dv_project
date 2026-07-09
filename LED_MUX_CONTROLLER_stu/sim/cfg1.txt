@@ -1,0 +1,319 @@
+# --- VSO Test config ---
+# Created by: /home/synopsys/vcs/W-2024.09-SP2/cso/linux64/main/driver --gencfg --gencfg_out
+# /mnt/PCDA_share/DV/DV-Class2-2025Sept02-Oct03/uvm/SDRAM_CONTROLLER/sim/cfg1.txt
+# --vdbdir
+# /mnt/PCDA_share/DV/DV-Class2-2025Sept02-Oct03/uvm/SDRAM_CONTROLLER/sim/simv.vdb
+# --workdir
+# /mnt/PCDA_share/DV/DV-Class2-2025Sept02-Oct03/uvm/SDRAM_CONTROLLER/sim/new_vso1
+# --target_metric tgl.def,tgl.inst
+# Created at: 2025-10-30 14:21:51.948609
+#
+
+
+config_name: vso_test_cfg
+
+env:
+   - VCS_HOME
+   - VSO_HOME
+   # This is temporary to support old version of VCS that only support CSO_HOME
+   - CSO_HOME
+
+variables:
+   - vcs: $VCS_HOME/bin/vcs
+   - current_dir: $PWD
+   - common_opts: ""
+
+builds:
+
+   - name: new1
+     simv_location: ./simv
+
+
+tests:
+   - name: led_basic_test_0
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_0.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_0_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_0 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_1
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_1.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_1_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_1 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_2
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_2.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_2_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_2 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_3
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_3.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_3_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_3 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_4
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_4.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_4_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_4 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_5
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_5.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_5_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_5 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_6
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_6.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_6_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_6 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_7
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_7.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_7_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_7 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_8
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_8.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_8_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_8 buildname=new1
+                ${common_opts}"
+
+   - name: led_basic_test_9
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=led_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_led_basic_test_9.log -cm
+                line+cond+fsm+tgl+branch -cm_name led_basic_test_9_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=led_basic_test_9 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_0
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_0.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_0_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_0 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_1
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_1.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_1_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_1 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_2
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_2.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_2_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_2 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_3
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_3.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_3_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_3 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_4
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_4.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_4_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_4 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_5
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_5.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_5_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_5 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_6
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_6.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_6_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_6 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_7
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_7.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_7_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_7 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_8
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_8.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_8_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_8 buildname=new1
+                ${common_opts}"
+
+   - name: master_basic_test_9
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=master_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_master_basic_test_9.log -cm
+                line+cond+fsm+tgl+branch -cm_name master_basic_test_9_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=master_basic_test_9 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_0
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_0.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_0_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_0 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_1
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_1.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_1_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_1 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_2
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_2.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_2_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_2 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_3
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_3.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_3_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_3 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_4
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_4.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_4_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_4 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_5
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_5.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_5_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_5 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_6
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_6.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_6_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_6 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_7
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_7.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_7_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_7 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_8
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_8.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_8_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_8 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_basic_test_9
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_basic_test +ntb_random_seed=$${EMAN_RANDOM} -assert report
+                -assert verbose -cm assert -l sim_sdram_basic_test_9.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_basic_test_9_$${EMAN_RANDOM} -vso cso
+                -vso_opts testname=sdram_basic_test_9 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_directed1_test_11
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_directed1_test +ntb_random_seed=$${EMAN_RANDOM} -assert
+                report -assert verbose -cm assert -l sim_sdram_directed1_test_11.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_directed1_test_11_$${EMAN_RANDOM} -vso
+                cso -vso_opts testname=sdram_directed1_test_11 buildname=new1
+                ${common_opts}"
+
+   - name: sdram_directed_test_10
+     count: 1
+     build: new1
+     arguments: "+UVM_TESTNAME=sdram_directed_test +ntb_random_seed=$${EMAN_RANDOM} -assert
+                report -assert verbose -cm assert -l sim_sdram_directed_test_10.log -cm
+                line+cond+fsm+tgl+branch -cm_name sdram_directed_test_10_$${EMAN_RANDOM} -vso
+                cso -vso_opts testname=sdram_directed_test_10 buildname=new1
+                ${common_opts}"

@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1773626641.700686820, "rt":14.93, "ut":14.38, "st":0.58}}
+{"vcselab":{"timestamp_begin":1773626656.711737486, "rt":0.35, "ut":0.15, "st":0.07}}
+{"link":{"timestamp_begin":1773626657.124370384, "rt":1.75, "ut":0.63, "st":0.30}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1773626640.955977224}
+{"VCS_COMP_START_TIME": 1773626640.955977224}
+{"VCS_COMP_END_TIME": 1773626659.094623751}
+{"VCS_USER_OPTIONS": "-full64 -l dut_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top top_tb -o dut_simv -ntb_opts uvm-ieee-2020-2.0 +define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR -file /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/tb/dut.f -timescale=1ns/1ps -cm line+tgl+cond+fsm+branch+assert -assert enable_diag"}
+{"vcs1": {"peak_mem": 551408}}
+{"vcselab": {"peak_mem": 162476}}

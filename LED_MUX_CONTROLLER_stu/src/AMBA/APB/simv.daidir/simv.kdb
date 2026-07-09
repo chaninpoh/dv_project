@@ -1,0 +1,23 @@
+rc file Version 1.0
+
+[Design]
+COMPILE_PATH=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB
+VCS_HOME=/home/synopsys/vcs/W-2024.09-SP2
+VERDI_HOME=/home/synopsys/verdi/W-2024.09-SP2
+SystemC=FALSE
+UUM=FALSE
+KDB=TRUE
+USE_NOVAS_HOME=FALSE
+COSIM=FALSE
+TOP=APB_TB 
+OPTION=-ssv -ssy 
+ELAB_OPTION=-ssv -ssy 
+ELAB=TRUE
+COMMON_ELAB=TRUE
+SIMV_WRAPPER=FALSE
+[Value]
+WREALX=ffff534e50535f58
+WREALZ=ffff534e50535f5a
+
+[CompInfo]
+FLOW_OPTS=-kdb=common_elab -ssv -ssy 

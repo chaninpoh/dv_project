@@ -1,0 +1,12 @@
+
+VLOGAN	= vlogan
+VLOGAN_OPT	= -kdb=common_elab -kdb +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2 +incdir+../src/ +incdir+../tb/ +incdir+../tb/led_agent +incdir+../tb/dp_agent -sverilog -work uvm_lib -full64
+
+all :		_VCSgd_R4kEp_1.db \
+
+
+
+_VCSgd_R4kEp_1.db :	/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/uvm_pkg.sv 
+		${VLOGAN}  ${VLOGAN_OPT} /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/uvm_pkg.sv
+
+

@@ -1,0 +1,99 @@
+@verdi rc file Version 1.0
+[General]
+saveDB = TRUE
+relativePath = FALSE
+saveSingleView = FALSE
+saveNWaveWinId = 
+VerdiVersion = Verdi_W-2024.09-SP2
+[KeyNote]
+Line1 = Automatic Backup 0
+Line2 = Save Open Database Information: Yes
+Line3 = Path Option: Absolute Paths
+Line4 = Windows Option: All Windows
+[OneSearch]
+isExisted = TRUE
+[TestBench]
+ConstrViewShow = 0
+InherViewShow = 0
+FSDBMsgShow = 0
+AnnotationShow = 0
+Console = FALSE
+powerDumped = 0
+[fusa]
+fdb_server = 
+fdb_proj = 
+fdb_campaign = 
+fdb_tool = 
+[hb]
+postSimFile = /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/waveform.fsdb
+syncTime = 550000
+viewport = 0 127 1261 677 0 0 235 898
+activeNode = "APB_TB.D0.f0.A0"
+activeScope = "APB_TB.D0.f0.A0"
+activeFile = "apb_interconnect_fabric.sv"
+interactiveMode = False
+viewType = Source
+simulatorMode = False
+sourceBeginLine = 77
+baMode = True
+srcLineNum = True
+AutoWrap = True
+IdentifyFalseLogic = False
+syncSignal = False
+traceMode = Hierarchical
+showTraceInSchema = True
+paMode = False
+funcMode = False
+powerAwareAnnot = True
+safetyAwareAnnot = True
+amsAnnot = True
+DnDtraceCrossHierOnly = True
+leadingZero = False
+signalPane = True
+SourceVerticalScrollLines = 5
+Scope1 = "APB_TB.D0.f0.A0"
+Scope2 = "APB_TB.D0.f0"
+Scope3 = "APB_TB.D0.M0"
+Scope4 = "APB_TB.D0.M1"
+multipleSelection = 1 83 6 0 0
+sdfCheckUndef = FALSE
+simFlow = FALSE
+[hb.design]
+importCmd = "-dbdir" "/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/simv.daidir" 
+invokeDir = /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB
+[hb.sourceTab.1]
+scope = APB_TB.D0.f0.A0
+File = /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/apb_interconnect_fabric.sv
+Line = 78
+[nMemoryManager]
+WaveformFile = /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/waveform.fsdb
+UserActionNum = 0
+nMemWindowNum = 0
+[wave.0]
+viewPort = 0 25 1261 235 174 65
+primaryWindow = TRUE
+SessionFile = /mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/src/AMBA/APB/verdiLog/novas_autosave.ses.wave.0
+displayGrid = FALSE
+hierarchicalName = FALSE
+waveformToolTip = FALSE
+snap = TRUE
+displayLeadingZeros = FALSE
+displayGridLine = FALSE
+fixDelta = FALSE
+displayCursorMarker = FALSE
+autoUpdate = FALSE
+highlightGlitchs = FALSE
+waveformSyncCursorMarker = FALSE
+waveformSyncHorizontalRange = FALSE
+waveformSyncVerticalscroll = FALSE
+displayErrors = TRUE
+displayMsgSymbols = TRUE
+showMsgDescriptions = TRUE
+autoFit = FALSE
+displayDeltaY = FALSE
+centerCursor = FALSE
+fsaRegMask = TRUE
+fsaCoreMask = TRUE
+fsaSfsmMask = TRUE
+fsaEcrMask = TRUE
+tPropMask = TRUE

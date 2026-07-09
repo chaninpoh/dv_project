@@ -1,0 +1,11 @@
+TEST,BUILD,SEED,RUN_ID,PHASE,OPTIONS,SEED_TYPE
+sdram_basic_test_35,new1,216735689,r0061b12ce246878b4dd3831bbe1d543cf42e,day0,,
+sdram_basic_test_3,new1,4068427329,r00622f1916a998ea4eaa936a50309cd6f4e2,day0,,
+sdram_basic_test_42,new1,3372540606,r006365affde99a4b4c87b227904dccf7cb2e,day0,,
+sdram_basic_test_45,new1,1722134926,r0064a77d0a505a7f4d548c9c05d1f46cca02,day0,,
+sdram_basic_test_4,new1,652733721,r006528618b2544c447c3a257c4bcf67335da,day0,,
+sdram_basic_test_51,new1,2642638250,r0066123a60e78b434f3091aec213ee1652b6,day0,,
+sdram_basic_test_5,new1,3919201973,r0067d33b62850edc42fd8e84c4f1a9f1082d,day0,,
+sdram_basic_test_6,new1,3058431665,r0068da1ae282257d4d6aa889faa92dee45aa,day0,,
+sdram_basic_test_73,new1,2871213679,r006949d3b7f0e2da4a0c9179d4bbb8fcfebd,day0,,
+sdram_basic_test_75,new1,3184317026,r00700e7768f274da4b18b7d4b7c74a72c61e,day0,,

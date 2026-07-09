@@ -1,0 +1,20 @@
+config_name: NEW
+
+env:
+-$VCS_HOME
+-$CSO_HOME
+
+variables:
+-vcs: $VCS_HOME/bin/vcs
+-current_dir: $PWD
+-common_opts: -cm line+assert 
+
+
+builds:
+-name: NEW
+-simv_location: "NEW/simv"
+
+
+tests:
+-name: master_basic_test_1
+ build:NEW

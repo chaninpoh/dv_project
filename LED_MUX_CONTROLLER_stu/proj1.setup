@@ -1,0 +1,15 @@
+# For csh
+#setenv ROOT `pwd`
+
+# For bash
+export ROOT=`pwd`
+export TYPE="sv"
+export MODULE="dut"
+export MODULE_TB="top_tb"
+export FLIST=1
+export UVM_DESIGN="$ROOT/design"
+export UVM_LIBS="$ROOT/libs"
+export COVERAGE=1
+export ASSERT=1
+export UVM_HOME=/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2
+export SEED=0

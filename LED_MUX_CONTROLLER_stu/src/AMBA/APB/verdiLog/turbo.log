@@ -1,0 +1,109 @@
+Command Line: /home/synopsys/verdi/W-2024.09-SP2/platform/LINUXAMD64/bin/Novas
+uname(Linux psdc-eda01.psdc.org.my 4.18.0-553.105.1.el8_10.x86_64 #1 SMP Tue Feb 17 05:17:39 EST 2026 x86_64)
+type= DS_SIGNAL element= 9 field= 2
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_prstn
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_pclk
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_command
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_start
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_data_in[31:0]
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_addr_in[31:0]
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_prdata[31:0]
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_pready
+-----
+second field= signal
+VERILOG APB_TB
+VERILOG D0
+VERILOG M0
+VERILOG i_pslverr
+-----
+second field= signal
+type= DS_STRING
+i_prstn i_pclk i_command i_start i_data_in[31:0] i_addr_in[31:0] i_prdata[31:0] i_pready i_pslverr
+type= DS_SIGNAL element= 1 field= 2
+VERILOG APB_TB
+VERILOG D0
+VERILOG f0
+VERILOG A0
+VERILOG priority_tmp[2:0]
+-----
+second field= signal
+type= DS_STRING
+priority_tmp[2:0]
+type= DS_SIGNAL element= 1 field= 2
+VERILOG APB_TB
+VERILOG D0
+VERILOG f0
+VERILOG A0
+VERILOG priority_state[2:0]
+-----
+second field= signal
+type= DS_STRING
+priority_state[2:0]
+type= DS_SIGNAL element= 1 field= 2
+VERILOG APB_TB
+VERILOG D0
+VERILOG f0
+VERILOG A0
+VERILOG next_priority_state[2:0]
+-----
+second field= signal
+type= DS_STRING
+next_priority_state[2:0]
+type= DS_SIGNAL element= 1 field= 2
+VERILOG APB_TB
+VERILOG D0
+VERILOG f0
+VERILOG A0
+VERILOG priority_state[2:0]
+-----
+second field= signal
+type= DS_STRING
+priority_state[2:0]
+type= DS_SIGNAL element= 1 field= 2
+VERILOG APB_TB
+VERILOG D0
+VERILOG f0
+VERILOG i_pclk
+-----
+second field= signal
+type= DS_STRING
+i_pclk
+au time 5790.429332 34.341675 8.339980 delta 537169920 537169920 total 1559199744 1559199744

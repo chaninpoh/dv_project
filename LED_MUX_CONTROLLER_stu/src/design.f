@@ -1,0 +1,12 @@
++incdir+../src/
+../src/AMBA/APB/APB_Slave.sv
+../src/dp_mux.sv  
+../src/sdram_model.sv 
+../src/ODDR2_behav.sv 
+../src/dcm_165Mhz_model.sv 
+../src/sdram_controller.v 
+../src/debounce_explicit.v 
+../src/LED_mux.v 
+../src/bin2bcd.v 
+../src/watchdog_mod.sv 
+../src/dut.sv

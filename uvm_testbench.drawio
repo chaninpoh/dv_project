@@ -1,0 +1,221 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- LEGEND (top-right)                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="leg0" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="1260" y="20" width="260" height="90" as="geometry" />
+    </mxCell>
+    <mxCell id="leg1" value="LEGEND" style="text;html=1;fontStyle=1;fontSize=11;align=center;" vertex="1" parent="1">
+      <mxGeometry x="1260" y="22" width="260" height="20" as="geometry" />
+    </mxCell>
+    <!-- APB color swatch -->
+    <mxCell id="leg2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#3380cc;strokeColor=#1a5c99;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="1272" y="50" width="14" height="14" as="geometry" />
+    </mxCell>
+    <mxCell id="leg3" value="APB virtual interface (vif)" style="text;html=1;fontSize=10;align=left;" vertex="1" parent="1">
+      <mxGeometry x="1294" y="47" width="220" height="20" as="geometry" />
+    </mxCell>
+    <!-- LED color swatch -->
+    <mxCell id="leg4" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#cc6600;strokeColor=#994d00;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="1272" y="74" width="14" height="14" as="geometry" />
+    </mxCell>
+    <mxCell id="leg5" value="LED virtual interface (vif)" style="text;html=1;fontSize=10;align=left;" vertex="1" parent="1">
+      <mxGeometry x="1294" y="71" width="220" height="20" as="geometry" />
+    </mxCell>
+    <mxCell id="leg6" value="● = virtual interface reference point (same color = shared vif handle)" style="text;html=1;fontSize=9;align=left;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="1262" y="92" width="258" height="16" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- UVM TEST outer box                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="2" value="UVM TEST" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#555555;fontColor=#333333;fontStyle=1;fontSize=16;verticalAlign=top;arcSize=2;strokeWidth=3;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="1180" height="710" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- UVM ENVIRONMENT                                                -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="3" value="UVM ENVIRONMENT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=14;verticalAlign=top;arcSize=2;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="70" y="60" width="1120" height="530" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- APB AGENT                                                      -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="4" value="APB AGENT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;verticalAlign=top;arcSize=3;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="100" y="100" width="380" height="300" as="geometry" />
+    </mxCell>
+
+    <!-- APB Sequencer — neutral yellow (no vif) -->
+    <mxCell id="5" value="Sequencer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="140" y="145" width="300" height="55" as="geometry" />
+    </mxCell>
+
+    <!-- APB Driver — APB vif color -->
+    <mxCell id="6" value="Driver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ddeeff;strokeColor=#3380cc;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="140" y="225" width="300" height="55" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on APB Driver (bottom-centre) -->
+    <mxCell id="vd1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#3380cc;strokeColor=#1a5c99;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="283" y="273" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- APB Monitor — APB vif color -->
+    <mxCell id="7" value="Monitor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ddeeff;strokeColor=#3380cc;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="140" y="305" width="300" height="55" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on APB Monitor (bottom-centre) -->
+    <mxCell id="vm1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#3380cc;strokeColor=#1a5c99;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="283" y="353" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- APB: Seq → Driver -->
+    <mxCell id="a1" value="seq_item" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;endArrow=block;endFill=1;" edge="1" source="5" target="6" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- ERROR INTERFACE AGENT                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="10" value="ERROR INTERFACE AGENT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;verticalAlign=top;arcSize=3;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="700" y="100" width="450" height="300" as="geometry" />
+    </mxCell>
+
+    <!-- Error IF Sequencer — neutral yellow -->
+    <mxCell id="11" value="Sequencer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="740" y="145" width="370" height="55" as="geometry" />
+    </mxCell>
+
+    <!-- Error IF Driver — LED vif color -->
+    <mxCell id="12" value="Driver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fde9d9;strokeColor=#cc6600;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="740" y="225" width="370" height="55" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on Error IF Driver (bottom-centre) -->
+    <mxCell id="vd2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#cc6600;strokeColor=#994d00;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="918" y="273" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- Error IF Monitor — LED vif color -->
+    <mxCell id="13" value="Monitor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fde9d9;strokeColor=#cc6600;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="740" y="305" width="370" height="55" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on Error IF Monitor (bottom-centre) -->
+    <mxCell id="vm2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#cc6600;strokeColor=#994d00;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="918" y="353" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- Error IF: Seq → Driver -->
+    <mxCell id="a2" value="seq_item" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;endArrow=block;endFill=1;" edge="1" source="11" target="12" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SCOREBOARD                                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="16" value="SCOREBOARD&#xa;&#xa;Expected seg_out  ←  binary→BCD reference model&#xa;Actual seg_out      ←  LED IF Monitor&#xa;Compares and flags mismatches" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;fontSize=11;verticalAlign=top;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="100" y="460" width="510" height="110" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- FUNCTIONAL COVERAGE                                            -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="17" value="FUNCTIONAL COVERAGE&#xa;&#xa;• error_q values  (0–999999 and overflow range)&#xa;• All 10 decimal digits × all 6 display positions&#xa;• LED_enable transitions: 1→0 and 0→1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;fontSize=11;verticalAlign=top;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="660" y="460" width="490" height="110" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- Analysis port arrows: Monitors → Scoreboard & Coverage        -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="b1" value="ap" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;endArrow=open;endFill=0;strokeColor=#b85450;" edge="1" source="7" target="16" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="b2" value="ap" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;endArrow=open;endFill=0;strokeColor=#b85450;" edge="1" source="13" target="16" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="b3" value="ap" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;endArrow=open;endFill=0;strokeColor=#9673a6;" edge="1" source="7" target="17" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="b4" value="ap" style="edgeStyle=orthogonalEdgeStyle;fontSize=9;endArrow=open;endFill=0;strokeColor=#9673a6;" edge="1" source="13" target="17" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- INTERFACE boxes  (same colors as matching Driver / Monitor)   -->
+    <!-- NO arrows connecting to Driver/Monitor — color = shared vif   -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <!-- APB Interface box — APB vif color (matches Driver & Monitor above) -->
+    <mxCell id="26" value="&lt;b&gt;APB Interface  (virtual interface)&lt;/b&gt;&#xa;i_paddr  |  i_psel  |  i_penable  |  i_pwrite  |  i_pwdata&#xa;o_prdata  |  o_pready  |  o_pslerr" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ddeeff;strokeColor=#3380cc;fontSize=10;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="100" y="625" width="380" height="75" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on APB Interface box (top-centre) -->
+    <mxCell id="vi1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#3380cc;strokeColor=#1a5c99;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="283" y="618" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- LED Interface box — LED vif color (matches Driver & Monitor above) -->
+    <mxCell id="27" value="&lt;b&gt;LED Interface  (virtual interface)&lt;/b&gt;&#xa;error_q [20-bit] → in  |  clk  |  rst_n&#xa;sel_out [6-bit] ← out  |  seg_out [8-bit] ← out" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fde9d9;strokeColor=#cc6600;fontSize=10;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="660" y="625" width="490" height="75" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on LED Interface box (top-centre) -->
+    <mxCell id="vi2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#cc6600;strokeColor=#994d00;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="898" y="618" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- DUT                                                            -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="22" value="DUT — LED MUX Controller" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#555555;fontColor=#333333;fontStyle=1;fontSize=15;verticalAlign=top;arcSize=2;strokeWidth=3;" vertex="1" parent="1">
+      <mxGeometry x="40" y="790" width="1180" height="250" as="geometry" />
+    </mxCell>
+
+    <!-- APB SLAVE — APB vif color on border to echo the interface above -->
+    <mxCell id="23" value="&lt;b&gt;APB SLAVE&lt;/b&gt;&#xa;&#xa;0x4000  LED_enable [RW]   default = 1&#xa;               (0 = disable error propagation)&#xa;&#xa;0x4004  Done        [RO]   default = 0&#xa;               (1 = seg_out is valid and stable)&#xa;&#xa;0x4008  Scratch Pad [RW]   default = 0&#xa;               (read-back must equal last write)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ddeeff;strokeColor=#3380cc;fontSize=11;verticalAlign=top;align=left;spacingLeft=10;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="70" y="835" width="470" height="180" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on APB SLAVE (top-centre) -->
+    <mxCell id="vs1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#3380cc;strokeColor=#1a5c99;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="298" y="828" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- LED_MUX — LED vif color on border -->
+    <mxCell id="24" value="&lt;b&gt;LED_MUX&lt;/b&gt;&#xa;&#xa;Binary → BCD conversion  (overflow: error_q % 1,000,000)&#xa;6-digit time-multiplexing  (≥ 1002 cycles per value)&#xa;Propagation delay: 60–80 clock cycles after new error_q&#xa;&#xa;sel_out[5:0]  one-hot, active-low — one bit per digit&#xa;seg_out[6:0]  active-low segment drive  (0 = segment ON)&#xa;seg_out[7]    always 1 when segments are active" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fde9d9;strokeColor=#cc6600;fontSize=11;verticalAlign=top;align=left;spacingLeft=10;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="620" y="835" width="540" height="180" as="geometry" />
+    </mxCell>
+    <!-- Virtual ref circle on LED_MUX (top-centre) -->
+    <mxCell id="vs2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#cc6600;strokeColor=#994d00;aspect=fixed;" vertex="1" parent="1">
+      <mxGeometry x="883" y="828" width="14" height="14" as="geometry" />
+    </mxCell>
+
+    <!-- SVA CHECKER strip -->
+    <mxCell id="25" value="SVA CHECKER  ●  On reset: sel_out = 6'h3E, seg_out = 8'h80  ●  sel_out must be one-hot at all times during normal operation  ●  seg_out[7] must be 1 whenever any segment is active" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;fontStyle=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="70" y="1022" width="1130" height="28" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- Interface → DUT physical wires (bidirectional)                -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="d1" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;startArrow=block;startFill=0;strokeWidth=2;strokeColor=#3380cc;" edge="1" source="26" target="23" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="d2" value="" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=1;startArrow=block;startFill=0;strokeWidth=2;strokeColor=#cc6600;" edge="1" source="27" target="24" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- APB SLAVE ↔ LED_MUX internal signals                          -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <mxCell id="e1" value="LED_enable" style="edgeStyle=orthogonalEdgeStyle;fontSize=10;endArrow=block;endFill=1;dashed=1;strokeColor=#6c8ebf;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.35;entryDx=0;entryDy=0;" edge="1" source="23" target="24" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e2" value="Done" style="edgeStyle=orthogonalEdgeStyle;fontSize=10;endArrow=block;endFill=1;dashed=1;strokeColor=#82b366;exitX=0;exitY=0.65;exitDx=0;exitDy=0;entryX=1;entryY=0.65;entryDx=0;entryDy=0;" edge="1" source="24" target="23" parent="1">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
