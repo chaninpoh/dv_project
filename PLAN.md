@@ -796,7 +796,7 @@ Proceed with next component: <next_name>? [y/n]
 
 ### Goal
 
-**Implement all 11 essential (P0) tests from `LED_MUX_CONTROLLER_testplan.xlsx` / TESTPLAN.md §1.1 and §2, one feature set at a time.** For each test: create the UVM test and required sequences, extend the **single** `led_scoreboard` (do not add extra scoreboards), add SVA properties to **one** bind file when the feature needs them, run `make dv TESTNAME=<test> SEED=0`, and pass the per-test gate before moving on. Phase 3 ends when E01–E11 all pass individually; Phase 4 runs `./regress_p0.sh`.
+**Implement all 11 essential (P0) tests from `LED_MUX_CONTROLLER_testplan.xlsx` / TESTPLAN.md §1.1 and §2, one feature set at a time.** If the scoreboard does not exist yet, create **at least one** P0 test and its sequence(s) **before** integrating the scoreboard shell. For each test: create or extend sequences and the UVM test, extend the **single** `led_scoreboard` when SCB is needed (do not add extra scoreboards), add SVA to **one** bind file when required, run `make dv TESTNAME=<test> SEED=0`, and pass the per-test gate before moving on. Phase 3 ends when E01–E11 all pass individually; Phase 4 runs `./regress_p0.sh`.
 
 **Prerequisite:** Phase 2 review gate PASS (`make dv TESTNAME=phase2_agent_sanity_test SEED=0`).
 
@@ -810,11 +810,17 @@ python scripts/generate_testplan.py --owner "slpoh" --tier p0
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
+│ 0. (First time only) If no scoreboard yet:                  │
+│    a. Pick first P0 test (§3.2, typically E07)              │
+│    b. Create sequence(s) + *_test; register test_lib       │
+│    c. make dv TESTNAME=<first_p0_test> SEED=0 → gate PASS   │
+│    d. Then create scoreboard shell + env connect (§3.1)     │
+├─────────────────────────────────────────────────────────────┤
 │ 1. Pick next P0 test from build order (§3.2)                │
 │ 2. Create / extend sequences (§3.3)                         │
 │ 3. Extend led_scoreboard only if test needs SCB (§3.4)      │
 │ 4. Add SVA to led_mux_sva.sv + bind if test needs SVA (§3.5)│
-│ 5. Create *_test extending base_test; register test_lib    │
+│ 5. Create or update *_test; register test_lib               │
 │ 6. make dv TESTNAME=<test> SEED=0                            │
 │ 7. Per-test gate: no errors + factory lists new test (§3.8)│
 │ 8. Prompt: proceed to next P0 test?                         │
@@ -823,13 +829,16 @@ python scripts/generate_testplan.py --owner "slpoh" --tier p0
 
 **Rule:** Finish **one** P0 test (compile, sim, gate PASS) before starting the next. Do not batch multiple tests without a green gate in between.
 
+**Scoreboard entry rule:** If `led_scoreboard` / `led_tb_pkg` have **never** been created, build **at least one** P0 test and its required sequence(s) **first**, run compile + sim, and get a clean log **before** adding the scoreboard shell or wiring it into `led_env`. This proves agents and sequences work before checker integration.
+
 **Incremental run rule (mandatory):** After **each** new or modified **component**, **sequence**, or **test** is added, the agent must **stop** and print the `make dv` command for the user. The user runs on the VM and prompts `check logfiles` before the agent adds the next item.
 
 | Step type | Verify with | Example |
 |---|---|---|
-| New component (scoreboard, SVA, env hook) | Compile + prior gate test still runs | `make dv TESTNAME=phase2_agent_sanity_test SEED=0` until first P0 test exists |
-| New sequence | Compile + test that uses it (or compile-only via phase2 until test wired) | After `led_reset_seq`: run `led_reset_values_test` once created |
-| New P0 test | Full per-test gate (§3.8) | `make dv TESTNAME=led_reset_values_test SEED=0` |
+| First P0 sequence + test (no scoreboard yet) | Compile + sim on new test | `make dv TESTNAME=led_reset_values_test SEED=0` |
+| New scoreboard / env hook (first time only) | Compile + first P0 test or phase2 sanity | `make dv TESTNAME=led_reset_values_test SEED=0` after env wired |
+| New sequence (scoreboard exists) | Compile + test that uses it | After `apb_read_seq`: run test that calls it |
+| New P0 test | Full per-test gate (§3.8) | `make dv TESTNAME=apb_reset_defaults_test SEED=0` |
 
 **Agent prompt template (after every addition):**
 
@@ -844,19 +853,135 @@ Next step  : (do not proceed until user prompts check logfiles)
 
 ---
 
-### 3.1 Shared infrastructure (build once, before test loop)
+### 3.1 Shared infrastructure (build once, before full P0 loop)
 
 Complete these steps **once** at the start of Phase 3. All P0 tests reuse them.
 
+**Order when scoreboard does not exist yet:** Steps **3.1.1–3.1.5** (first test + sequence) come **before** steps **3.1.6–3.1.10** (scoreboard). If the scoreboard is already in the repo and wired in `led_env`, skip 3.1.1–3.1.5 and extend SCB logic per test in the loop below.
+
+#### 3.1.A First P0 test + sequence (before scoreboard — if never created)
+
 | Step | Task | File(s) |
 |---|---|---|
-| 3.1.1 | Extend **`led_env`**: add `led_scoreboard scb` (+ optional `led_coverage cov`) | `tb/led_env.sv` |
-| 3.1.2 | **`connect_phase`**: monitor `analysis_port` → scoreboard `uvm_analysis_imp`; fan-out to coverage if enabled | `tb/led_env.sv` |
-| 3.1.3 | Build **shared sequences** (TESTPLAN §0.1) | `tb/sequences/*.sv` |
-| 3.1.4 | Create **one** `led_scoreboard` with register mirror + golden model skeleton | `tb/led_scoreboard.sv` |
-| 3.1.5 | Create **one** SVA module + **one** `bind` in `top_tb` | `tb/sva/led_mux_sva.sv`, `tb/top_tb.sv` |
-| 3.1.6 | Add build prints in new components | `led_scoreboard`, `led_mux_sva` wrapper |
-| 3.1.7 | Update **`dut.f`** and **`test_lib.svh`** | filelist |
+| 3.1.1 | Pick **first** P0 test from §3.2 (recommended: **E07** `led_reset_values_test`) | `LED_MUX_CONTROLLER_testplan.xlsx` |
+| 3.1.2 | Create **sequence(s)** required by that test (e.g. `led_reset_seq` for E07) | `tb/sequences/*.sv` |
+| 3.1.3 | Create **`<testname>_test.sv`** extending `base_test`; register in **`test_lib.svh`** | `tb/*_test.sv`, `tb/test_lib.svh` |
+| 3.1.4 | **User runs** first P0 test — **no scoreboard required yet** | `make dv TESTNAME=led_reset_values_test SEED=0` |
+| 3.1.5 | **User prompts** log check — compile clean, factory lists new test, `UVM_ERROR=0` | sim log |
+
+Do **not** create `led_scoreboard`, `led_tb_pkg`, or env scoreboard connections until 3.1.4–3.1.5 pass.
+
+#### 3.1.B Scoreboard shell + env connect (after first test compiles — if never created)
+
+| Step | Task | File(s) |
+|---|---|---|
+| 3.1.6 | Create **`led_scoreboard.sv`** with `uvm_analysis_imp_decl` macros at **top of file**, before `class led_scoreboard` | `tb/led_scoreboard.sv` |
+| 3.1.7 | Create **`led_tb_pkg`** — imports + `uvm_macros.svh` + `` `include "led_scoreboard.sv" `` | `tb/led_tb_pkg.svh` |
+| 3.1.8 | Add **`led_tb_pkg.svh`** to **`dut.f`**; `import led_tb_pkg::*` in **`top_tb.sv`** | `tb/dut.f`, `tb/top_tb.sv` |
+| 3.1.9 | Extend **`led_env`**: add `led_scoreboard scb`; **`connect_phase`** monitor → imp ports | `tb/led_env.sv` |
+| 3.1.10 | **User runs** first P0 test again with scoreboard wired | `make dv TESTNAME=led_reset_values_test SEED=0` |
+
+#### 3.1.C Remaining shared infra (incremental per test)
+
+| Step | Task | File(s) |
+|---|---|---|
+| 3.1.11 | Add more **shared sequences** as later P0 tests need them (TESTPLAN §0.1) | `tb/sequences/*.sv` |
+| 3.1.12 | Create **one** SVA module + **one** `bind` in `top_tb` when first test needs SVA | `tb/sva/led_mux_sva.sv`, `tb/top_tb.sv` |
+| 3.1.13 | Add build prints in new components | `led_scoreboard`, `led_mux_sva` |
+| 3.1.14 | **`test_lib.svh`** — **do not** `include` `led_scoreboard.sv` (comes from package) | `tb/test_lib.svh` |
+
+#### Scoreboard creation — step by step (UVM 1.2 / VCS)
+
+**Why a package:** VCS cannot compile `uvm_analysis_imp_decl` + parameterized imp ports when the scoreboard is included only from `test_lib.svh` inside the `top_tb` module. Compile the scoreboard through **`led_tb_pkg`** via **`dut.f`**, and `import led_tb_pkg::*` in `top_tb.sv`.
+
+**Macro placement:** Put `` `uvm_analysis_imp_decl(_apb) `` and `` `uvm_analysis_imp_decl(_led) `` at the **top of `led_scoreboard.sv`**, immediately **before** `class led_scoreboard`. The package only `` `include ``s the file — do not duplicate the macros in `led_tb_pkg.svh`.
+
+**Naming rule (UVM `uvm_analysis_imp_decl`):** The macro argument is the **suffix** `SFX` (include the leading `_`). UVM defines class type **`uvm_analysis_imp` + `SFX`** and requires write function **`write` + `SFX`** (without the leading `_` in the function name).
+
+| Macro call | Imp port type (in scoreboard) | Write callback (in scoreboard) |
+|---|---|---|
+| `` `uvm_analysis_imp_decl(_apb) `` | `uvm_analysis_imp_apb #(apb_transaction, led_scoreboard)` | `function void write_apb(apb_transaction tr);` |
+| `` `uvm_analysis_imp_decl(_led) `` | `uvm_analysis_imp_led #(led_transaction, led_scoreboard)` | `function void write_led(led_transaction tr);` |
+
+**Do not** use `apb_analysis_imp_apb` or `led_analysis_imp_led` — those types are **not** created by the macro.
+
+**Step A — `tb/led_scoreboard.sv` (macros first, then class):**
+
+```systemverilog
+// Macros BEFORE class — order matters
+`uvm_analysis_imp_decl(_apb)
+`uvm_analysis_imp_decl(_led)
+
+class led_scoreboard extends uvm_scoreboard;
+  `uvm_component_utils(led_scoreboard)
+
+  uvm_analysis_imp_apb #(apb_transaction, led_scoreboard) apb_imp;
+  uvm_analysis_imp_led #(led_transaction, led_scoreboard) led_imp;
+
+  function new(string name, uvm_component parent);
+    super.new(name, parent);
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+    `uvm_info(get_type_name(), "Build phase for led_scoreboard", UVM_LOW)
+    apb_imp = new("apb_imp", this);
+    led_imp = new("led_imp", this);
+  endfunction
+
+  function void write_apb(apb_transaction tr);
+    // SCB-1..3, 7..9 — add per P0 test
+  endfunction
+
+  function void write_led(led_transaction tr);
+    // SCB-4..6, 8 — add per P0 test
+  endfunction
+endclass
+```
+
+**Step B — `tb/led_tb_pkg.svh` (include scoreboard only):**
+
+```systemverilog
+package led_tb_pkg;
+  import uvm_pkg::*;
+  import apb_agent_pkg::*;
+  import led_agent_pkg::*;
+
+  `include "uvm_macros.svh"
+  `include "led_scoreboard.sv"
+endpackage
+```
+
+**Step C — filelist and imports:**
+
+- `dut.f`: add `../tb/led_tb_pkg.svh` **after** agent packages, **before** `top_tb.sv`
+- `top_tb.sv`: `import led_tb_pkg::*;`
+- `test_lib.svh`: **no** `include "led_scoreboard.sv"`
+
+**Step D — `tb/led_env.sv` connect:**
+
+```systemverilog
+led_scoreboard scb;
+
+function void build_phase(uvm_phase phase);
+  // ... agents ...
+  scb = led_scoreboard::type_id::create("scb", this);
+endfunction
+
+function void connect_phase(uvm_phase phase);
+  apb_agt.monitor.analysis_port.connect(scb.apb_imp);
+  led_agt.monitor.analysis_port.connect(scb.led_imp);
+endfunction
+```
+
+**Step E — verify (user on VM):**
+
+```bash
+cd LED_MUX_CONTROLLER_stu/sim
+make clean
+make dv TESTNAME=phase2_agent_sanity_test SEED=0
+```
+
+Sim log must show: `Build phase for led_scoreboard`, `led_scoreboard` under `env` in topology, `led_scoreboard` in `factory.print()`, `UVM_ERROR : 0`. Use the **first P0 test** (e.g. `led_reset_values_test`) — not only `phase2_agent_sanity_test` — once it exists.
 
 #### Shared sequences to create (TESTPLAN §0.1)
 
@@ -875,7 +1000,7 @@ Package include: `tb/sequences/led_sequences_pkg.svh` (or add to agent packages)
 
 #### Single scoreboard — simplify, extend in place
 
-Use **one** `led_scoreboard` for all P0 tests. Add checks incrementally when a test needs them (TESTPLAN §0.2 SCB-1..9):
+Use **one** `led_scoreboard` in **`led_tb_pkg`** for all P0 tests. Add checks incrementally when a test needs them (TESTPLAN §0.2 SCB-1..9):
 
 | SCB ID | Add when first needed by | Logic (simplified) |
 |---|---|---|
@@ -960,18 +1085,19 @@ Implement in this order so each test builds on sequences/checkers from prior ste
 
 | Order | ID | Test name | Block | New infra this step |
 |---|---|---|---|---|
-| 0 | — | *(shared)* | Infra | Sequences, `led_scoreboard` shell, `led_mux_sva` + bind, env connect |
-| 1 | E07 | `led_reset_values_test` | LED | SVA: `assert_sel_out_reset_value`, `assert_seg_out_reset_value` |
-| 2 | E02 | `apb_reset_defaults_test` | APB | SCB-1,2,3; same reset SVA |
-| 3 | E06 | `apb_pready_no_wait_test` | APB | SVA: `assert_apb_setup_phase`, `assert_apb_access_phase`, `assert_apb_pready_complete` |
-| 4 | E03 | `apb_led_enable_write_read_test` | APB | SCB-1 |
-| 5 | E04 | `apb_scratchpad_wr_rd_test` | APB | SCB-3 |
-| 6 | E05 | `apb_invalid_addr_test` | APB | SVA: `assert_apb_pslerr_invalid_addr`; MON `pslerr` |
-| 7 | E08 | `led_decimal_42_test` | LED | `led_mux_virtual_seq`; SCB-4,5,6,8; SVA one-hot, bit7, `check_60_80_cycle` |
-| 8 | E09 | `led_overflow_modulo_test` | LED | SCB-9 |
-| 9 | E10 | `led_disable_blocks_update_test` | LED | SCB-7 |
-| 10 | E11 | `led_all_digits_0_to_9_test` | LED | SCB-5; `cover_seg_out_decimal_digit` |
-| 11 | E01 | `smoke_test` | Integration | Full SCB + all §0.3 properties exercised |
+| 0a | E07 | `led_reset_values_test` | LED | **First:** `led_reset_seq` + test only — **no scoreboard**; gate PASS |
+| 0b | — | *(shared)* | Infra | **Then:** `led_scoreboard` shell, `led_tb_pkg`, env `connect_phase`; re-run E07 |
+| 0c | E07 | `led_reset_values_test` | LED | SVA: `assert_sel_out_reset_value`, `assert_seg_out_reset_value` |
+| 1 | E02 | `apb_reset_defaults_test` | APB | `apb_read_seq`; SCB-1,2,3 |
+| 2 | E06 | `apb_pready_no_wait_test` | APB | SVA: `assert_apb_setup_phase`, `assert_apb_access_phase`, `assert_apb_pready_complete` |
+| 3 | E03 | `apb_led_enable_write_read_test` | APB | SCB-1 |
+| 4 | E04 | `apb_scratchpad_wr_rd_test` | APB | SCB-3 |
+| 5 | E05 | `apb_invalid_addr_test` | APB | SVA: `assert_apb_pslerr_invalid_addr`; MON `pslerr` |
+| 6 | E08 | `led_decimal_42_test` | LED | `led_mux_virtual_seq`; SCB-4,5,6,8; SVA one-hot, bit7, `check_60_80_cycle` |
+| 7 | E09 | `led_overflow_modulo_test` | LED | SCB-9 |
+| 8 | E10 | `led_disable_blocks_update_test` | LED | SCB-7 |
+| 9 | E11 | `led_all_digits_0_to_9_test` | LED | SCB-5; `cover_seg_out_decimal_digit` |
+| 10 | E01 | `smoke_test` | Integration | Full SCB + all §0.3 properties exercised |
 
 ---
 
@@ -1080,8 +1206,9 @@ When a P0 test needs checking:
 
 ```text
 LED_MUX_CONTROLLER_stu/tb/
+  led_tb_pkg.svh                # package — includes led_scoreboard.sv
   led_env.sv                    # scb (+ optional cov) connected
-  led_scoreboard.sv             # single scoreboard — all SCB logic
+  led_scoreboard.sv             # uvm_analysis_imp_decl macros + scoreboard class
   sva/
     led_mux_sva.sv              # all assert/cover/check properties
   sequences/

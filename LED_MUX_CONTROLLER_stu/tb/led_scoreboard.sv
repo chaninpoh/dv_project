@@ -1,10 +1,13 @@
 // Phase 3 — single scoreboard for all P0 tests (extend SCB logic per test)
-// Included from led_tb_pkg.svh (analysis imp macros must be in package scope for VCS)
+// Included from led_tb_pkg.svh — macros must be before class declaration
+`uvm_analysis_imp_decl(_apb)
+`uvm_analysis_imp_decl(_led)
+
 class led_scoreboard extends uvm_scoreboard;
   `uvm_component_utils(led_scoreboard)
 
-  apb_analysis_imp_apb #(apb_transaction) apb_imp;
-  led_analysis_imp_led #(led_transaction) led_imp;
+  uvm_analysis_imp_apb #(apb_transaction, led_scoreboard) apb_imp;
+  uvm_analysis_imp_led #(led_transaction, led_scoreboard) led_imp;
 
   // Register mirror (SPEC §3.2)
   localparam bit [31:0] ADDR_LED_ENABLE = 32'h4000;

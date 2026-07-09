@@ -106,7 +106,7 @@ Do **not** call `super` in UVM phase methods (project convention).
 |---|---|---|---|
 | **1** | Testbench top | Static `{{TB_TOP}}` — DUT, interfaces, clk/rst, `config_db`, `run_test()` | `{{PHASE1_TEST}}` |
 | **2** | UVM agents | `{{BASE_TEST}}` + agents integrated layer-by-layer | `{{PHASE2_TEST}}` |
-| **3** | P0 tests + checkers | P0 tests from testplan, one scoreboard, one SVA bind file | Per-test → `regress_p0` |
+| **3** | P0 tests + checkers | First test + sequence, then scoreboard if new; P0 loop from testplan | Per-test → `regress_p0` |
 | **4** | P0 regression sign-off | All P0 tests pass in one regression | `regress_p0` |
 | **5** | Coverage closure | P1 tests + coverage annotation | Testplan Excel |
 
@@ -300,15 +300,105 @@ make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 
 ### Goal
 
-**Implement all P0 tests from `{{TESTPLAN_XLS}}` / TESTPLAN one feature at a time.**
+**Implement all P0 tests from `{{TESTPLAN_XLS}}` / TESTPLAN one feature at a time.** If the scoreboard has never been created, build at least one P0 test and its sequence(s) before scoreboard integration.
+
+### Shared infrastructure — Phase 3 entry order
+
+**Scoreboard entry rule:** If `{{SCOREBOARD}}` / `{{TB_PKG}}` have **never** been created, build **at least one** P0 test and its required sequence(s) **first**. Run compile + sim and get a clean log **before** adding the scoreboard shell or wiring it into `{{ENV}}`.
+
+#### 3.1.A First P0 test + sequence (before scoreboard — if never created)
+
+| Step | Task | File(s) |
+|---|---|---|
+| 3.1.1 | Pick **first** P0 test from build order (recommended: **E07** `led_reset_values_test`) | `{{TESTPLAN_XLS}}` |
+| 3.1.2 | Create **sequence(s)** for that test (e.g. `led_reset_seq`) | `tb/sequences/*.sv` |
+| 3.1.3 | Create **`<testname>_test.sv`**; register in **`test_lib.svh`** | `tb/*_test.sv`, `test_lib.svh` |
+| 3.1.4 | **User runs** — **no scoreboard yet** | `make {{RUN_TARGET}} TESTNAME=<first_p0_test> SEED=0` |
+| 3.1.5 | **User prompts** log check — compile clean, factory lists test, `UVM_ERROR=0` | sim log |
+
+Do **not** create `{{SCOREBOARD}}`, `{{TB_PKG}}`, or env scoreboard connections until 3.1.4–3.1.5 pass.
+
+#### 3.1.B Scoreboard shell + env connect (after first test — if never created)
+
+VCS requires the scoreboard compiled through a **package**. Place `uvm_analysis_imp_decl` macros at the **top of the scoreboard file**, before the class.
+
+| Step | Task | File(s) |
+|---|---|---|
+| 3.1.6 | Create **`{{SCOREBOARD}}.sv`** — macros at top, then class | `tb/{{SCOREBOARD}}.sv` |
+| 3.1.7 | Create **`{{TB_PKG}}`** — imports + `uvm_macros.svh` + `` `include "{{SCOREBOARD}}.sv" `` | `tb/{{TB_PKG}}.svh` |
+| 3.1.8 | Add package to **`{{FILELIST}}`**; `import {{TB_PKG}}::*` in **`{{TB_TOP}}.sv`** | `{{FILELIST}}`, `{{TB_TOP}}.sv` |
+| 3.1.9 | Extend **`{{ENV}}`**: `scb` + **`connect_phase`** monitor → imp ports | `tb/{{ENV}}.sv` |
+| 3.1.10 | **User runs** first P0 test again with scoreboard wired | `make {{RUN_TARGET}} TESTNAME=<first_p0_test> SEED=0` |
+
+If scoreboard already exists and is wired, skip 3.1.1–3.1.10 and extend SCB logic per test in the workflow loop below.
+
+#### `uvm_analysis_imp_decl` naming rule (UVM 1.2)
+
+Macro argument = suffix `SFX` (use leading `_`, e.g. `_apb`). UVM creates imp type **`uvm_analysis_imp` + `SFX`** and write function **`write` + suffix without `_`**.
+
+**Macro placement:** At the **top of `{{SCOREBOARD}}.sv`**, before `class {{SCOREBOARD}}`. Do **not** put macros in `{{TB_PKG}}.svh` — the package only includes the scoreboard file.
+
+| Macro | Imp port type in scoreboard | Write callback |
+|---|---|---|
+| `` `uvm_analysis_imp_decl(_apb) `` | `uvm_analysis_imp_apb #(apb_transaction, {{SCOREBOARD}})` | `function void write_apb(apb_transaction tr);` |
+| `` `uvm_analysis_imp_decl(_led) `` | `uvm_analysis_imp_led #(led_transaction, {{SCOREBOARD}})` | `function void write_led(led_transaction tr);` |
+
+**Wrong:** `apb_analysis_imp_apb`, `led_analysis_imp_led` — not defined by the macro.
+
+**Scoreboard skeleton (`tb/{{SCOREBOARD}}.sv`) — macros first:**
+
+```systemverilog
+`uvm_analysis_imp_decl(_apb)
+`uvm_analysis_imp_decl(_led)
+
+class {{SCOREBOARD}} extends uvm_scoreboard;
+  `uvm_component_utils({{SCOREBOARD}})
+
+  uvm_analysis_imp_apb #(apb_transaction, {{SCOREBOARD}}) apb_imp;
+  uvm_analysis_imp_led #(led_transaction, {{SCOREBOARD}}) led_imp;
+
+  function void build_phase(uvm_phase phase);
+    `uvm_info(get_type_name(), "Build phase for {{SCOREBOARD}}", UVM_LOW)
+    apb_imp = new("apb_imp", this);
+    led_imp = new("led_imp", this);
+  endfunction
+
+  function void write_apb(apb_transaction tr); endfunction
+  function void write_led(led_transaction tr); endfunction
+endclass
+```
+
+**Package skeleton (`tb/{{TB_PKG}}.svh`) — include only:**
+
+```systemverilog
+package {{TB_PKG}};
+  import uvm_pkg::*;
+  import apb_agent_pkg::*;
+  import led_agent_pkg::*;
+
+  `include "uvm_macros.svh"
+  `include "{{SCOREBOARD}}.sv"
+endpackage
+```
+
+**`{{FILELIST}}`:** add `../tb/{{TB_PKG}}.svh` after agent packages, before `{{TB_TOP}}.sv`.  
+**`test_lib.svh`:** do **not** `include "{{SCOREBOARD}}.sv"` — types come from package import in `{{TB_TOP}}.sv`.
 
 ### Workflow loop (per P0 test)
 
+**First-time Phase 3 (no scoreboard yet):**
+
+1. Create first P0 test + sequence(s) (§3.1.A) → user runs → gate PASS
+2. Create scoreboard shell + env connect (§3.1.B) → user re-runs first P0 test → gate PASS
+3. Continue loop below for remaining P0 tests
+
+**Per-test loop (after scoreboard exists):**
+
 1. Pick next P0 test from build order table in `PLAN.md`
-2. Create test + sequences
-3. Extend **one** `{{SCOREBOARD}}` (no extra scoreboards)
-4. Add SVA to **one** `{{SVA_MODULE}}.sv` + `bind` (new file only if different bind target)
-5. Register in `test_lib.svh` (include via `{{TB_TOP}}`, not filelist)
+2. Create or extend sequences
+3. Extend **one** `{{SCOREBOARD}}` only if test needs SCB (no extra scoreboards)
+4. Add SVA to **one** `{{SVA_MODULE}}.sv` + `bind` when test needs it
+5. Create or update test; register in `test_lib.svh`
 6. **User runs:** `make {{RUN_TARGET}} TESTNAME=<test> SEED=0`
 7. **User prompts** log check
 8. Proceed only on PASS
@@ -316,6 +406,12 @@ make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 Each P0 test `run_phase` must call `set_run_phase_drain_time(phase)` after `drop_objection` ({{UVM_PHASE_DRAIN_TIME}}).
 
 **Incremental run rule (mandatory):** After each new **component**, **sequence**, or **test**, the agent stops and prints `make {{RUN_TARGET}} TESTNAME=<test> SEED=0`. User runs on VM → prompts `check logfiles` → agent continues.
+
+| Step type | Verify with |
+|---|---|
+| First P0 sequence + test (no scoreboard) | `make {{RUN_TARGET}} TESTNAME=<first_p0_test> SEED=0` |
+| Scoreboard + env (first time) | Re-run `<first_p0_test>` after wiring |
+| Later sequence / test | Test that uses the new item |
 
 ### Phase 3 marker (per test)
 
@@ -455,7 +551,8 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 | `{{SIMV}}` | dut_simv | Sim executable |
 | `{{BASE_TEST}}` | base_test | Root UVM test class |
 | `{{ENV}}` | led_env | UVM environment |
-| `{{SCOREBOARD}}` | led_scoreboard | Single scoreboard |
+| `{{TB_PKG}}` | led_tb_pkg | Package — includes `{{SCOREBOARD}}.sv` |
+| `{{SCOREBOARD}}` | led_scoreboard | Scoreboard file — macros at top, then class |
 | `{{SVA_MODULE}}` | led_mux_sva | Bound assertion module |
 | `{{PHASE1_TEST}}` | phase1_tb_top_test | Phase 1 gate test |
 | `{{PHASE2_TEST}}` | phase2_agent_sanity_test | Phase 2 gate test |
