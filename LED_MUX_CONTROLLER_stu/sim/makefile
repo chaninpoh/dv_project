@@ -22,7 +22,7 @@ clean:
 
 # Compile + elaborate + run (course wrapper)
 run_dv:
-	${ROOT}/sim/run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}
+	csh ${ROOT}/sim/run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}
 
 compile: run_dv
 

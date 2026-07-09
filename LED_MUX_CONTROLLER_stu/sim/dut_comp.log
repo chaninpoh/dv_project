@@ -3,7 +3,7 @@ Command: vcs -full64 -l dut_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all
 -file /home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/tb/dut.f -timescale=1ns/1ps \
 -cm line+tgl+cond+fsm+branch+assert -assert enable_diag -CFLAGS -DVCS
                          Chronologic VCS (TM)
-       Version W-2024.09-SP2_Full64 -- Thu Jul  9 22:23:18 2026
+       Version W-2024.09-SP2_Full64 -- Thu Jul  9 23:31:21 2026
 
                     Copyright (c) 1991 - 2025 Synopsys, Inc.
    This software and the associated documentation are proprietary to Synopsys,
@@ -363,11 +363,35 @@ Parsing design file '../src/watchdog_mod.sv'
 Parsing design file '../src/dut.sv'
 Parsing design file '../tb/apb_agent/apb_if.sv'
 Parsing design file '../tb/led_agent/led_if.sv'
+Parsing design file '../tb/apb_agent/apb_agent_pkg.svh'
+Parsing included file '../tb/apb_agent/apb_transaction.sv'.
+Back to file '../tb/apb_agent/apb_agent_pkg.svh'.
+Parsing included file '../tb/apb_agent/apb_driver.sv'.
+Back to file '../tb/apb_agent/apb_agent_pkg.svh'.
+Parsing included file '../tb/apb_agent/apb_monitor.sv'.
+Back to file '../tb/apb_agent/apb_agent_pkg.svh'.
+Parsing included file '../tb/apb_agent/apb_agent.sv'.
+Back to file '../tb/apb_agent/apb_agent_pkg.svh'.
+Parsing design file '../tb/led_agent/led_agent_pkg.svh'
+Parsing included file '../tb/led_agent/led_transaction.sv'.
+Back to file '../tb/led_agent/led_agent_pkg.svh'.
+Parsing included file '../tb/led_agent/led_driver.sv'.
+Back to file '../tb/led_agent/led_agent_pkg.svh'.
+Parsing included file '../tb/led_agent/led_monitor.sv'.
+Back to file '../tb/led_agent/led_agent_pkg.svh'.
+Parsing included file '../tb/led_agent/led_agent.sv'.
+Back to file '../tb/led_agent/led_agent_pkg.svh'.
 Parsing design file '../tb/top_tb.sv'
 Parsing included file '/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/uvm_macros.svh'.
 Back to file '../tb/top_tb.sv'.
 Parsing included file '../tb/test_lib.svh'.
+Parsing included file '../tb/led_env.sv'.
+Back to file '../tb/test_lib.svh'.
+Parsing included file '../tb/base_test.sv'.
+Back to file '../tb/test_lib.svh'.
 Parsing included file '../tb/phase1_tb_top_test.sv'.
+Back to file '../tb/test_lib.svh'.
+Parsing included file '../tb/phase2_agent_sanity_test.sv'.
 Back to file '../tb/test_lib.svh'.
 Back to file '../tb/top_tb.sv'.
 Top Level Modules:
@@ -462,9 +486,19 @@ Warning-[PCWM-W] Port connection width mismatch
 
 VCS Coverage Metrics Release W-2024.09-SP2_Full64 Copyright (c) 1991-2024 by Synopsys Inc.
 Starting vcs inline pass...
-9 modules and 0 UDP read.
+11 modules and 0 UDP read.
+recompiling package vcs_paramclassrepository
+recompiling package _vcs_DPI_package
+recompiling package uvm_pkg
+recompiling package _vcs_msglog
 recompiling module uvm_custom_install_verdi_recording
-	However, due to incremental compilation, only 1 module needs to be compiled. 
+recompiling module dut
+recompiling module apb_if
+recompiling module led_if
+recompiling package apb_agent_pkg
+recompiling package led_agent_pkg
+recompiling module top_tb
+All of 11 modules done
 make[1]: Entering directory '/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/csrc' \
 
 rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
@@ -476,15 +510,15 @@ if [ -x ../dut_simv ]; then chmod a-x ../dut_simv; fi
 g++  -o ../dut_simv      -rdynamic  -Wl,-rpath='$ORIGIN'/dut_simv.daidir -Wl,-rpath=./dut_simv.daidir \
 -Wl,-rpath=/home/synopsys/vcs/W-2024.09-SP2/linux64/lib -L/home/synopsys/vcs/W-2024.09-SP2/linux64/lib \
 -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1 uvm_dpi.o uvm_verdi_dpi.o   objs/amcQw_d.o \
-_2516000_archive_1.so _prev_archive_1.so   SIM_l.o      rmapats_mop.o rmapats.o rmar.o \
-rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o            -lvirsim -lerrorinf -lsnpsmalloc \
--lvfs    -lvcsnew -lsimprofile -lreader_common /home/synopsys/vcs/W-2024.09-SP2/linux64/lib/libBA.a \
--luclinative /home/synopsys/vcs/W-2024.09-SP2/linux64/lib/vcs_tls.o   -Wl,-whole-archive \
--lvcsucli    -Wl,-no-whole-archive       ./../dut_simv.daidir/vc_hdrs.o  _vcs_pli_stub_.o \
-/home/synopsys/vcs/W-2024.09-SP2/linux64/lib/vcs_save_restore_new.o /home/synopsys/verdi/W-2024.09-SP2/share/PLI/VCS/LINUX64/pli.a \
--ldl  -lc -lm -lpthread -ldl 
+_2533235_archive_1.so   SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o \
+rmar_llvm_0_0.o            -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile \
+-lreader_common /home/synopsys/vcs/W-2024.09-SP2/linux64/lib/libBA.a -luclinative \
+/home/synopsys/vcs/W-2024.09-SP2/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli \
+-Wl,-no-whole-archive       ./../dut_simv.daidir/vc_hdrs.o  _vcs_pli_stub_.o   /home/synopsys/vcs/W-2024.09-SP2/linux64/lib/vcs_save_restore_new.o \
+/home/synopsys/verdi/W-2024.09-SP2/share/PLI/VCS/LINUX64/pli.a -ldl  -lc -lm -lpthread \
+-ldl 
 ../dut_simv up to date
 make[1]: Leaving directory '/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/csrc' \
 
-CPU time: 5.946 seconds to compile + .253 seconds to elab + .855 seconds to link
+CPU time: 9.636 seconds to compile + .259 seconds to elab + .856 seconds to link
 Verdi KDB elaboration done and the database successfully generated
