@@ -9,6 +9,64 @@ OUT = r"c:\Users\chani\AI for me\dv_project\LED_MUX_CONTROLLER_testplan.xlsx"
 TEMPLATE = r"c:\Users\chani\AI for me\dv_project\LED_MUX_CONTROLLER_stu\Template-TestPlan.xlsx"
 PLAN_NAME = "led_mux_controller_testplan"
 
+# Test rank per TESTPLAN.md §1 (P0 essential, P1 good-to-have, P2 stretch)
+TEST_RANK = {
+    "smoke_test": "P0",
+    "apb_reset_defaults_test": "P0",
+    "apb_led_enable_write_read_test": "P0",
+    "apb_scratchpad_wr_rd_test": "P0",
+    "apb_invalid_addr_test": "P0",
+    "apb_pready_no_wait_test": "P0",
+    "led_reset_values_test": "P0",
+    "led_decimal_42_test": "P0",
+    "led_overflow_modulo_test": "P0",
+    "led_disable_blocks_update_test": "P0",
+    "led_all_digits_0_to_9_test": "P0",
+    "apb_default_enable_led_path_test": "P1",
+    "apb_read_during_processing_test": "P1",
+    "led_max_displayable_test": "P1",
+    "led_sel_onehot_scan_test": "P1",
+    "led_hold_time_min_test": "P1",
+    "led_latency_window_test": "P1",
+    "led_reenable_after_disable_test": "P1",
+    "full_display_flow_test": "P1",
+    "random_regression_test": "P1",
+    "apb_done_read_only_test": "P2",
+    "apb_done_poll_timeout_test": "P2",
+    "apb_scratchpad_all_ones_test": "P2",
+    "apb_scratchpad_walking_one_test": "P2",
+    "apb_enable_toggle_stress_test": "P2",
+    "led_single_digit_zero_test": "P2",
+    "led_single_digit_one_test": "P2",
+    "led_seg_active_low_test": "P2",
+    "led_overflow_max_test": "P2",
+    "led_overflow_boundary_test": "P2",
+    "led_back_to_back_error_test": "P2",
+    "led_reset_during_display_test": "P2",
+    "led_done_clear_after_reset_test": "P2",
+    "led_hold_below_min_negative_test": "P2",
+    "scratch_then_display_test": "P2",
+    "virtual_seq_stress_test": "P2",
+    "enable_off_overflow_test": "P2",
+    "poll_until_done_stress_test": "P2",
+}
+
+TIER_LEVEL = {"p0": 0, "p1": 1, "p2": 2, "all": 3}
+RANK_LEVEL = {"P0": 0, "P1": 1, "P2": 2}
+
+
+def filter_rows_by_tier(rows, tier: str):
+    tier = tier.lower()
+    if tier not in TIER_LEVEL:
+        raise ValueError(f"Unknown tier {tier!r}; use p0, p1, p2, or all")
+    if tier == "all":
+        return rows
+    max_level = TIER_LEVEL[tier]
+    return [
+        r for r in rows
+        if RANK_LEVEL.get(TEST_RANK.get(r[2], "P2"), 2) <= max_level
+    ]
+
 ALL_SVA_PROPERTIES = (
     "assert_sel_out_reset_value, assert_seg_out_reset_value, "
     "assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one, "
@@ -19,8 +77,17 @@ ALL_SVA_PROPERTIES = (
 
 
 def parse_checkers(ch: str):
-    sva, cov, scb, mon = [], [], [], []
+    """Parse checker tags into SVA, covergroup, and scoreboard lists.
+
+    Monitors observe only; pass/fail checking belongs in SVA or scoreboard.
+    """
+    sva, cov, scb = [], [], []
     text = ch.replace("**", "")
+    if re.search(r"\bMON\b", text):
+        raise ValueError(
+            "MON checker tags are not allowed — use SVA or scoreboard (SCB-*): "
+            f"{ch!r}"
+        )
     if "all §0.3" in text.lower() or ALL_SVA_PROPERTIES in text:
         sva = [ALL_SVA_PROPERTIES]
     else:
@@ -37,15 +104,15 @@ def parse_checkers(ch: str):
         scb.append(m)
     if "SCB-1..9" in text:
         scb = ["SCB-1..9"]
-    if "MON" in text:
-        mon.append(text.split("MON")[-1].strip(": ").split(";")[0].strip())
+
     def dedupe(lst):
         out = []
         for x in lst:
             if x and x not in out:
                 out.append(x)
         return out
-    return dedupe(sva), dedupe(cov), dedupe(scb), dedupe(mon)
+
+    return dedupe(sva), dedupe(cov), dedupe(scb)
 
 
 def fmt_desc(flow: str, constraints: str, checkers: str) -> str:
@@ -110,8 +177,8 @@ ROWS = [
      "SCB-3", "line", "BASIC", "P1", "AC-A1"),
     ("", "Done register read-only", "apb_done_read_only_test",
      "1. Write 0x4004=32'hFFFF_FFFF. 2. Read 0x4004",
-     "Done is RO; writes have no effect (C-7, FR 3.5)",
-     "SCB-2; MON attempted RO write", "line, cond", "BASIC", "P1", "AC-D2"),
+     "Done is RO; sequence drives the illegal write (C-7, FR 3.5)",
+     "SCB-2", "line, cond", "BASIC", "P1", "AC-D2"),
     ("", "APB pready no-wait-state", "apb_pready_no_wait_test",
      "1. Write 0x4000. 2. Read 0x4004",
      "Standard 2-phase APB (C-6, AC-A3)",
@@ -124,7 +191,7 @@ ROWS = [
     ("Corner cases", "Invalid APB address", "apb_invalid_addr_test",
      "1. Write 0x5000. 2. Check pslerr. 3. Read 0x0000. 4. Check pslerr",
      "addr NOT IN {0x4000, 0x4004, 0x4008} (AC-A2)",
-     "assert_apb_pslerr_invalid_addr; MON pslerr==1", "branch, cond", "CORNER", "P1", "AC-A2"),
+     "assert_apb_pslerr_invalid_addr", "branch, cond", "CORNER", "P1", "AC-A2"),
     ("", "Done poll timeout without error_q", "apb_done_poll_timeout_test",
      "1. Do not drive error_q. 2. Poll 0x4004 with short timeout",
      "Poll interval >=1 cycle; expect Done==0 (FR 3.5, SCB-8)",
@@ -163,21 +230,21 @@ ROWS = [
      "error_q==999_999 (FR 3.1, AC-B1)",
      "SCB-4, SCB-5, SCB-6; assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one; COV cg_digits", "line", "BASIC", "P1", "AC-B1"),
     ("", "sel_out one-hot multiplex scan", "led_sel_onehot_scan_test",
-     "1. Drive error_q=74565. 2. Hold >=1002 cycles. 3. Monitor samples sel_out one-hot",
+     "1. Drive error_q=74565. 2. Hold >=1002 cycles. 3. Collect 6+ sel_out samples",
      "Hold 1002 cycles (C-4, AC-M1, AC-M2)",
-     "SCB-5; assert_sel_out_onehot_active_low, cover_sel_out_digit_position; MON one-hot; COV cg_digits", "fsm, toggle", "BASIC", "P1", "AC-M1, AC-M2, AC-M3"),
+     "SCB-5; assert_sel_out_onehot_active_low, cover_sel_out_digit_position; COV cg_digits", "fsm, toggle", "BASIC", "P1", "AC-M1, AC-M2, AC-M3"),
     ("", "seg_out active-low encoding", "led_seg_active_low_test",
      "1. Drive error_q=8. 2. Poll Done. 3. Check seg_out[6:0] active-low where lit",
      "error_q==8 (AC-B2, AC-B3)",
      "SCB-6; assert_seg_out_bit7_always_one", "line, toggle", "BASIC", "P1", "AC-B2, AC-B3"),
     ("", "Minimum hold time (1002 cycles)", "led_hold_time_min_test",
      "1. Drive error_q. 2. Hold exactly 1002 cycles. 3. Poll Done",
-     "Hold error_q for 1002 cycles (C-4, AC-M2)",
-     "check_hold_1002_cycle; MON hold enforced; SCB-4", "line, fsm", "BASIC", "P1", "AC-M2, AC-M3"),
+     "Hold error_q for 1002 cycles; sequence enforces hold duration (C-4, AC-M2)",
+     "check_hold_1002_cycle; SCB-4", "line, fsm", "BASIC", "P1", "AC-M2, AC-M3"),
     ("", "Output latency window (60-80 cycles)", "led_latency_window_test",
      "1. Drive error_q=100. 2. Wait 60-80 cycles. 3. Sample outputs",
-     "Do not sample before 60 cycles (C-5, AC-E1)",
-     "check_60_80_cycle; MON defer sampling; SCB-8", "fsm", "BASIC", "P1", "AC-E1, C-5"),
+     "Sequence waits >=60 cycles before sampling (C-5, AC-E1)",
+     "check_60_80_cycle; SCB-8", "fsm", "BASIC", "P1", "AC-E1, C-5"),
 
     ("Corner cases", "Overflow modulo display", "led_overflow_modulo_test",
      "1. Drive error_q=1_000_001. 2. Poll Done. 3. Expect display 000001",
@@ -201,8 +268,8 @@ ROWS = [
      "SCB-7, SCB-4, SCB-5, SCB-6", "cond, line", "CORNER", "P2", "AC-E2"),
     ("", "Back-to-back error_q changes", "led_back_to_back_error_test",
      "1. Drive error_q=10, hold 1002. 2. Drive error_q=99, hold 1002. 3. Poll Done after each",
-     "Hold >=1002 each (C-4, C-5)",
-     "SCB-4; MON latency restarts", "fsm", "CORNER", "P2", "AC-E1, C-5"),
+     "Hold >=1002 each; sequence restarts hold per error_q change (C-4, C-5)",
+     "SCB-4", "fsm", "CORNER", "P2", "AC-E1, C-5"),
     ("", "Reset recovery mid-display", "led_reset_during_display_test",
      "1. Start error_q=42 display. 2. Assert reset at cycle 500. 3. Check reset values. 4. Re-run display",
      "Reset during hold (FR 3.3, AC-R1, AC-R2)",
@@ -213,8 +280,8 @@ ROWS = [
      "SCB-2", "line", "CORNER", "P2", "AC-D2"),
     ("", "Hold below minimum (negative)", "led_hold_below_min_negative_test",
      "1. Hold error_q for 1000 cycles (< C-4 min). 2. Drive error_q",
-     "Hold 1000 cycles violates C-4",
-     "MON/test expect failure or Done!=1", "cond", "CORNER", "P2", "C-4"),
+     "Hold 1000 cycles violates C-4; sequence drives short hold",
+     "SCB-8; test expect failure or DUT not Done", "cond", "CORNER", "P2", "C-4"),
     ("", "All decimal digits 0-9 on display", "led_all_digits_0_to_9_test",
      "For d in 0..9: drive error_q with ones digit d; poll Done; compare encoding",
      "10 iterations (AC-C1, AC-B1)",
@@ -303,7 +370,8 @@ def resolve_owner(cli_owner: str | None) -> str:
     return owner
 
 
-def main(owner: str):
+def main(owner: str, tier: str = "p0"):
+    rows = filter_rows_by_tier(ROWS, tier)
     wb = openpyxl.load_workbook(TEMPLATE)
     ws = wb["TestPlan"]
 
@@ -313,7 +381,7 @@ def main(owner: str):
 
     headers = [
         "hvp plan", "Feature", "Sub Feature", "$owner", "$description",
-        "Assertions/Cover property", "Covergroups", "Code Coverage", "Tests",
+        "Assertions/Cover property", "Covergroups", "Code Coverage", "Tests", "Priority",
     ]
     for col, header in enumerate(headers, 1):
         ws.cell(1, col, header)
@@ -321,20 +389,21 @@ def main(owner: str):
     ws.cell(2, 1, PLAN_NAME)
     wrap = Alignment(wrap_text=True, vertical="top")
 
-    for i, row in enumerate(ROWS, start=3):
+    for i, row in enumerate(rows, start=3):
         feat, sub, test, flow, constraints, checkers, code_cov, typ, pri, goal = row
-        sva, cov, scb, mon = parse_checkers(checkers)
-        assertions = ", ".join(sva + mon)
+        sva, cov, scb = parse_checkers(checkers)
+        assertions = ", ".join(sva)
         covergroups = ", ".join(cov)
         desc = fmt_desc(flow, constraints, checkers)
         validate_description(desc, test)
 
-        values = ["", feat, sub, owner, desc, assertions, covergroups, code_cov, test]
+        rank = TEST_RANK.get(test, "P2")
+        values = ["", feat, sub, owner, desc, assertions, covergroups, code_cov, test, rank]
         for c, val in enumerate(values, 1):
             cell = ws.cell(i, c, val)
             cell.alignment = wrap
 
-    widths = [22, 24, 30, 12, 60, 28, 22, 16, 34]
+    widths = [22, 24, 30, 12, 60, 28, 22, 16, 34, 10]
     for i, w in enumerate(widths, 1):
         ws.column_dimensions[openpyxl.utils.get_column_letter(i)].width = w
 
@@ -356,8 +425,9 @@ def main(owner: str):
     for col, header in enumerate(checklist_headers, 1):
         ws2.cell(start - 1, col, header)
 
-    for j, row in enumerate(ROWS, start=start):
-        feat, sub, test, flow, constraints, checkers, code_cov, typ, pri, goal = row
+    for j, row in enumerate(rows, start=start):
+        feat, sub, test, flow, constraints, checkers, code_cov, typ, _pri, goal = row
+        rank = TEST_RANK.get(test, "P2")
         values = [
             test,
             AIMS.get(test, sub),
@@ -368,7 +438,7 @@ def main(owner: str):
             flow,
             "Scoreboard pass; SVA clean; expected register/output values; coverage bin hit",
             typ,
-            pri,
+            rank,
             goal,
         ]
         for c, val in enumerate(values, 1):
@@ -381,8 +451,8 @@ def main(owner: str):
 
     wb.save(OUT)
     print(f"Generated {OUT}")
-    print(f"TestPlan rows: {len(ROWS)}")
-    print(f"Sheet1 rows: {len(ROWS)}")
+    print(f"Tier: {tier} — TestPlan rows: {len(rows)}")
+    print(f"Sheet1 rows: {len(rows)}")
 
 
 if __name__ == "__main__":
@@ -391,5 +461,11 @@ if __name__ == "__main__":
         "--owner",
         help="Verification owner for $owner and Test Owner columns (prompted if omitted)",
     )
+    parser.add_argument(
+        "--tier",
+        choices=["p0", "p1", "p2", "all"],
+        default="all",
+        help="Tests to include: p0=essential (11), p1=+good-to-have (20), all=38 with Priority column (default: all)",
+    )
     args = parser.parse_args()
-    main(resolve_owner(args.owner))
+    main(resolve_owner(args.owner), args.tier)

@@ -1,4 +1,1 @@
-`include "base_test.sv"
-`include "my_test.sv"
-
-//__TB__//add more tests here
+`include "phase1_tb_top_test.sv"

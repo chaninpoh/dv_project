@@ -1,8 +1,12 @@
-TESTNAME = "my_test"
-SEED=0
+TESTNAME ?= phase1_tb_top_test
+SEED     ?= 0
+
+COMP_LOG = $(MODULE)_comp.log
+SIM_LOG  = $(TESTNAME)_seed_$(SEED)_sim.log
+
+.PHONY: dv clean run_dv compile run gate1 phase1
 
 dv: run_dv
-
 
 clean:
 	\rm -frd novas* mkdir csrc
@@ -16,10 +20,16 @@ clean:
 	\rm -frd qrun sysProgressP.conf sysProgressPLog vdCov.conf vdCovLog
 	\rm -frd ${MODULE}_*_sim.fsdb ${MODULE}_*_sim.log ${MODULE}_sva.rpt* *_sva.rpt*
 
+# Compile + elaborate + run (course wrapper)
 run_dv:
 	${ROOT}/sim/run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}
 
+compile: run_dv
 
+run: run_dv
 
+gate1:
+	@./check_phase1_gate.sh $(COMP_LOG) $(SIM_LOG)
 
-.PHONY: dv clean run_dv
+phase1: run_dv gate1
+	@echo "Phase 1 complete."

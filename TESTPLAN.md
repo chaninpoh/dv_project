@@ -4,7 +4,7 @@
 **Architecture:** ARCHITECTURE.md  
 **Methodology:** UVM 1.2, metrics-driven verification
 
-This testplan is the build checklist. Each row tells you what test to write, what sequence flow to run, what values to constrain, and what checker/scoreboard/SVA to implement.
+This testplan is the build checklist. **Start with §1 P0 essential tests (11)**; add P1 good-to-have and P2 stretch only after P0 passes.
 
 **Deliverable format:** The final testplan must be exported to Excel using `LED_MUX_CONTROLLER_stu/Template-TestPlan.xlsx`. See **§9** for column layout, row rules, and mapping from this document into the template.
 
@@ -29,6 +29,9 @@ This testplan is the build checklist. Each row tells you what test to write, wha
 | `SCB` | `led_scoreboard` check |
 | `MON` | Monitor or driver protocol enforcement |
 | `COV` | `led_coverage` covergroup bin |
+| `P0` | **Essential** — must implement; blocks spec sign-off |
+| `P1` | **Good to have** — closes coverage gaps; add after P0 passes |
+| `P2` | **Stretch** — stress / redundant; optional before presentation |
 
 ---
 
@@ -112,97 +115,173 @@ Rules:
 
 ---
 
-## 1. APB Controller block
+## 1. Test priority summary
 
-APB SLAVE register access, protocol, and control/status behavior.
+38 tests were identified; **11 are essential (P0)** for spec sign-off. Implement P0 first, then P1 for coverage closure, then P2 if time allows.
 
-### 1.1 APB — Basic function
+### 1.1 Essential — P0 (implement first)
 
-| # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
-|---|---|---|---|---|---|
-| A-B01 | `apb_reset_defaults_test` | `led_reset_seq` → `apb_read_seq` ×3 | 1. Reset DUT 2. Read `0x4000` (expect `LED_enable=1`) 3. Read `0x4004` (expect `Done=0`) 4. Read `0x4008` (expect `0`) | No APB traffic during reset assert | **SCB-1, SCB-2, SCB-3**; **assert_sel_out_reset_value, assert_seg_out_reset_value** |
-| A-B02 | `apb_led_enable_write_read_test` | `apb_wr_rd_seq` | 1. Write `0x4000 = 0` 2. Read `0x4000` 3. Write `0x4000 = 1` 4. Read `0x4000` | `wdata[0]` only; upper bits ignored or stored per RTL | **SCB-1**; **COV** `cg_enable` |
-| A-B03 | `apb_scratchpad_wr_rd_test` | `apb_wr_rd_seq` | 1. Write `0x4008 = 32'hDEAD_BEEF` 2. Read `0x4008` | `wdata` full 32-bit | **SCB-3** |
-| A-B04 | `apb_done_read_only_test` | `apb_write_seq` → `apb_read_seq` | 1. Write `0x4004 = 32'hFFFF_FFFF` (illegal) 2. Read `0x4004` | `wdata` arbitrary; address fixed `0x4004` | **SCB-2**; **MON**: monitor flags attempted RO write; **SVA** no crash |
-| A-B05 | `apb_pready_no_wait_test` | `apb_write_seq` + `apb_read_seq` | 1. Write `0x4000` 2. Read `0x4004` | Standard 2-phase APB | **assert_apb_setup_phase, assert_apb_access_phase, assert_apb_pready_complete** |
-| A-B06 | `apb_default_enable_led_path_test` | `led_mux_virtual_seq` | 1. No write to `0x4000` (use default) 2. Drive `error_q=7` 3. Poll Done 4. Scoreboard compare | `error_q inside {[1:99]}` | **SCB-1, SCB-4..6, SCB-8**; **assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one** |
+| # | Test name | Block | Spec AC closed |
+|---|---|---|---|
+| E01 | `smoke_test` | Integration | End-to-end sanity; all checkers exercised |
+| E02 | `apb_reset_defaults_test` | APB | AC-R1, AC-R2 (register defaults after reset) |
+| E03 | `apb_led_enable_write_read_test` | APB | AC-E1, AC-E2 (`LED_enable` write/read) |
+| E04 | `apb_scratchpad_wr_rd_test` | APB | AC-A1 (scratch pad) |
+| E05 | `apb_invalid_addr_test` | APB | AC-A2 (`pslerr` on bad address) |
+| E06 | `apb_pready_no_wait_test` | APB | AC-A3, C-6 (APB 2-phase / pready) |
+| E07 | `led_reset_values_test` | LED | AC-R1, AC-R2 (`sel_out` / `seg_out` at reset) |
+| E08 | `led_decimal_42_test` | LED | AC-B1, AC-D1, AC-M1 (BCD + Done + one-hot) |
+| E09 | `led_overflow_modulo_test` | LED | AC-B4 (overflow `error_q % 1_000_000`) |
+| E10 | `led_disable_blocks_update_test` | LED | AC-E2 (`LED_enable=0` blocks update) |
+| E11 | `led_all_digits_0_to_9_test` | LED | AC-C1, AC-B1 (all segment encodings 0–9) |
 
-### 1.2 APB — Corner cases
+**P0 regression (run every build):** E01–E11.
 
-| # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
-|---|---|---|---|---|---|
-| A-C01 | `apb_invalid_addr_test` | `apb_invalid_addr_seq` | 1. SETUP+ACCESS write `0x5000` 2. Check `pslerr` 3. SETUP+ACCESS read `0x0000` 4. Check `pslerr` | `addr NOT IN {0x4000,0x4004,0x4008}`; disable `apb_seq_item::c_addr` | **assert_apb_pslerr_invalid_addr**; **MON**: `pslerr==1`; **SCB**: ignore data |
-| A-C02 | `apb_done_poll_timeout_test` | `apb_done_poll_seq` (short timeout) | 1. Do **not** drive `error_q` 2. Poll `0x4004` with timeout | Poll interval ≥1 cycle; timeout < full LED processing | **SCB-8** (no seg compare); test expects `Done==0` |
-| A-C03 | `apb_scratchpad_all_ones_test` | `apb_wr_rd_seq` | 1. Write `0x4008 = 32'hFFFF_FFFF` 2. Read back | All bits toggled | **SCB-3** |
-| A-C04 | `apb_scratchpad_walking_one_test` | `apb_wr_rd_seq` in loop | For `i` in 0..31: write `1<<i`, read back | 32 iterations | **SCB-3**; toggle coverage |
-| A-C05 | `apb_enable_toggle_stress_test` | `led_mux_virtual_seq` | 1. Toggle `LED_enable` 5× 2. Each time drive new `error_q` 3. Poll Done when enabled | `error_q` distinct per iteration | **SCB-1,7**; **COV** `cg_enable` all transitions |
-| A-C06 | `apb_read_during_processing_test` | `led_mux_virtual_seq` | 1. Drive `error_q` 2. Read `0x4004` **before** 60 cycles 3. Read again after poll passes | `error_q=42`; early read at cycle 10 | **SCB-2,8**; **check_60_80_cycle**; expect `Done==0` then `Done==1` |
+### 1.2 Good to have — P1 (add after P0 passes)
 
----
+| # | Test name | Block | Why add it |
+|---|---|---|---|
+| G01 | `apb_default_enable_led_path_test` | APB | Proves power-on `LED_enable=1` without APB write |
+| G02 | `apb_read_during_processing_test` | APB | `Done` before/after latency; exercises `check_60_80_cycle` |
+| G03 | `led_max_displayable_test` | LED | Upper in-range boundary `error_q=999_999` |
+| G04 | `led_sel_onehot_scan_test` | LED | Explicit multiplex scan AC-M2, AC-M3 |
+| G05 | `led_hold_time_min_test` | LED | Explicit C-4 hold (1002 cycles) |
+| G06 | `led_latency_window_test` | LED | Explicit C-5 sampling window |
+| G07 | `led_reenable_after_disable_test` | LED | Disable → enable recovery sequence |
+| G08 | `full_display_flow_test` | Integration | APB + LED + scratch pad in one flow |
+| G09 | `random_regression_test` | Integration | Coverage closure; multi-seed (×10) |
 
-## 2. LED MUX block
+### 1.3 Stretch — P2 (optional)
 
-Binary-to-BCD conversion, multiplexing, timing, reset, and segment encoding.
-
-### 2.1 LED — Basic function
-
-| # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
-|---|---|---|---|---|---|
-| L-B01 | `led_reset_values_test` | `led_reset_seq` | 1. Assert `rst_n=0` 2. Check outputs 3. Deassert reset 4. Check outputs | Sample `@(posedge clk)` after reset | **assert_sel_out_reset_value, assert_seg_out_reset_value** |
-| L-B02 | `led_single_digit_zero_test` | `led_mux_virtual_seq` | 1. Ensure `LED_enable=1` 2. Drive `error_q=0` 3. Poll Done 4. Compare all digit positions | `error_q == 0` | **SCB-4..6**; **COV** `cg_digits` digit 0 |
-| L-B03 | `led_single_digit_one_test` | `led_mux_virtual_seq` | Same as L-B02 | `error_q == 1` | **SCB-4..6**; segments for digit **1** (SPEC §4.4) |
-| L-B04 | `led_decimal_42_test` | `led_mux_virtual_seq` | 1. `LED_enable=1` 2. `error_q=42` 3. Poll Done 4. Compare | `error_q == 42` | **SCB-4..6**; **assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one, check_60_80_cycle**; expect digits `0,0,0,0,4,2` |
-| L-B05 | `led_max_displayable_test` | `led_mux_virtual_seq` | 1. Drive `error_q=999_999` 2. Poll Done 3. Compare each position | `error_q == 999_999` | **SCB-4..6**; all digits **9** |
-| L-B06 | `led_sel_onehot_scan_test` | `led_mux_virtual_seq` | 1. Drive `error_q=74565` 2. Wait ≥1002 cycles 3. Monitor collects 6+ samples | Hold exactly 1002 cycles | **assert_sel_out_onehot_active_low, cover_sel_out_digit_position**; **MON**: one-hot each sample; **COV** all positions |
-| L-B07 | `led_seg_active_low_test` | `led_mux_virtual_seq` | 1. Drive `error_q=8` (all segments on) 2. Poll Done 3. Check `seg_out[6:0]` has 0s where lit | `error_q == 8` | **SCB-6**; **assert_seg_out_bit7_always_one** |
-| L-B08 | `led_hold_time_min_test` | `led_error_seq` | 1. Drive `error_q` 2. Hold exactly 1002 cycles 3. Poll Done | Hold `error_q` for 1002 cycles (C-4) | **check_hold_1002_cycle**; **MON**: hold enforced; **SCB-4** |
-| L-B09 | `led_latency_window_test` | `led_mux_virtual_seq` | 1. Drive `error_q` 2. Wait 60–80 cycles 3. Sample outputs | `error_q=100`; do not sample before 60 cycles (C-5) | **check_60_80_cycle**; **MON** defer sampling; **SCB-8** before Done |
-
-### 2.2 LED — Corner cases
-
-| # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
-|---|---|---|---|---|---|
-| L-C01 | `led_overflow_modulo_test` | `led_mux_virtual_seq` | 1. `error_q=1_000_001` 2. Poll Done 3. Compare | `error_q == 1_000_001` → display `000001` | **SCB-9**; **COV** `cg_overflow` |
-| L-C02 | `led_overflow_max_test` | `led_mux_virtual_seq` | 1. `error_q=1_048_575` (`20'hF_FFFF`) 2. Poll Done 3. Compare | `error_q == 20'hF_FFFF` | **SCB-9**; modulo = `48_575` |
-| L-C03 | `led_overflow_boundary_test` | `led_mux_virtual_seq` | Run back-to-back: `999_999`, `1_000_000`, `1_000_001` | Three explicit values | **SCB-9**; boundary bins in **COV** |
-| L-C04 | `led_disable_blocks_update_test` | `led_mux_virtual_seq` | 1. Write `LED_enable=0` 2. Drive `error_q=55` 3. Poll Done / sample `seg_out` 4. Confirm no update | `LED_enable=0` | **SCB-7**; **COV** `cg_enable` |
-| L-C05 | `led_reenable_after_disable_test` | `led_mux_virtual_seq` | 1. Disable 2. Drive `error_q` (no effect) 3. Enable 4. Drive new `error_q` 5. Poll Done | Two different `error_q` values | **SCB-7**, then **SCB-4..6** |
-| L-C06 | `led_back_to_back_error_test` | `led_error_burst_seq` | 1. Drive `error_q=A`, hold 1002 2. Drive `error_q=B`, hold 1002 3. Poll Done after each | `A=10`, `B=99`; hold ≥1002 each | **SCB-4**; **MON** latency restarts per change |
-| L-C07 | `led_reset_during_display_test` | `led_mux_virtual_seq` + `led_reset_seq` | 1. Start display with `error_q=42` 2. Assert reset mid-hold 3. Check reset values 4. Restart test | Reset at cycle 500 of hold | **assert_sel_out_reset_value, assert_seg_out_reset_value**; **SCB-8** during reset |
-| L-C08 | `led_done_clear_after_reset_test` | `led_mux_virtual_seq` | 1. Complete one display (`Done=1`) 2. Reset 3. Read `Done` | — | **SCB-2**; **AC-D2** |
-| L-C09 | `led_hold_below_min_negative_test` | `led_error_seq` + expect fail | 1. Hold `error_q` for 1000 cycles (< C-4 min) 2. Drive `error_q` | Hold duration 1000 cycles (violates C-4) | **MON**/test expect **failure** or DUT not Done |
-| L-C10 | `led_all_digits_0_to_9_test` | `led_mux_virtual_seq` in loop | For `d` in 0..9: drive `error_q=d` (or value with ones digit `d`) | 10 iterations | **SCB-5**; **cover_seg_out_decimal_digit**; **COV** `cg_digits` full |
+| # | Test name | Block | Notes |
+|---|---|---|---|
+| S01 | `apb_done_read_only_test` | APB | RO `Done` write attempt |
+| S02 | `apb_done_poll_timeout_test` | APB | `Done==0` without `error_q` |
+| S03 | `apb_scratchpad_all_ones_test` | APB | Bit-pattern stress |
+| S04 | `apb_scratchpad_walking_one_test` | APB | 32-step walking-one |
+| S05 | `apb_enable_toggle_stress_test` | APB | Rapid `LED_enable` toggle |
+| S06 | `led_single_digit_zero_test` | LED | Redundant with E08/E11 |
+| S07 | `led_single_digit_one_test` | LED | Redundant with E08/E11 |
+| S08 | `led_seg_active_low_test` | LED | Partial AC-B3; covered by scoreboard in E08 |
+| S09 | `led_overflow_max_test` | LED | Max `error_q` corner |
+| S10 | `led_overflow_boundary_test` | LED | 999_999 / 1_000_000 / 1_000_001 sweep |
+| S11 | `led_back_to_back_error_test` | LED | Consecutive `error_q` updates |
+| S12 | `led_reset_during_display_test` | LED | Reset mid-hold recovery |
+| S13 | `led_done_clear_after_reset_test` | LED | AC-D2 explicit |
+| S14 | `led_hold_below_min_negative_test` | LED | Negative test (violates C-4) |
+| S15 | `scratch_then_display_test` | Integration | Scratch + display ordering |
+| S16 | `virtual_seq_stress_test` | Integration | 20× random virtual sequence |
+| S17 | `enable_off_overflow_test` | Integration | Enable gating + overflow combo |
+| S18 | `poll_until_done_stress_test` | Integration | Tight `Done` poll loop |
 
 ---
 
-## 3. Integration block (APB + LED)
+## 2. Essential tests — detail (P0)
 
-Cross-interface scenarios using `led_mux_virtual_seq`.
+Full sequence, constraint, and checker detail for each **essential** test only. See §3–§4 for P1/P2 summaries.
 
-### 3.1 Integration — Basic function
+### 2.1 APB — Essential
+
+| # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
+|---|---|---|---|---|---|
+| E02 | `apb_reset_defaults_test` | `led_reset_seq` → `apb_read_seq` ×3 | 1. Reset DUT 2. Read `0x4000` (expect `LED_enable=1`) 3. Read `0x4004` (expect `Done=0`) 4. Read `0x4008` (expect `0`) | No APB traffic during reset assert | **SCB-1, SCB-2, SCB-3**; **assert_sel_out_reset_value, assert_seg_out_reset_value** |
+| E03 | `apb_led_enable_write_read_test` | `apb_wr_rd_seq` | 1. Write `0x4000 = 0` 2. Read `0x4000` 3. Write `0x4000 = 1` 4. Read `0x4000` | `wdata[0]` only (FR 3.4) | **SCB-1**; **COV** `cg_enable` |
+| E04 | `apb_scratchpad_wr_rd_test` | `apb_wr_rd_seq` | 1. Write `0x4008 = 32'hDEAD_BEEF` 2. Read `0x4008` | Full 32-bit `wdata` | **SCB-3** |
+| E05 | `apb_invalid_addr_test` | `apb_invalid_addr_seq` | 1. Write `0x5000` 2. Check `pslerr` 3. Read `0x0000` 4. Check `pslerr` | Addr outside `{0x4000,0x4004,0x4008}` | **assert_apb_pslerr_invalid_addr**; **MON** `pslerr==1` |
+| E06 | `apb_pready_no_wait_test` | `apb_write_seq` + `apb_read_seq` | 1. Write `0x4000` 2. Read `0x4004` | Standard 2-phase APB (C-6) | **assert_apb_setup_phase, assert_apb_access_phase, assert_apb_pready_complete** |
+
+### 2.2 LED — Essential
+
+| # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
+|---|---|---|---|---|---|
+| E07 | `led_reset_values_test` | `led_reset_seq` | 1. Assert `rst_n=0` 2. Check outputs 3. Deassert reset 4. Check outputs | Sample after reset (FR 3.3) | **assert_sel_out_reset_value, assert_seg_out_reset_value** |
+| E08 | `led_decimal_42_test` | `led_mux_virtual_seq` | 1. `LED_enable=1` 2. `error_q=42` 3. Poll Done 4. Compare digits `0,0,0,0,4,2` | C-4 hold ≥1002; C-5 latency | **SCB-4..6, SCB-8**; **assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one, check_60_80_cycle** |
+| E09 | `led_overflow_modulo_test` | `led_mux_virtual_seq` | 1. `error_q=1_000_001` 2. Poll Done 3. Expect display `000001` | Golden = `error_q % 1_000_000` | **SCB-9**; **COV** `cg_overflow` |
+| E10 | `led_disable_blocks_update_test` | `led_mux_virtual_seq` | 1. Write `LED_enable=0` 2. Drive `error_q=55` 3. Confirm no `seg_out` update | `LED_enable=0` (FR 3.4) | **SCB-7**; **COV** `cg_enable` |
+| E11 | `led_all_digits_0_to_9_test` | `led_mux_virtual_seq` loop | For `d` in 0..9: drive value with ones digit `d`; poll Done; compare encoding | 10 iterations | **SCB-5**; **cover_seg_out_decimal_digit**; **COV** `cg_digits` |
+
+### 2.3 Integration — Essential
 
 | # | Test name | Sequence flow | Constraints | Checkers |
 |---|---|---|---|---|
-| I-B01 | `smoke_test` | Reset → default enable → `error_q=42` → poll Done → scoreboard | `error_q=42` | Full **SCB** path; all **assert_** / **cover_** / **check_** properties from §0.3 |
-| I-B02 | `full_display_flow_test` | Write enable → drive error → poll Done → read scratch → read Done | `error_q` random in `[0:999_999]` | **SCB-1..6,8** |
-| I-B03 | `scratch_then_display_test` | Scratch write/read → LED display → read Done | Independent `wdata` and `error_q` | **SCB-3** + **SCB-4..6** |
-
-### 3.2 Integration — Corner cases
-
-| # | Test name | Sequence flow | Constraints | Checkers |
-|---|---|---|---|---|
-| I-C01 | `random_regression_test` | Random order: APB wr/rd, enable toggles, random `error_q`, poll Done | `error_q` dist: in-range 80%, overflow 20%; hold ≥1002 cycles (C-4) | All **SCB**, all §0.3 properties, **COV** closure target |
-| I-C02 | `virtual_seq_stress_test` | 20× random virtual sequence (stretch goal Day 4) | Seed-controlled (`+ntb_random_seed`) | Regression + coverage merge |
-| I-C03 | `enable_off_overflow_test` | Disable → drive overflow `error_q` → enable → drive in-range | `error_q=1_000_050` then `50` | **SCB-7,9** |
-| I-C04 | `poll_until_done_stress_test` | Tight poll loop on `0x4004` while LED processes | Poll every 5 cycles | **SCB-2,8**; no false fails |
+| E01 | `smoke_test` | Reset → default enable → `error_q=42` → poll Done → scoreboard | `error_q=42` | Full **SCB**; all §0.3 **assert_** / **cover_** / **check_** properties |
 
 ---
 
-## 4. Constraint reference by feature
+## 3. Good-to-have tests — detail (P1)
+
+| # | Test name | Sequence flow (summary) | Constraints | Checkers |
+|---|---|---|---|---|
+| G01 | `apb_default_enable_led_path_test` | No write `0x4000` → drive `error_q=7` → poll Done → compare | Default `LED_enable=1` | **SCB-1, SCB-4..6, SCB-8**; **assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one** |
+| G02 | `apb_read_during_processing_test` | Drive `error_q=42` → read `Done` at cycle 10 → poll after latency | C-5 early read | **SCB-2, SCB-8**; **check_60_80_cycle** |
+| G03 | `led_max_displayable_test` | Drive `error_q=999_999` → poll Done → all digits **9** | In-range max | **SCB-4..6** |
+| G04 | `led_sel_onehot_scan_test` | Drive `error_q=74565` → hold 1002 → sample `sel_out` one-hot | C-4 | **assert_sel_out_onehot_active_low, cover_sel_out_digit_position** |
+| G05 | `led_hold_time_min_test` | Drive `error_q` → hold exactly 1002 → poll Done | C-4 | **check_hold_1002_cycle**; **SCB-4** |
+| G06 | `led_latency_window_test` | Drive `error_q=100` → wait 60–80 cycles → sample | C-5 | **check_60_80_cycle**; **SCB-8** |
+| G07 | `led_reenable_after_disable_test` | Disable → drive (no effect) → enable → drive new value → poll Done | Two `error_q` values | **SCB-7**, then **SCB-4..6** |
+| G08 | `full_display_flow_test` | Enable → random `error_q` → poll Done → read scratch → read Done | `error_q` in `[0:999_999]` | **SCB-1..6, SCB-8** |
+| G09 | `random_regression_test` | Random APB + LED virtual sequence; 80% in-range / 20% overflow | C-4; multi-seed | All **SCB**, all §0.3 properties, **COV** |
+
+---
+
+## 4. Stretch tests (P2)
+
+Optional — implement only if P0 and P1 are green and time remains. See §1.3 for the full list. These tests add stress, redundancy, or negative scenarios; they do not block initial sign-off.
+
+---
+
+## 5. Full test catalogue (reference)
+
+All 38 tests with priority rank. Implement **P0** first (§2), then **P1** (§3), then **P2** (§4).
+
+| Rank | ID | Test name | Block | Type |
+|---|---|---|---|---|
+| P0 | E01 | `smoke_test` | Integration | BASIC |
+| P0 | E02 | `apb_reset_defaults_test` | APB | BASIC |
+| P0 | E03 | `apb_led_enable_write_read_test` | APB | BASIC |
+| P0 | E04 | `apb_scratchpad_wr_rd_test` | APB | BASIC |
+| P0 | E05 | `apb_invalid_addr_test` | APB | CORNER |
+| P0 | E06 | `apb_pready_no_wait_test` | APB | BASIC |
+| P0 | E07 | `led_reset_values_test` | LED | BASIC |
+| P0 | E08 | `led_decimal_42_test` | LED | BASIC |
+| P0 | E09 | `led_overflow_modulo_test` | LED | CORNER |
+| P0 | E10 | `led_disable_blocks_update_test` | LED | CORNER |
+| P0 | E11 | `led_all_digits_0_to_9_test` | LED | CORNER |
+| P1 | G01 | `apb_default_enable_led_path_test` | APB | BASIC |
+| P1 | G02 | `apb_read_during_processing_test` | APB | CORNER |
+| P1 | G03 | `led_max_displayable_test` | LED | BASIC |
+| P1 | G04 | `led_sel_onehot_scan_test` | LED | BASIC |
+| P1 | G05 | `led_hold_time_min_test` | LED | BASIC |
+| P1 | G06 | `led_latency_window_test` | LED | BASIC |
+| P1 | G07 | `led_reenable_after_disable_test` | LED | CORNER |
+| P1 | G08 | `full_display_flow_test` | Integration | BASIC |
+| P1 | G09 | `random_regression_test` | Integration | CORNER |
+| P2 | S01 | `apb_done_read_only_test` | APB | BASIC |
+| P2 | S02 | `apb_done_poll_timeout_test` | APB | CORNER |
+| P2 | S03 | `apb_scratchpad_all_ones_test` | APB | CORNER |
+| P2 | S04 | `apb_scratchpad_walking_one_test` | APB | CORNER |
+| P2 | S05 | `apb_enable_toggle_stress_test` | APB | CORNER |
+| P2 | S06 | `led_single_digit_zero_test` | LED | BASIC |
+| P2 | S07 | `led_single_digit_one_test` | LED | BASIC |
+| P2 | S08 | `led_seg_active_low_test` | LED | BASIC |
+| P2 | S09 | `led_overflow_max_test` | LED | CORNER |
+| P2 | S10 | `led_overflow_boundary_test` | LED | CORNER |
+| P2 | S11 | `led_back_to_back_error_test` | LED | CORNER |
+| P2 | S12 | `led_reset_during_display_test` | LED | CORNER |
+| P2 | S13 | `led_done_clear_after_reset_test` | LED | CORNER |
+| P2 | S14 | `led_hold_below_min_negative_test` | LED | CORNER |
+| P2 | S15 | `scratch_then_display_test` | Integration | BASIC |
+| P2 | S16 | `virtual_seq_stress_test` | Integration | CORNER |
+| P2 | S17 | `enable_off_overflow_test` | Integration | CORNER |
+| P2 | S18 | `poll_until_done_stress_test` | Integration | CORNER |
+
+---
+
+## 6. Constraint reference by feature
 
 Quick lookup from **SPEC.md** when writing tests and sequences.
 
-### 4.1 APB register feature
+### 6.1 APB register feature
 
 | Feature | Constraint | Spec ref |
 |---|---|---|
@@ -212,7 +291,7 @@ Quick lookup from **SPEC.md** when writing tests and sequences.
 | Invalid access | `addr NOT IN {16'h4000, 16'h4004, 16'h4008}` | AC-A2 |
 | APB protocol | Two-phase SETUP / ACCESS | C-6, AC-A3 |
 
-### 4.2 LED display feature
+### 6.2 LED display feature
 
 | Feature | Constraint | Spec ref |
 |---|---|---|
@@ -225,7 +304,7 @@ Quick lookup from **SPEC.md** when writing tests and sequences.
 | Segment encoding | `seg_out[6:0]` active-low; `seg_out[7]==1` when active | FR 3.1, AC-B2, AC-B3 |
 | Enable gating | `LED_enable==0` → `error_q` not propagated to `seg_out` | FR 3.4, AC-E2 |
 
-### 4.3 Scoreboard compare gating
+### 6.3 Scoreboard compare gating
 
 | Condition | Compare `seg_out`? |
 |---|---|
@@ -236,7 +315,7 @@ Quick lookup from **SPEC.md** when writing tests and sequences.
 
 ---
 
-## 5. Test → checker traceability matrix
+## 7. Test → checker traceability (P0 only)
 
 | Test name | SCB | SVA / check properties | COV | MON |
 |---|---|---|---|---|
@@ -254,67 +333,74 @@ Quick lookup from **SPEC.md** when writing tests and sequences.
 
 ---
 
-## 6. Recommended build order
+## 8. Recommended build order
 
 | Day | Build | Run tests |
 |---|---|---|
 | 1 | This testplan + ARCHITECTURE.md | — |
-| 2 | Agents, drivers, monitors, `apb_*_seq`, `led_error_seq`, `smoke_test` | I-B01, A-B06, L-B04 |
-| 3 | `led_scoreboard`, `led_mux_sva`, `led_coverage` | L-B01–B09, A-B01–B05 |
-| 4 | `led_mux_virtual_seq`, corner tests, `random_regression_test` | All CORNER + I-C01 |
-| 5 | Coverage closure, multi-seed regression | Fill **COV** holes from §0.4 |
-| 6 | Annotate pass/fail + coverage in this doc for presentation | — |
+| 2 | Agents, drivers, monitors, `apb_*_seq`, `led_error_seq`, `smoke_test` | **P0:** E01, E08 |
+| 3 | `led_scoreboard`, `led_mux_sva`, `led_coverage` | **P0:** E02–E07, E09–E11 |
+| 4 | `led_mux_virtual_seq`, P1 tests | **P1:** G01–G09 |
+| 5 | Coverage closure, multi-seed `random_regression_test` | **P1:** G09 ×10 seeds |
+| 6 | P2 stretch (optional); annotate results | **P2** as time allows |
 
 ---
 
-## 7. Regression suite (minimum)
+## 9. Regression suite
 
-| Priority | Test name | Type | Seed |
-|---|---|---|---|
-| P0 | `smoke_test` | BASIC | fixed |
-| P0 | `apb_reset_defaults_test` | BASIC | fixed |
-| P0 | `led_decimal_42_test` | BASIC | fixed |
-| P0 | `led_overflow_modulo_test` | CORNER | fixed |
-| P1 | `apb_invalid_addr_test` | CORNER | fixed |
-| P1 | `led_disable_blocks_update_test` | CORNER | fixed |
-| P1 | `led_all_digits_0_to_9_test` | CORNER | fixed |
-| P2 | `random_regression_test` | CORNER | random ×10 seeds |
+| Rank | Test name | Type | Seed | When to run |
+|---|---|---|---|---|
+| P0 | `smoke_test` | BASIC | fixed | Every build |
+| P0 | `apb_reset_defaults_test` | BASIC | fixed | Every build |
+| P0 | `apb_led_enable_write_read_test` | BASIC | fixed | Every build |
+| P0 | `apb_scratchpad_wr_rd_test` | BASIC | fixed | Every build |
+| P0 | `apb_invalid_addr_test` | CORNER | fixed | Every build |
+| P0 | `apb_pready_no_wait_test` | BASIC | fixed | Every build |
+| P0 | `led_reset_values_test` | BASIC | fixed | Every build |
+| P0 | `led_decimal_42_test` | BASIC | fixed | Every build |
+| P0 | `led_overflow_modulo_test` | CORNER | fixed | Every build |
+| P0 | `led_disable_blocks_update_test` | CORNER | fixed | Every build |
+| P0 | `led_all_digits_0_to_9_test` | CORNER | fixed | Nightly |
+| P1 | `random_regression_test` | CORNER | random ×10 | Coverage closure |
+| P1 | `led_sel_onehot_scan_test` | BASIC | fixed | After P0 green |
+| P1 | `led_hold_time_min_test` | BASIC | fixed | After P0 green |
+| P1 | `led_latency_window_test` | BASIC | fixed | After P0 green |
 
 ---
 
-## 8. Acceptance criteria mapping
+## 10. Acceptance criteria mapping
 
-| Spec AC | Covered by tests |
+| Spec AC | Covered by (minimum = P0) |
 |---|---|
-| AC-R1, AC-R2 | L-B01, `apb_reset_defaults_test` |
-| AC-E1, AC-E2 | A-B02, L-C04, L-C05 |
-| AC-B1, AC-B2, AC-B3 | L-B02–B07, L-C10 |
-| AC-B4 | L-C01, L-C02, L-C03 |
-| AC-M1, AC-M2, AC-M3 | L-B06, L-B08 |
-| AC-D1, AC-D2 | I-B02, L-C08 |
-| AC-A1 | A-B03, A-C03, A-C04 |
-| AC-A2 | A-C01 |
-| AC-A3 | A-B05 |
-| AC-C1 | L-C10, `random_regression_test` |
-| AC-C2 | All tests + §0.4 covergroups |
-| AC-C3 | §0.3 `assert_sel_out_reset_value`, `assert_sel_out_onehot_active_low`, `assert_seg_out_bit7_always_one` (minimum) |
+| AC-R1, AC-R2 | E02, E07 |
+| AC-E1, AC-E2 | E03, E10 (+ G07 P1 for re-enable) |
+| AC-B1, AC-B2, AC-B3 | E08, E11 (+ G03 P1 for max value) |
+| AC-B4 | E09 |
+| AC-M1, AC-M2, AC-M3 | E08 (+ G04, G05 P1 for explicit timing/scan) |
+| AC-D1, AC-D2 | E01, E08 (+ S13 P2 for Done-after-reset) |
+| AC-A1 | E04 |
+| AC-A2 | E05 |
+| AC-A3 | E06 |
+| AC-C1 | E11 (+ G09 P1 for random closure) |
+| AC-C2 | P0 tests + §0.4 covergroups; close gaps with G09 |
+| AC-C3 | §0.3 minimum: `assert_sel_out_reset_value`, `assert_sel_out_onehot_active_low`, `assert_seg_out_bit7_always_one` |
 
 ---
 
-## 9. Generated testplan format (Excel / HVP)
+## 11. Generated testplan format (Excel / HVP)
 
 Use the course template as the **authoritative output format** when submitting or annotating coverage results.
 
 **Template file:** `LED_MUX_CONTROLLER_stu/Template-TestPlan.xlsx`  
 **Companion reference:** `LED_MUX_CONTROLLER_stu/Template-TestPlan.xml` (same content, HVP-compatible)
 
-Copy the template to a working file (e.g. `LED_MUX_CONTROLLER_testplan.xlsx`) and fill it from the test entries in §1–§3 of this document.
+Copy the template to a working file (e.g. `LED_MUX_CONTROLLER_testplan.xlsx`) and fill **P0 tests first**, then P1. See **§11.6** to generate.
 
-**Generate the Excel file** using the project script (see **§9.6**).
+**Generate the Excel file** using the project script (see **§11.6**).
 
 ---
 
-### 9.1 Sheet: `TestPlan` (primary deliverable)
+### 11.1 Sheet: `TestPlan` (primary deliverable)
 
 This is the main HVP-style testplan grid. One row per verifiable sub-feature.
 
@@ -325,12 +411,13 @@ This is the main HVP-style testplan grid. One row per verifiable sub-feature.
 | **A** | `hvp plan` | Row 2 only: plan name (e.g. `led_mux_controller_testplan`). Leave blank on feature rows unless starting a new plan block. |
 | **B** | `Feature` | Top-level block — use **`APB Controller`**, **`LED MUX`**, or **`Integration`**. Repeat on first row of each block; leave blank on continuation rows (same as template). |
 | **C** | `Sub Feature` | Specific behavior under test (short phrase, not the UVM class name). |
-| **D** | `$owner` | Verification owner — **your name** (prompted at generation time; see §9.6) |
+| **D** | `$owner` | Verification owner — **your name** (prompted at generation time; see §11.6) |
 | **E** | `$description` | Numbered stimulus + check steps. Include sequence flow, constrained values, and expected result. |
 | **F** | `Assertions/Cover property` | Named SVA properties from §0.3 (e.g. `assert_sel_out_onehot_active_low`, `check_60_80_cycle`) |
 | **G** | `Covergroups` | Functional covergroup + bins (e.g. `cg_digits`, `cg_enable`). |
 | **H** | `Code Coverage` | RTL code-coverage goal: `line`, `branch`, `cond`, `fsm`, `toggle` as applicable. |
 | **I** | `Tests` | UVM test class name exactly as run by Makefile: `make dv TESTNAME=<Tests>`. |
+| **J** | `Priority` | Test rank from §1: **`P0`** (essential), **`P1`** (good to have), **`P2`** (stretch). |
 
 #### Row rules
 
@@ -339,22 +426,20 @@ This is the main HVP-style testplan grid. One row per verifiable sub-feature.
 | **1** | Header row — do not edit column titles. |
 | **2** | Plan name in column **A** (`led_mux_controller_testplan`). Other columns blank. |
 | **3+** | One row per sub-feature. Group by **Feature** (col B). Sub-features (col C) nest under the current feature block. |
-| **Description** | Use numbered steps: `1)` stimulus, `2)` wait/poll, `3)` checker expectation. One step per line; no orphan `.` lines (see §9.6). |
+| **Description** | Use numbered steps: `1)` stimulus, `2)` wait/poll, `3)` checker expectation. One step per line; no orphan `.` lines (see §11.6). |
 | **Tests** | One primary test per row. If multiple tests cover the same sub-feature, either duplicate the row or list the main test and note alternates in `$description`. |
 
 #### Feature block convention (this project)
 
 | Feature (col B) | Maps to TESTPLAN.md |
 |---|---|
-| `APB Controller` | §1 — register access, protocol, enable/Done/scratch |
-| `LED MUX` | §2 — display, multiplexing, timing, overflow, reset |
-| `Integration` | §3 — cross-interface virtual sequences |
-| `General and basic sequence` | Optional prefix for reset/smoke rows (matches template style) |
-| `Corner cases` | Use as **Feature** for stress rows, or as a **Sub Feature** under APB/LED (either is acceptable; be consistent within your file) |
+| `APB Controller` | §2 / §5 — APB tests |
+| `LED MUX` | §2 / §5 — LED tests |
+| `Integration` | §2 / §5 — cross-interface tests |
 
 ---
 
-### 9.2 Sheet: `Sheet1` (per-test checklist — optional)
+### 11.2 Sheet: `Sheet1` (per-test checklist — optional)
 
 The template includes a second sheet with extended fields for individual test review. Use it when you need more detail than the HVP grid allows.
 
@@ -369,27 +454,28 @@ The template includes a second sheet with extended fields for individual test re
 | **Test Steps** | Copy **Sequence flow** from §1–§3 |
 | **Pass/Fail Criteria** | Scoreboard pass, SVA clean, expected register values, coverage bin hit |
 | **Type** | `BASIC` or `CORNER` |
-| **Weight** | Priority: P0 = high, P1 = medium, P2 = low (from §7) |
+| **Weight** | Rank: **P0** (essential), **P1** (good to have), **P2** (stretch) — from §1 |
 | **Goal** | Spec AC IDs (e.g. `AC-R1`, `AC-B4`) |
 
 ---
 
-### 9.3 Mapping: this document → Excel columns
+### 11.3 Mapping: this document → Excel columns
 
 | TESTPLAN.md field | Excel column |
 |---|---|
-| Test name (§1–§3 tables) | **Tests** (I) |
+| Test name (§2–§3) | **Tests** (I) |
+| Rank (§1) | **Priority** (J) — `P0` / `P1` / `P2` |
 | Block (APB / LED / Integration) | **Feature** (B) |
 | Scenario title / focus | **Sub Feature** (C) |
 | Sequence flow | **$description** (E) — steps 1), 2), 3) |
 | Constraints | **$description** (E) — under a "Constraints:" line or inline |
 | SCB-* / SVA / MON / COV tags | **Assertions/Cover property** (F) and **Covergroups** (G) — use §0.3 **names**, not numeric IDs |
 | Spec AC (§8) | **$description** (E) or **Sheet1 → Goal** |
-| Regression priority (§7) | **Sheet1 → Weight** |
+| Regression priority (§9) | **Sheet1 → Weight** (P0 / P1 / P2) |
 
 ---
 
-### 9.4 Example export rows (copy into `TestPlan` sheet)
+### 11.4 Example export rows (P0 only)
 
 Plan name for row 2: **`led_mux_controller_testplan`**
 
@@ -409,11 +495,11 @@ Plan name for row 2: **`led_mux_controller_testplan`**
 | Integration | End-to-end smoke | slpoh | 1) Reset. 2) Default enable. 3) `error_q=42`. 4) Poll Done. 5) Scoreboard pass. | all §0.3 assert/cover/check properties | cg_error_q, cg_digits, cg_enable | all | `smoke_test` |
 | Integration | Random regression | slpoh | 1) Random APB + LED virtual sequence. 2) `error_q` 80% in-range, 20% overflow. 3) Coverage closure. Constraints: C-4, C-2/C-3; seed via `+ntb_random_seed`. | all §0.3 assert/cover/check properties | All covergroups | all | `random_regression_test` |
 
-Export **every** row from §1–§3 into this format for presentation. The table above shows the pattern; complete the file with all `A-B**`, `A-C**`, `L-B**`, `L-C**`, `I-B**`, and `I-C**` entries.
+Export **P0 rows first** for presentation; add P1/P2 when implemented. Use `python scripts/generate_testplan.py --tier p0` for essential-only Excel.
 
 ---
 
-### 9.5 Execution annotation (post-run)
+### 11.5 Execution annotation (post-run)
 
 After regression (Day 5), annotate the Excel testplan for the metrics-driven loop:
 
@@ -426,7 +512,7 @@ After regression (Day 5), annotate the Excel testplan for the metrics-driven loo
 
 ---
 
-### 9.6 Generate Excel testplan (script)
+### 11.6 Generate Excel testplan (script)
 
 **Script:** `scripts/generate_testplan.py`  
 **Output:** `LED_MUX_CONTROLLER_testplan.xlsx`
@@ -446,7 +532,13 @@ python scripts/generate_testplan.py
 Non-interactive (CI or repeat runs):
 
 ```bash
-python scripts/generate_testplan.py --owner "Your Name"
+python scripts/generate_testplan.py --owner "slpoh"
+# Essential only (11 tests, all P0):
+python scripts/generate_testplan.py --owner "slpoh" --tier p0
+# P0 + P1 (20 tests):
+python scripts/generate_testplan.py --owner "slpoh" --tier p1
+# All tests with Priority column (38, default):
+python scripts/generate_testplan.py --owner "slpoh" --tier all
 ```
 
 #### $description formatting rules
@@ -461,7 +553,7 @@ Each `$description` cell contains:
 
 #### Regenerate after edits
 
-After updating test entries in §1–§3 or SVA property names in §0.3, re-run the script so Excel stays in sync with this document.
+After updating test entries in §2–§3 or SVA property names in §0.3, re-run the script.
 
 #### SVA names in Excel column F
 

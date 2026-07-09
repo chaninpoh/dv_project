@@ -12,4 +12,5 @@ export UVM_LIBS="$ROOT/libs"
 export COVERAGE=1
 export ASSERT=1
 export UVM_HOME=/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2
+export UVM_VERSION=uvm-1.2
 export SEED=0
