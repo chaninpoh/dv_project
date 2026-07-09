@@ -10,7 +10,7 @@ class led_transaction extends uvm_sequence_item;
   
   rand bit [7:0] seg_out;
   rand bit [5:0] sel_out;
-
+  bit [19:0] error_q;
 
   rand int unsigned probt; //probability, use in SLAVE_IF only 
 
@@ -19,6 +19,7 @@ class led_transaction extends uvm_sequence_item;
   `uvm_object_utils_begin(led_transaction) //TUTORIAL 1
   `uvm_field_int (seg_out,UVM_ALL_ON | UVM_NOCOMPARE);
   `uvm_field_int (sel_out,UVM_ALL_ON| UVM_NOCOMPARE | UVM_BIN);
+  `uvm_field_int (error_q,UVM_ALL_ON| UVM_NOCOMPARE);
   `uvm_object_utils_end
   //use uvm_object_utils_begin and uvm_object_utils_end 
   

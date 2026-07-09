@@ -4,6 +4,8 @@
 module top_tb;
 
   import uvm_pkg::*;
+  import apb_agent_pkg::*;
+  import led_agent_pkg::*;
 
   `include "test_lib.svh"
 

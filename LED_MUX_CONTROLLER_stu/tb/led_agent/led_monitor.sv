@@ -21,6 +21,7 @@ class led_monitor extends uvm_monitor;
   endfunction
 
   function void build_phase(uvm_phase phase);
+    `uvm_info(get_type_name(), "Build phase for led_monitor", UVM_LOW)
     // Get interface reference from config database
      analysis_port = new("analysis_port",this); 
   if(!uvm_config_db#(virtual led_if)::get(this, "", "dut_vif", dut_vif)) begin

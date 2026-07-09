@@ -1,4 +1,4 @@
-// Phase 1 filelist — minimal RTL + testbench top (no agents yet)
+// Phase 2 filelist — RTL + agent packages + testbench top (no test_lib / *_test.sv)
 +incdir+../src
 +incdir+../src/AMBA/APB
 ../src/AMBA/APB/APB_Slave.sv
@@ -13,4 +13,6 @@
 +incdir+../tb/led_agent
 ../tb/apb_agent/apb_if.sv
 ../tb/led_agent/led_if.sv
+../tb/apb_agent/apb_agent_pkg.svh
+../tb/led_agent/led_agent_pkg.svh
 ../tb/top_tb.sv

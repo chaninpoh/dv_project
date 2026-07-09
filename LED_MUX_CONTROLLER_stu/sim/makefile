@@ -4,7 +4,7 @@ SEED     ?= 0
 COMP_LOG = $(MODULE)_comp.log
 SIM_LOG  = $(TESTNAME)_seed_$(SEED)_sim.log
 
-.PHONY: dv clean run_dv compile run gate1 phase1
+.PHONY: dv clean run_dv compile run gate1 phase1 gate2 phase2
 
 dv: run_dv
 
@@ -33,3 +33,9 @@ gate1:
 
 phase1: run_dv gate1
 	@echo "Phase 1 complete."
+
+gate2:
+	@./check_phase2_gate.sh $(COMP_LOG) $(SIM_LOG)
+
+phase2: run_dv gate2
+	@echo "Phase 2 complete."

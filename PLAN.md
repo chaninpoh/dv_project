@@ -490,7 +490,6 @@ Per ARCHITECTURE.md §3 and §4, integrate in this order. **Stop after each row,
 
 ```systemverilog
 function void end_of_elaboration_phase(uvm_phase phase);
-  super.end_of_elaboration_phase(phase);
   factory = uvm_factory::get();  // get the factory instance handle
   factory.print();
   uvm_top.print_topology();

@@ -17,6 +17,7 @@ super.new(name, parent) ;
 endfunction
 
 function void build_phase(uvm_phase phase);
+`uvm_info(get_type_name(), "Build phase for led_driver", UVM_LOW)
 // Get interface reference from config database
 if(!uvm_config_db#(virtual led_if) :: get(this, "", "dut_vif", dut_vif) ) begin
 `uvm_error("", "uvm_config_db: :get failed")
@@ -32,9 +33,7 @@ endtask
 task run_phase(uvm_phase phase) ;
 drive_0_at_reset();
 
-// First toggle reset
-// dut_vif.reset = 1;
-wait(dut_vif.reset == 0);
+wait(dut_vif.rst_n == 1'b1);
 
 // Now drive normal traffic
 forever begin

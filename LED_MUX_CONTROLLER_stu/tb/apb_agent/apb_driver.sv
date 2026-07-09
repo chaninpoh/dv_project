@@ -17,6 +17,7 @@ class apb_driver extends uvm_driver #(apb_transaction);
   endfunction
 
   function void build_phase(uvm_phase phase);
+    `uvm_info(get_type_name(), "Build phase for apb_driver", UVM_LOW)
     // Get interface reference from config database
     if(!uvm_config_db#(virtual apb_if)::get(this, "", "dut_vif", dut_vif)) begin
        `uvm_error("", "uvm_config_db::get failed")

@@ -1,1 +1,4 @@
+`include "led_env.sv"
+`include "base_test.sv"
 `include "phase1_tb_top_test.sv"
+`include "phase2_agent_sanity_test.sv"
