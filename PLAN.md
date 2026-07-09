@@ -39,12 +39,14 @@ chmod +x check_phase1_gate.sh check_phase2_gate.sh check_phase3_gate.sh 2>/dev/n
 
 ### Phase 1 — commands to run
 
+**Confirm before run** — agent prints this; user verifies `TESTNAME` matches the gate test:
+
 ```bash
 cd LED_MUX_CONTROLLER_stu
 source proj1.setup
 cd sim
 make clean
-make phase1 TESTNAME=phase1_tb_top_test SEED=0
+make dv TESTNAME=phase1_tb_top_test SEED=0
 ```
 
 **Logs to check after run:**
@@ -84,6 +86,16 @@ Log files to expect:
 
 Gate criteria (every phase): phase marker present, zero `UVM_ERROR` / `UVM_FATAL`, no compile `error-` / `syntax error`.
 
+### Standard run command (this project)
+
+All phases use the course makefile wrapper:
+
+```bash
+make dv TESTNAME=<testname> SEED=0
+```
+
+`make dv` invokes `run_sim.csh` (compile + elaborate + simulate). Override `TESTNAME` and `SEED` per test.
+
 ---
 
 ## Phase overview
@@ -93,10 +105,10 @@ Gate criteria (every phase): phase marker present, zero `UVM_ERROR` / `UVM_FATAL
 | **1** | Testbench top | Static `top_tb` instantiates DUT + interfaces, drives clk/rst, publishes virtual interfaces, and starts UVM | `phase1_tb_top_test` |
 | **2** | UVM agents | `base_test` + incremental agent integration; factory topology dump; both agents active in env | `phase2_agent_sanity_test` |
 | **3** | P0 tests + checkers | Implement all 11 P0 tests from `LED_MUX_CONTROLLER_testplan.xlsx` feature-by-feature; one `led_scoreboard`, one `led_mux_sva` bind file | Per-test gate → `regress_p0` |
-| **4** | P0 regression sign-off | All 11 P0 tests pass in one `make regress_p0` run | `regress_p0` clean logs |
+| **4** | P0 regression sign-off | All 11 P0 tests pass via `./regress_p0.sh` | `regress_p0` clean logs |
 | **5** | Coverage closure | P1 tests + `random_regression_test`; functional/code coverage annotated | TESTPLAN Excel |
 
-> **Phases 1–3 are fully detailed below.** Phases 4–5 follow the same gate pattern. Do not start Phase 3 until Phase 2 review gate passes.
+> **Phases 1–4 are detailed below.** Phase 5 follows the same gate pattern. Do not start Phase 3 until Phase 2 review gate passes.
 
 ---
 
@@ -120,9 +132,10 @@ Gate criteria (every phase): phase marker present, zero `UVM_ERROR` / `UVM_FATAL
 | 1.8 | In `initial` block: `uvm_config_db#(virtual apb_if)::set(...)` and `uvm_config_db#(virtual led_if)::set(...)` | `tb/top_tb.sv` |
 | 1.9 | Call **`run_test()`** (no hard-coded test name in `top_tb`) | `tb/top_tb.sv` |
 | 1.10 | Create **`phase1_tb_top_test`** — empty env optional; `run_phase` prints phase marker | `tb/phase1_tb_top_test.sv` |
-| 1.11 | Add test to **`test_lib.svh`** only; **`include test_lib.svh` in `top_tb.sv` immediately after `import uvm_pkg::*`** — **do not** list `test_lib.svh` or any `*_test.sv` in **`dut.f`** (avoids duplicate compile / elaboration errors) | `tb/test_lib.svh`, `tb/top_tb.sv` |
-| 1.12 | **User runs** `make compile` then `make run` (agent provides commands only) | `dut_comp.log`, `phase1_tb_top_test_seed_0_sim.log` |
-| 1.13 | **User prompts** log check; agent runs **review gate** (§1.4) | Gate PASS / FAIL |
+| 1.11 | Add test to **`test_lib.svh`** only; **`include` in `top_tb.sv` after `import uvm_pkg::*`** — **do not** list `test_lib.svh` or `*_test.sv` in **`dut.f`** | `tb/test_lib.svh`, `tb/top_tb.sv` |
+| 1.12 | **Agent prompts user** to confirm run command: `make dv TESTNAME=phase1_tb_top_test SEED=0` | User verifies against `sim/makefile` |
+| 1.13 | **User runs** confirmed command on VM | `dut_comp.log`, `phase1_tb_top_test_seed_0_sim.log` |
+| 1.14 | **User prompts** log check; agent runs **review gate** (§1.4) | Gate PASS / FAIL |
 
 ### Phase 1 marker (required in simulation log)
 
@@ -140,14 +153,26 @@ Recommended SystemVerilog:
 
 The review gate searches for `PHASE 1 : testbench top` (prefix match).
 
+### Run command — confirm before execute
+
+**Agent prints; user confirms against `sim/makefile`:**
+
+```text
+Please confirm the Phase 1 run command:
+  cd LED_MUX_CONTROLLER_stu && source proj1.setup && cd sim
+  make dv TESTNAME=phase1_tb_top_test SEED=0
+Expected logs: dut_comp.log, phase1_tb_top_test_seed_0_sim.log
+After run, prompt: check logfiles
+```
+
 ### Acceptance criteria (testable)
 
 | ID | Criterion | Input | Expected output / behaviour |
 |---|---|---|---|
-| AC-P1-01 | Compile succeeds | `make compile TESTNAME=phase1_tb_top_test SEED=0` | `dut_comp.log` exists; exit code `0` |
+| AC-P1-01 | Compile succeeds | `make dv TESTNAME=phase1_tb_top_test SEED=0` | `dut_comp.log` exists; exit code `0` |
 | AC-P1-02 | No compile errors | `dut_comp.log` | No lines matching `Error-`, `Syntax error`, or `*E` (VCS error); no duplicate-type errors from `test_lib` in `dut.f` |
-| AC-P1-03 | Elaboration produces simv | `make compile` | `dut_simv` (or `${MODULE}_simv`) binary created |
-| AC-P1-04 | Simulation runs | `make run TESTNAME=phase1_tb_top_test SEED=0` | `phase1_tb_top_test_seed_0_sim.log` exists; exit code `0` |
+| AC-P1-03 | Elaboration produces simv | `make dv TESTNAME=phase1_tb_top_test SEED=0` | `dut_simv` (or `${MODULE}_simv`) binary created |
+| AC-P1-04 | Simulation runs | `make dv TESTNAME=phase1_tb_top_test SEED=0` | `phase1_tb_top_test_seed_0_sim.log` exists; exit code `0` |
 | AC-P1-05 | Phase marker present | Sim log file | Line contains `UVM_INFO` and `PHASE 1 : testbench top` |
 | AC-P1-06 | No UVM errors | Sim log file | Zero occurrences of `UVM_ERROR` |
 | AC-P1-07 | No fatal / simulator errors | Sim log file | Zero occurrences of `UVM_FATAL`, `Error-[`, `*Error*` |
@@ -185,7 +210,15 @@ endmodule
 
 ## 1.3 Makefile — VCS compile, elaborate, and run
 
-Add or replace targets in `LED_MUX_CONTROLLER_stu/sim/makefile`. These mirror `run_sim.csh` but split **compile+elab** and **run** for clearer Phase gates.
+Primary target for all phases: **`make dv TESTNAME=<testname> SEED=0`**.
+
+`sim/makefile` maps `dv` → `run_dv` → `run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}` (compile + elaborate + sim in one step).
+
+Optional gate wrapper (runs sim + local shell check):
+
+```makefile
+phase1: run_dv gate1
+```
 
 ### Variables
 
@@ -226,12 +259,12 @@ compile:
 	vcs $(VCS_COMPILE_OPTS) -file $(FLIST)
 ```
 
-**Equivalent command line:**
+**Equivalent command line (preferred):**
 
 ```bash
 cd LED_MUX_CONTROLLER_stu/sim
 source ../proj1.setup
-make compile TESTNAME=phase1_tb_top_test SEED=0
+make dv TESTNAME=phase1_tb_top_test SEED=0
 ```
 
 **Raw VCS command (reference):**
@@ -258,7 +291,7 @@ run: compile
 **Equivalent command line:**
 
 ```bash
-make run TESTNAME=phase1_tb_top_test SEED=0
+make dv TESTNAME=phase1_tb_top_test SEED=0
 ```
 
 **Raw simv command (reference):**
@@ -389,7 +422,7 @@ phase1: dv gate1
 **One-shot Phase 1 sign-off (user runs on VM):**
 
 ```bash
-make phase1 TESTNAME=phase1_tb_top_test SEED=0
+make dv TESTNAME=phase1_tb_top_test SEED=0
 ```
 
 Then prompt the agent: **"check logfiles"** with paths to `dut_comp.log` and `phase1_tb_top_test_seed_0_sim.log`.
@@ -408,7 +441,7 @@ Then prompt the agent: **"check logfiles"** with paths to `dut_comp.log` and `ph
 
 **Introduce `base_test` with factory topology debug, then integrate APB and LED agents layer-by-layer (transaction → driver/monitor/sequencer → agent → env) using existing `tb/` components where ready. A sanity test extending `base_test` proves each agent is factory-built, connected, and visible in `uvm_top.print_topology()`. No scoreboard, coverage, or SVA in this phase.**
 
-**Prerequisite:** Phase 1 review gate PASS (`make phase1`).
+**Prerequisite:** Phase 1 review gate PASS (`make dv TESTNAME=phase1_tb_top_test SEED=0`).
 
 ### Architecture layer map (build bottom → top)
 
@@ -479,7 +512,7 @@ endfunction
 | 2.12 | **Layer L2** — integrate driver, monitor; add build print in each `build_phase` | Log: `Build phase for apb_driver`, `apb_monitor` |
 | 2.13 | **Layer L3** — integrate agent; sequencer created when `UVM_ACTIVE` | Log: `Build phase for apb_agent` |
 | 2.14 | **Layer L4** — instantiate agent in `led_env`; add env build print | Log: `Build phase for led_env` |
-| 2.15 | **User runs** sanity test after each agent (agent provides commands) | `make compile run TESTNAME=phase2_agent_sanity_test SEED=0` |
+| 2.15 | **User runs** sanity test after each agent (agent provides commands) | `make dv TESTNAME=phase2_agent_sanity_test SEED=0` |
 | 2.16 | **Inspect topology** — confirm agent subtree in `factory.print()` / `print_topology()` output | See §2.3 agent checklist |
 
 **APB agent integration order:** `apb_transaction` → `apb_driver` → `apb_monitor` → `apb_agent` → `led_env.apb_agt`
@@ -565,7 +598,7 @@ Adjust key to `"vif"` if you standardise on ARCHITECTURE naming — driver/monit
 |---|---|---|
 | 2.17 | Update **`dut.f`** — agent packages, `led_env.sv`, `base_test.sv`, `phase2_agent_sanity_test.sv` | `tb/dut.f` |
 | 2.18 | Import packages in **`top_tb.sv`**: `import apb_agent_pkg::*; import led_agent_pkg::*;` | `tb/top_tb.sv` |
-| 2.19 | **User runs** `make phase2`; then prompts log check | Gate PASS / FAIL |
+| 2.19 | **User runs** `make dv TESTNAME=phase2_agent_sanity_test SEED=0`; then prompts log check | Gate PASS / FAIL |
 | 2.20 | **Prompt:** all agents integrated? Proceed to Phase 3 only if gate PASS | Sign-off row at bottom |
 
 ### Phase 2 marker (required in simulation log)
@@ -580,9 +613,9 @@ Full string from sanity test: `PHASE 2 : uvm agents integration complete` (gate 
 
 | ID | Criterion | Input | Expected output |
 |---|---|---|---|
-| AC-P2-01 | Compile succeeds | `make compile TESTNAME=phase2_agent_sanity_test SEED=0` | `dut_comp.log` exists; exit `0` |
+| AC-P2-01 | Compile succeeds | `make dv TESTNAME=phase2_agent_sanity_test SEED=0` | `dut_comp.log` exists; exit `0` |
 | AC-P2-02 | No compile errors | `dut_comp.log` | No `Error-`, `Syntax error`, `*E` |
-| AC-P2-03 | Simulation runs | `make run TESTNAME=phase2_agent_sanity_test SEED=0` | `phase2_agent_sanity_test_seed_0_sim.log` exists |
+| AC-P2-03 | Simulation runs | `make dv TESTNAME=phase2_agent_sanity_test SEED=0` | `phase2_agent_sanity_test_seed_0_sim.log` exists |
 | AC-P2-04 | Factory dump present | Sim log | `uvm_factory` / type list from `factory.print()` |
 | AC-P2-05 | Topology dump present | Sim log | `UVM_INFO @ 0: uvm_test_top` tree from `print_topology()` |
 | AC-P2-06 | Build prints — env | Sim log | `Build phase for base_test`, `Build phase for led_env` |
@@ -627,9 +660,7 @@ phase2: dv gate2
 
 ```bash
 cd LED_MUX_CONTROLLER_stu && source proj1.setup && cd sim
-make compile TESTNAME=phase2_agent_sanity_test SEED=0
-make run    TESTNAME=phase2_agent_sanity_test SEED=0
-make phase2 TESTNAME=phase2_agent_sanity_test SEED=0
+make dv TESTNAME=phase2_agent_sanity_test SEED=0
 ```
 
 ### 2.5 Review gate — Phase 2
@@ -715,9 +746,9 @@ Proceed with next component: <next_name>? [y/n]
 
 ### Goal
 
-**Implement all 11 essential (P0) tests from `LED_MUX_CONTROLLER_testplan.xlsx` / TESTPLAN.md §1.1 and §2, one feature set at a time.** For each test: create the UVM test and required sequences, extend the **single** `led_scoreboard` (do not add extra scoreboards), add SVA properties to **one** bind file when the feature needs them, run compile + sim, and pass the per-test gate before moving on. Phase 3 ends when E01–E11 all pass individually and `make regress_p0` is clean.
+**Implement all 11 essential (P0) tests from `LED_MUX_CONTROLLER_testplan.xlsx` / TESTPLAN.md §1.1 and §2, one feature set at a time.** For each test: create the UVM test and required sequences, extend the **single** `led_scoreboard` (do not add extra scoreboards), add SVA properties to **one** bind file when the feature needs them, run `make dv TESTNAME=<test> SEED=0`, and pass the per-test gate before moving on. Phase 3 ends when E01–E11 all pass individually; Phase 4 runs `./regress_p0.sh`.
 
-**Prerequisite:** Phase 2 review gate PASS (`make phase2`).
+**Prerequisite:** Phase 2 review gate PASS (`make dv TESTNAME=phase2_agent_sanity_test SEED=0`).
 
 **Source of truth:** Excel rows with **Priority = P0** (11 tests). Generate with:
 
@@ -734,7 +765,7 @@ python scripts/generate_testplan.py --owner "slpoh" --tier p0
 │ 3. Extend led_scoreboard only if test needs SCB (§3.4)      │
 │ 4. Add SVA to led_mux_sva.sv + bind if test needs SVA (§3.5)│
 │ 5. Create *_test extending base_test; register test_lib    │
-│ 6. make compile && make run TESTNAME=<test> SEED=0          │
+│ 6. make dv TESTNAME=<test> SEED=0                            │
 │ 7. Per-test gate: no errors + factory lists new test (§3.8)│
 │ 8. Prompt: proceed to next P0 test?                         │
 └─────────────────────────────────────────────────────────────┘
@@ -887,7 +918,7 @@ For **each** row in §3.2, complete these steps:
 | 3.3.4 | In `run_phase`: `raise_objection` → start virtual/child sequences from Excel **Test Steps** → `drop_objection` |
 | 3.3.5 | Add phase marker: `` `uvm_info("PHASE3_P0", "PHASE 3 : P0 <testname> complete", UVM_LOW) `` |
 | 3.3.6 | Register in **`test_lib.svh`** |
-| 3.3.7 | **User runs:** `make run TESTNAME=<testname> SEED=0` |
+| 3.3.7 | **User runs:** `make dv TESTNAME=<testname> SEED=0` |
 | 3.3.8 | **User prompts** log check; agent runs per-test gate (§3.8) |
 | 3.3.9 | **Prompt:** `Proceed with P0 test <next_testname>? [y/n]` |
 
@@ -1033,15 +1064,10 @@ phase3: regress_p0
 
 ```bash
 # Single P0 test
-make run TESTNAME=led_decimal_42_test SEED=0
+make dv TESTNAME=led_decimal_42_test SEED=0
 
-# One test + gate
-make run TESTNAME=apb_invalid_addr_test SEED=0
-./check_phase3_gate.sh dut_comp.log apb_invalid_addr_test_seed_0_sim.log apb_invalid_addr_test
-
-# Full P0 (end of Phase 3)
-make regress_p0
-make phase3
+# Full P0 batch (Phase 4)
+./regress_p0.sh
 ```
 
 ---
@@ -1096,14 +1122,14 @@ echo "GATE PASS: P0 $TESTNAME"
 
 | ID | Criterion | Input | Expected |
 |---|---|---|---|
-| AC-P3-01 | All P0 sequences compile | `make compile` | No errors in `dut_comp.log` |
+| AC-P3-01 | All P0 sequences compile | `make dv TESTNAME=<any_p0_test> SEED=0` | No errors in `dut_comp.log` |
 | AC-P3-02 | Single scoreboard | Code review | Only `led_scoreboard.sv`; no duplicate checkers |
 | AC-P3-03 | Single SVA bind file | Code review | `led_mux_sva.sv` + one `bind dut` (unless §3.5.4 exception) |
 | AC-P3-04 | Each P0 test passes individually | 11× `check_phase3_gate.sh` | All PASS |
-| AC-P3-05 | `regress_p0` | `make regress_p0` | Exit code 0; 11 sim logs clean |
+| AC-P3-05 | `regress_p0` | `./regress_p0.sh` | Exit code 0; 11 sim logs clean |
 | AC-P3-06 | Excel traceability | `LED_MUX_CONTROLLER_testplan.xlsx` | Every P0 row has matching `*_test.sv` |
 | AC-P3-07 | TESTPLAN §7 closed | Traceability matrix | SCB/SVA columns satisfied per test |
-| AC-P3-08 | `smoke_test` | `make run TESTNAME=smoke_test` | All checkers exercised; no errors |
+| AC-P3-08 | `smoke_test` | `make dv TESTNAME=smoke_test SEED=0` | All checkers exercised; no errors |
 
 ---
 
@@ -1127,11 +1153,74 @@ Proceed with P0 test <next_testname>? [y/n]
 
 ## Phase 4 — P0 regression sign-off
 
-**Goal:** Confirm all 11 P0 tests pass in a single regression after Phase 3 feature loop is complete.
+### Goal
 
-**Gate:** `make regress_p0` — every `*_seed_0_sim.log` has zero `UVM_ERROR`, zero `UVM_FATAL`, and no compile errors.
+Confirm all **11 P0 tests** pass after Phase 3. Each test was already gated individually; Phase 4 runs the full suite in one batch.
 
-**Marker:** No new marker required; reuse per-test `PHASE 3 : P0 <testname>` lines in each log.
+### Farm vs local regression
+
+**Ask before Phase 4:**
+
+```text
+Do you have a farm/grid regression flow (LSF, SGE, SLURM, internal CI)?
+  • Yes → document farm submit command in this section
+  • No  → use sim/regress_p0.sh (created for this project)
+```
+
+| Option | Command |
+|---|---|
+| **Local batch (default)** | `cd sim && ./regress_p0.sh` |
+| **Farm (if available)** | Submit `regress_p0.sh` via your site command, e.g. `bsub -q normal ./regress_p0.sh` |
+
+### Local batch script — `sim/regress_p0.sh`
+
+Runs every P0 test with `make dv TESTNAME=<test> SEED=0` (TESTPLAN §1.1):
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+source ../proj1.setup
+
+P0_TESTS=(
+  led_reset_values_test
+  apb_reset_defaults_test
+  apb_pready_no_wait_test
+  apb_led_enable_write_read_test
+  apb_scratchpad_wr_rd_test
+  apb_invalid_addr_test
+  led_decimal_42_test
+  led_overflow_modulo_test
+  led_disable_blocks_update_test
+  led_all_digits_0_to_9_test
+  smoke_test
+)
+
+for t in "${P0_TESTS[@]}"; do
+  echo "=== P0 regression: $t ==="
+  make dv TESTNAME="$t" SEED=0
+done
+echo "P0 batch complete — prompt agent: check logfiles for regress_p0"
+```
+
+**User runs on VM:**
+
+```bash
+cd LED_MUX_CONTROLLER_stu/sim
+chmod +x regress_p0.sh
+./regress_p0.sh
+```
+
+### Review gate — Phase 4
+
+| # | Check |
+|---|---|
+| G1 | 11 sim logs exist: `<testname>_seed_0_sim.log` |
+| G2 | Each log: zero `UVM_ERROR`, zero `UVM_FATAL` |
+| G3 | Each log: `PHASE 3 : P0 <testname>` present |
+| G4 | Final `dut_comp.log`: no compile errors |
+
+Then prompt agent: **`check logfiles for regress_p0`**
 
 ---
 
@@ -1153,19 +1242,19 @@ cd LED_MUX_CONTROLLER_stu && source proj1.setup && cd sim
 
 # --- Phase 1 ---
 make clean
-make phase1 TESTNAME=phase1_tb_top_test SEED=0
+make dv TESTNAME=phase1_tb_top_test SEED=0
 # → prompt agent: check logfiles
 
 # --- Phase 2 ---
-make phase2 TESTNAME=phase2_agent_sanity_test SEED=0
+make dv TESTNAME=phase2_agent_sanity_test SEED=0
 # → prompt agent: check logfiles for phase 2
 
 # --- Phase 3 (one P0 test) ---
-make run TESTNAME=led_decimal_42_test SEED=0
+make dv TESTNAME=led_decimal_42_test SEED=0
 # → prompt agent: check logfiles for led_decimal_42_test
 
-# --- Phase 3 (full P0 regression) ---
-make regress_p0
+# --- Phase 4 (full P0 regression) ---
+./regress_p0.sh
 # → prompt agent: check logfiles for regress_p0
 
 # --- Logs the agent will read ---

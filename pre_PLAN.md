@@ -105,8 +105,35 @@ chmod +x check_phase*_gate.sh 2>/dev/null
 | 1.6 | `run_test()` (no hard-coded test name) | `{{TB_TOP}}.sv` |
 | 1.7 | Create `{{PHASE1_TEST}}` with phase marker | `{{TB_DIR}}/{{PHASE1_TEST}}.sv` |
 | 1.8 | Add test to **`test_lib.svh`**; **`include` in `{{TB_TOP}}.sv` after `import uvm_pkg::*`** — **do not** list `test_lib.svh` or `*_test.sv` in **`{{FILELIST}}`** | `test_lib.svh`, `{{TB_TOP}}.sv` |
-| 1.9 | **User runs** make targets (agent provides commands) | `{{MODULE}}_comp.log`, `<test>_sim.log` |
-| 1.10 | **User prompts** log check; agent runs gate (§1.4) | PASS / FAIL |
+| 1.9 | **Agent prompts user** to confirm the run command matches the project makefile (see §Run command) | User verifies `TESTNAME`, `SEED`, `{{RUN_TARGET}}` |
+| 1.10 | **User runs** confirmed command on VM | `{{MODULE}}_comp.log`, `<TESTNAME>_seed_<SEED>_sim.log` |
+| 1.11 | **User prompts** log check; agent runs gate (§1.4) | PASS / FAIL |
+
+### Run command (confirm before every phase)
+
+**Agent must print the command and ask the user to confirm it matches `{{SIM_DIR}}/makefile` before the user runs.**
+
+Standard pattern for this workflow:
+
+```bash
+make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
+```
+
+| Variable | Typical value | Notes |
+|---|---|---|
+| `{{RUN_TARGET}}` | `dv` | Course wrapper: compile + elaborate + sim via `run_sim.csh` |
+| `TESTNAME` | phase / gate test name | Must match UVM test class registered in `test_lib.svh` |
+| `SEED` | `0` (fixed) or random | Default `0` for gate tests |
+
+**Agent prompt (copy):**
+
+```text
+Please confirm the run command for Phase 1:
+  cd {{PROJECT_ROOT}} && source {{SETUP_SCRIPT}} && cd {{SIM_DIR}}
+  make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
+Expected logs: {{MODULE}}_comp.log, {{PHASE1_TEST}}_seed_0_sim.log
+Reply after run with: check logfiles
+```
 
 ### Phase 1 marker (sim log)
 
@@ -144,16 +171,20 @@ endmodule
 
 ### Makefile targets (template)
 
+Primary run uses **`make {{RUN_TARGET}}`** (not bare `vcs` / `simv` unless makefile has no wrapper):
+
 ```makefile
 TESTNAME ?= {{PHASE1_TEST}}
 SEED     ?= 0
-COMP_LOG = $(MODULE)_comp.log
-SIM_LOG  = $(TESTNAME)_seed_$(SEED)_sim.log
+
+# Course / project wrapper — compile + elab + run
+{{RUN_TARGET}}: run_dv
+
+run_dv:
+	${ROOT}/{{SIM_DIR}}/run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}
 
 gate1:
 	@./check_phase1_gate.sh $(COMP_LOG) $(SIM_LOG)
-
-phase1: run_dv gate1
 ```
 
 ### User commands — Phase 1
@@ -161,7 +192,7 @@ phase1: run_dv gate1
 ```bash
 cd {{PROJECT_ROOT}} && source {{SETUP_SCRIPT}} && cd {{SIM_DIR}}
 make clean
-make phase1 TESTNAME={{PHASE1_TEST}} SEED=0
+make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
 # → prompt agent: check logfiles
 ```
 
@@ -217,7 +248,7 @@ make phase1 TESTNAME={{PHASE1_TEST}} SEED=0
 ### User commands — Phase 2
 
 ```bash
-make phase2 TESTNAME={{PHASE2_TEST}} SEED=0
+make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 # → prompt agent: check logfiles for phase 2
 ```
 
@@ -245,7 +276,7 @@ make phase2 TESTNAME={{PHASE2_TEST}} SEED=0
 3. Extend **one** `{{SCOREBOARD}}` (no extra scoreboards)
 4. Add SVA to **one** `{{SVA_MODULE}}.sv` + `bind` (new file only if different bind target)
 5. Register in `test_lib.svh` (include via `{{TB_TOP}}`, not filelist)
-6. **User runs:** `make run TESTNAME=<test> SEED=0`
+6. **User runs:** `make {{RUN_TARGET}} TESTNAME=<test> SEED=0`
 7. **User prompts** log check
 8. Proceed only on PASS
 
@@ -258,9 +289,8 @@ PHASE 3 : P0 <testname>
 ### User commands — Phase 3
 
 ```bash
-make run TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
-make regress_p0
-# → prompt agent: check logfiles
+make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
+# → prompt agent: check logfiles for <test>
 ```
 
 ### Review gate — Phase 3 (per test)
@@ -271,9 +301,66 @@ Same as Phase 1/2 plus: factory lists new test; scoreboard/SVA quiet unless nega
 
 ## Phase 4 — P0 regression sign-off (template)
 
-**Goal:** All P0 tests pass in `make regress_p0`.
+### Goal
 
-**User runs:** `make regress_p0` → prompt agent to check all `*_seed_0_sim.log` files.
+**All P0 tests pass in a single regression after Phase 3 is complete.**
+
+### Step 1 — Ask about farm / grid regression
+
+**Agent must prompt the user before creating regression scripts:**
+
+```text
+Do you have a farm or grid regression flow for this project?
+  (e.g. LSF bsub, SGE qsub, SLURM sbatch, internal CI)
+  [ ] Yes — provide farm command template or script path
+  [ ] No  — I will create a local batch script with all make dv commands
+```
+
+| User answer | Agent action |
+|---|---|
+| **Farm available** | Document `{{FARM_SUBMIT_CMD}}` and test list in `PLAN.md`; user submits jobs on farm |
+| **No farm** | Create `{{SIM_DIR}}/{{REGRESS_BATCH}}` — shell script that runs every P0 test |
+
+### Step 2 — Local batch script (when no farm)
+
+Create `{{REGRESS_BATCH}}` with one line per P0 test:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")"
+source ../{{SETUP_SCRIPT}}
+# Repeat for each P0 test from TESTPLAN:
+make {{RUN_TARGET}} TESTNAME={{P0_TEST_1}} SEED=0
+make {{RUN_TARGET}} TESTNAME={{P0_TEST_2}} SEED=0
+# ...
+echo "P0 batch regression complete — prompt agent: check logfiles for regress_p0"
+```
+
+| Step | Task |
+|---|---|
+| 4.1 | List all P0 test names from `{{TESTPLAN_DOC}}` / Excel |
+| 4.2 | Generate `{{REGRESS_BATCH}}` with `make {{RUN_TARGET}} TESTNAME=<each> SEED=0` |
+| 4.3 | `chmod +x {{REGRESS_BATCH}}` |
+| 4.4 | **User runs** `./{{REGRESS_BATCH}}` on VM |
+| 4.5 | **User prompts** agent to check **all** `*_seed_0_sim.log` + last `{{MODULE}}_comp.log` |
+
+### Review gate — Phase 4
+
+| # | Check |
+|---|---|
+| G1 | Every P0 test has a sim log |
+| G2 | Each log: zero `UVM_ERROR`, zero `UVM_FATAL` |
+| G3 | Each log: `PHASE 3 : P0 <testname>` present (from Phase 3) |
+| G4 | No compile errors in final `{{MODULE}}_comp.log` |
+
+**User command (local batch):**
+
+```bash
+cd {{PROJECT_ROOT}}/{{SIM_DIR}}
+./{{REGRESS_BATCH}}
+# → prompt agent: check logfiles for regress_p0
+```
 
 ---
 
@@ -288,16 +375,16 @@ Same as Phase 1/2 plus: factory lists new test; scoreboard/SVA quiet unless nega
 ```bash
 cd {{PROJECT_ROOT}} && source {{SETUP_SCRIPT}} && cd {{SIM_DIR}}
 
-make phase1 TESTNAME={{PHASE1_TEST}} SEED=0
+make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
 # → check logfiles
 
-make phase2 TESTNAME={{PHASE2_TEST}} SEED=0
+make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 # → check logfiles for phase 2
 
-make run TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
+make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 # → check logfiles for <test>
 
-make regress_p0
+./{{REGRESS_BATCH}}
 # → check logfiles for regress_p0
 ```
 
@@ -333,6 +420,9 @@ make regress_p0
 | `{{PHASE2_MARKER}}` | PHASE 2 : uvm agents | Log substring |
 | `{{PHASE1_ID}}` | PHASE1_TB_TOP | `uvm_info` id |
 | `{{EXAMPLE_P0_TEST}}` | led_decimal_42_test | Sample P0 test |
+| `{{RUN_TARGET}}` | dv | Makefile target (`make dv`) |
+| `{{REGRESS_BATCH}}` | regress_p0.sh | Local P0 batch script (Phase 4) |
+| `{{FARM_SUBMIT_CMD}}` | *(optional)* | Farm submit, e.g. `bsub regress_p0.sh` |
 | `{{RANDOM_REGRESS_TEST}}` | random_regression_test | P1 closure test |
 
 ---
