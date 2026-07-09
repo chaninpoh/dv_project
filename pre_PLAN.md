@@ -4,6 +4,8 @@
 
 **Do not execute simulation on Windows** — the agent generates files and make commands only; the user runs VCS on the Linux VM and prompts log review.
 
+**If compile or simulation fails:** check **`FIX.md`** for known errors and fixes before changing code at random.
+
 ---
 
 ## How to instantiate for a new project
@@ -13,8 +15,9 @@
 3. Link to your `SPEC.md`, `ARCHITECTURE.md`, and `TESTPLAN.md` (or Excel).
 4. Customize phase count, gate tests, and build order for the DUT.
 5. Keep this `pre_PLAN.md` unchanged as the master skeleton.
+6. Create **`FIX.md`** from the template in this repo (or copy and extend per project).
 
-**Example (this repo):** `PLAN.md` — LED MUX Controller.
+**Example (this repo):** `PLAN.md` — LED MUX Controller; **`FIX.md`** — known errors.
 
 ---
 
@@ -24,7 +27,7 @@
 # Verification PLAN — {{PROJECT_NAME}}
 
 **Template source:** pre_PLAN.md
-**References:** {{SPEC_DOC}} · {{ARCH_DOC}} · {{TESTPLAN_DOC}}
+**References:** {{SPEC_DOC}} · {{ARCH_DOC}} · {{TESTPLAN_DOC}} · **FIX.md**
 **Tool:** {{SIMULATOR}} + {{UVM_VERSION}}
 **Project tree:** `{{PROJECT_ROOT}}/` (RTL `{{RTL_DIR}}/`, TB `{{TB_DIR}}/`, sim `{{SIM_DIR}}/`)
 ```
@@ -62,14 +65,17 @@ chmod +x check_phase*_gate.sh 2>/dev/null
 | 2 | **Agent** | Print **make commands**; **stop** |
 | 3 | **User** | Run on Linux VM; collect logs |
 | 4 | **User** | Prompt: *check logfiles* |
-| 5 | **Agent** | Gate checklist → PASS/FAIL |
+| 5 | **Agent** | Gate checklist → PASS/FAIL; if FAIL, search **FIX.md** with user |
 
 | Log pattern | Example |
 |---|---|
 | Compile | `{{SIM_DIR}}/{{MODULE}}_comp.log` |
 | Simulation | `{{SIM_DIR}}/<TESTNAME>_seed_<SEED>_sim.log` |
+| Fixes | **`FIX.md`** (repo root) |
 
 **Gate criteria (every phase):** phase marker in sim log; zero `UVM_ERROR` / `UVM_FATAL`; no compile `error-` / `syntax error`.
+
+**On gate FAIL:** grep logs for the error text → open **`FIX.md`** quick lookup table → apply fix → re-run `make {{RUN_TARGET}} TESTNAME=<test> SEED=0` → prompt `check logfiles` again.
 
 ---
 
@@ -208,6 +214,8 @@ make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
 
 **Gate script:** `{{SIM_DIR}}/check_phase1_gate.sh` — parameterize `PHASE_MARK="{{PHASE1_MARKER}}"`.
 
+**If gate FAIL:** see **`FIX.md`** — Phase 1 (FIX-001, FIX-003, FIX-004, FIX-005, FIX-007, FIX-015).
+
 ---
 
 ## Phase 2 — UVM agents (template)
@@ -261,6 +269,8 @@ make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 | G10 | `print_topology()` shows agents |
 | G11 | `Build phase for <agent>` strings present |
 
+**If gate FAIL:** see **`FIX.md`** — Phase 2 (FIX-003, FIX-006, FIX-008, FIX-010).
+
 ---
 
 ## Phase 3 — P0 tests, scoreboard, SVA (template)
@@ -296,6 +306,8 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 ### Review gate — Phase 3 (per test)
 
 Same as Phase 1/2 plus: factory lists new test; scoreboard/SVA quiet unless negative test.
+
+**If gate FAIL:** see **`FIX.md`** — Phase 3 (FIX-006, FIX-011, FIX-012).
 
 ---
 
@@ -362,11 +374,15 @@ cd {{PROJECT_ROOT}}/{{SIM_DIR}}
 # → prompt agent: check logfiles for regress_p0
 ```
 
+**If gate FAIL:** see **`FIX.md`** — Phase 4 (FIX-006, FIX-013); also per-test Phase 3 entries.
+
 ---
 
 ## Phase 5 — Coverage closure (template)
 
 **Goal:** P1 tests + `{{RANDOM_REGRESS_TEST}}`; annotate testplan Excel with PASS and coverage %.
+
+**If gate FAIL:** see **`FIX.md`** — tooling (FIX-014) and Phase 3 sim errors.
 
 ---
 
@@ -423,6 +439,7 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 | `{{RUN_TARGET}}` | dv | Makefile target (`make dv`) |
 | `{{REGRESS_BATCH}}` | regress_p0.sh | Local P0 batch script (Phase 4) |
 | `{{FARM_SUBMIT_CMD}}` | *(optional)* | Farm submit, e.g. `bsub regress_p0.sh` |
+| `FIX.md` | FIX.md | Known errors and fixes (all phases) |
 | `{{RANDOM_REGRESS_TEST}}` | random_regression_test | P1 closure test |
 
 ---
@@ -436,6 +453,7 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 | Phase 3 P0 | SCB / SVA | P0 rows |
 | Phase 4 | — | Regression |
 | Phase 5 | Coverage | P1 |
+| Any phase | **FIX.md** | Error lookup |
 
 ---
 

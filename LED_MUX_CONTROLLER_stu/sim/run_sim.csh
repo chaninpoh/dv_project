@@ -113,7 +113,8 @@ if ($MODE == "dv") then
             echo "$command" >> $qrun_file
         endif
 
-        set command = "vcs -full64 -l $MODULE\_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top $MODULE_TB -o $MODULE\_simv $files"
+        set vcs_dpi_flags = "-CFLAGS -DVCS"
+        set command = "vcs -full64 -l $MODULE\_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top $MODULE_TB -o $MODULE\_simv $files $vcs_dpi_flags"
         echo "[==== INFO ====] $command"
         if ($NR != 1) then
             eval $command
@@ -129,7 +130,8 @@ if ($MODE == "dv") then
             echo "$command" >> $qrun_file
         endif
     else
-        set command = "vcs -full64 -l $MODULE\_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top $MODULE_TB -o $MODULE\_simv $files"
+        set vcs_dpi_flags = "-CFLAGS -DVCS"
+        set command = "vcs -full64 -l $MODULE\_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top $MODULE_TB -o $MODULE\_simv $files $vcs_dpi_flags"
         echo "[==== INFO ====] $command"
         if ($NR != 1) then
             eval $command

@@ -1,7 +1,7 @@
 # Verification PLAN — LED MUX Controller
 
 **Template source:** `pre_PLAN.md` (reusable skeleton for new projects)  
-**References:** SPEC.md · ARCHITECTURE.md · TESTPLAN.md  
+**References:** SPEC.md · ARCHITECTURE.md · TESTPLAN.md · **FIX.md**  
 **Tool:** Synopsys VCS + UVM 1.2  
 **Project tree:** `LED_MUX_CONTROLLER_stu/` (RTL `src/`, testbench `tb/`, simulation `sim/`)
 
@@ -12,6 +12,8 @@ This document defines verification **phases** in build order. Each phase has one
 ## Agent / user workflow (mandatory)
 
 **VCS runs on the course Linux VM only — not on Windows. The agent never runs compile or simulation.**
+
+**If compile or simulation fails:** check **`FIX.md`** for known errors and fixes.
 
 ### How to run (for users)
 
@@ -75,7 +77,7 @@ Then prompt the agent: **`check logfiles`**
 | 3 | **Agent** | **Stop** — do not invoke `make`, `vcs`, or `simv` |
 | 4 | **User** | Run commands on the course Linux VM; collect `*_comp.log` and `*_sim.log` |
 | 5 | **User** | Prompt: *"check logfiles"* (or name the phase / test) |
-| 6 | **Agent** | Read logs, run gate checklist (§1.4, §2.5, §3.8), report PASS/FAIL |
+| 6 | **Agent** | Read logs, run gate checklist (§1.4, §2.5, §3.8), report PASS/FAIL; if FAIL, consult **FIX.md** with user |
 
 Log files to expect:
 
@@ -83,8 +85,11 @@ Log files to expect:
 |---|---|
 | Compile | `sim/dut_comp.log` |
 | Simulation | `sim/<TESTNAME>_seed_<SEED>_sim.log` |
+| Fixes | **`FIX.md`** |
 
 Gate criteria (every phase): phase marker present, zero `UVM_ERROR` / `UVM_FATAL`, no compile `error-` / `syntax error`.
+
+**On gate FAIL:** grep the log for the error → open **`FIX.md`** quick lookup → apply fix → re-run `make dv TESTNAME=<test> SEED=0` → prompt `check logfiles`.
 
 ### Standard run command (this project)
 
@@ -244,7 +249,8 @@ VCS_COMPILE_OPTS = -full64 -sverilog +v2k +vcs+lic+wait +vcs+flush+all \
                    -ntb_opts uvm-1.2 \
                    +define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR \
                    -top $(MODULE_TB) -o $(SIMV) \
-                   -l $(COMP_LOG)
+                   -l $(COMP_LOG) \
+                   -CFLAGS -DVCS
 
 VCS_RUN_OPTS = +UVM_TESTNAME=$(TESTNAME) +ntb_random_seed=$(SEED) \
                -l $(SIM_LOG) +UVM_NO_RELNOTES
@@ -276,7 +282,8 @@ vcs -full64 -sverilog +v2k +vcs+lic+wait +vcs+flush+all \
     +define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR \
     -top top_tb -o dut_simv \
     -l dut_comp.log \
-    -file $ROOT/tb/dut.f
+    -file $ROOT/tb/dut.f \
+    -CFLAGS -DVCS
 ```
 
 ### Target (b) — Run simulation
@@ -432,6 +439,8 @@ Then prompt the agent: **"check logfiles"** with paths to `dut_comp.log` and `ph
 ```bash
 ./check_phase1_gate.sh dut_comp.log phase1_tb_top_test_seed_0_sim.log
 ```
+
+**If gate FAIL:** see **`FIX.md`** — Phase 1 (FIX-001, FIX-003, FIX-004, FIX-005, FIX-007, FIX-009, FIX-015).
 
 ---
 
@@ -712,6 +721,8 @@ $Mark    = "PHASE 2 : uvm agents"
 # $sim -match "Build phase for apb_agent"
 # $sim -match "Build phase for led_agent"
 ```
+
+**If gate FAIL:** see **`FIX.md`** — Phase 2 (FIX-003, FIX-006, FIX-008, FIX-010).
 
 ### Integration prompt template (repeat per component)
 
@@ -1116,6 +1127,8 @@ echo "GATE PASS: P0 $TESTNAME"
 
 **`base_test` factory dump** (required — inherited from Phase 2): after each new test is added, `factory.print()` in the sim log must show the new test class registered via `uvm_component_utils` / `test_lib.svh`.
 
+**If gate FAIL:** see **`FIX.md`** — Phase 3 (FIX-006, FIX-011, FIX-012).
+
 ---
 
 ### 3.9 Acceptance criteria (Phase 3 complete)
@@ -1222,6 +1235,8 @@ chmod +x regress_p0.sh
 
 Then prompt agent: **`check logfiles for regress_p0`**
 
+**If gate FAIL:** see **`FIX.md`** — Phase 4 (FIX-006, FIX-013); see also Phase 3 entries for failing tests.
+
 ---
 
 ## Phase 5 — Coverage closure (goal only)
@@ -1229,6 +1244,8 @@ Then prompt agent: **`check logfiles for regress_p0`**
 **Goal:** P1 tests + `random_regression_test`; TESTPLAN Excel annotated with PASS and coverage %.
 
 **Gate:** Functional covergroups ≥ target; code coverage report merged.
+
+**If gate FAIL:** see **`FIX.md`** — tooling (FIX-014) and Phase 3 simulation errors.
 
 ---
 
@@ -1276,6 +1293,7 @@ make dv TESTNAME=led_decimal_42_test SEED=0
 | Phase 3 `led_mux_sva` | §0.3, §4 Static top bind | All assert/cover/check names |
 | Phase 4 `regress_p0` | — | §9 regression P0 |
 | Phase 5 | — | §1.2 P1 + §9 regression |
+| Any phase | **FIX.md** | Known errors / resolutions |
 
 ---
 
