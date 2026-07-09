@@ -15,4 +15,5 @@
 ../tb/led_agent/led_if.sv
 ../tb/apb_agent/apb_agent_pkg.svh
 ../tb/led_agent/led_agent_pkg.svh
+../tb/led_tb_pkg.svh
 ../tb/top_tb.sv

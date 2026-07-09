@@ -1,7 +1,5 @@
 // Phase 3 — single scoreboard for all P0 tests (extend SCB logic per test)
-`uvm_analysis_imp_decl(_apb)
-`uvm_analysis_imp_decl(_led)
-
+// Included from led_tb_pkg.svh (analysis imp macros must be in package scope for VCS)
 class led_scoreboard extends uvm_scoreboard;
   `uvm_component_utils(led_scoreboard)
 
