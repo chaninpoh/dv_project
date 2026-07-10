@@ -3,4 +3,7 @@
 `include "phase1_tb_top_test.sv"
 `include "phase2_agent_sanity_test.sv"
 `include "sequences/led_reset_seq.sv"
+`include "sequences/apb_read_seq.sv"
+`include "sequences/apb_reset_defaults_vseq.sv"
 `include "led_reset_values_test.sv"
+`include "apb_reset_defaults_test.sv"
