@@ -1,6 +1,6 @@
 // Synopsys, Inc.
 // User: pohsl
-// Date: Mon Mar 16 10:07:16 2026
+// Date: Fri Jul 10 01:24:42 2026
 
 // ==================================================================================================
 // This config file prototype is produced from the last run using the complete list of extracted fsms.
@@ -74,6 +74,14 @@
 //SEQ_NUMBER_MAX=10000
 //SEQ_LENGTH_MAX=32
 
+MODULE=bin2bcd
+CURRENT=state_reg
+NEXT=state_nxt
+STATES=done,idle,op
+TRANSITIONS=done->idle,
+idle->op,
+op->done,
+op->idle
 MODULE=uvm_custom_install_verdi_recording
 CURRENT=user_verbosity
 NEXT=user_verbosity

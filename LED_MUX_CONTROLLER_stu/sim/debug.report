@@ -16,27 +16,45 @@ acc+=r,rw,cbk,frcr,frcn,wn:*                          applyOnDesign
 Module                                                Source
 --------------------------------------------------    ------------------------
 acc+=vcsd:_vcs_DPI_package                            from Design Caps
-acc+=vcsd:$dummyOvSvModule                            from Design Caps
 acc+=vcsd:vcs_paramclassrepository                    from Design Caps
-acc+=vcsd:_vcs_unit__2235721384                       from Design Caps
+acc+=vcsd:_vcs_unit__3036465506                       from Design Caps
 acc+=vcsd:std                                         from Design Caps
 acc+=vcsd:uvm_pkg                                     from Design Caps
 acc+=vcsd:_vcs_msglog                                 from Design Caps
 acc+=vcsd:uvm_custom_install_verdi_recording          from Design Caps
-acc+=vcsd:dp_agent_pkg                                from Design Caps
-acc+=vcsd:dp_if                                       from Design Caps
+acc+=vcsd:APB_Slave                                   from Design Caps
+acc+=vcsd:bin2bcd                                     from Design Caps
+acc+=vcsd:LED_mux                                     from Design Caps
+acc+=vcsd:dp_mux                                      from Design Caps
+acc+=vcsd:watchdog_mod                                from Design Caps
+acc+=vcsd:apb_if                                      from Design Caps
+acc+=vcsd:led_if                                      from Design Caps
+acc+=vcsd:led_mux_sva                                 from Design Caps
+acc+=vcsd:apb_agent_pkg                               from Design Caps
+acc+=vcsd:led_agent_pkg                               from Design Caps
+acc+=vcsd:led_tb_pkg                                  from Design Caps
 acc+=vcsd:top_tb                                      from Design Caps
+acc+=vcsd:dut_0000                                    from Design Caps
 acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:_vcs_DPI_package     update due to needs caps
-acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:$dummyOvSvModule     update due to needs caps
 acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:vcs_paramclassrepository    update due to needs caps
-acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:_vcs_unit__2235721384    update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:_vcs_unit__3036465506    update due to needs caps
 acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:std                  update due to needs caps
 acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:uvm_pkg              update due to needs caps
 acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:_vcs_msglog          update due to needs caps
 acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:uvm_custom_install_verdi_recording    update due to needs caps
-acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:dp_agent_pkg         update due to needs caps
-acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:dp_if                update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:APB_Slave            update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:bin2bcd              update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:LED_mux              update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:dp_mux               update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:watchdog_mod         update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:apb_if               update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:led_if               update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:led_mux_sva          update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:apb_agent_pkg        update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:led_agent_pkg        update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:led_tb_pkg           update due to needs caps
 acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:top_tb               update due to needs caps
+acc=r,rw,cbk,s,frcr,frcn,wn,vcsd:dut_0000             update due to needs caps
 
 
 FileID                                                FileName

@@ -44,3 +44,4 @@
   CREATE_STREAM @0 {NAME:myseq T:Transactions SCOPE:uvm_test_top.env.agent1.sequencer STREAM:974}
   CREATE_STREAM @0 {NAME:myseq T:Transactions SCOPE:uvm_test_top.env.agent1.sequencer STREAM:974}
   CREATE_STREAM @0 {NAME:myseq T:Transactions SCOPE:uvm_test_top.env.agent1.sequencer STREAM:974}
+  CREATE_STREAM @0 {NAME:reset_seq T:Transactions SCOPE:uvm_test_top.env.led_agt.sequencer STREAM:855}

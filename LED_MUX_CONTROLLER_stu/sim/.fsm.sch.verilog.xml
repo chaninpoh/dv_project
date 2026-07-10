@@ -1,7 +1,13 @@
 <Command name="schRTLInfo"  delimiter="."  >
 <RTLBlock >
-<RTLInfo   name="user_verbosity_0"  type="2"  fileName="/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/verdi/uvm_custom_install_verdi_recorder.sv"  >
-    <Seg beginLine="47"  endLine="198"  />
+<RTLInfo   name="state_reg_0"  type="2"  fileName="../src/bin2bcd.v"  >
+    <Seg beginLine="23"  endLine="136"  />
+  </RTLInfo>
+ <Instance name="top_tb.dut_inst.m3.m4"  />
+</RTLBlock>
+<RTLBlock >
+<RTLInfo   name="user_verbosity_1"  type="2"  fileName="/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/verdi/uvm_custom_install_verdi_recorder.sv"  >
+    <Seg beginLine="47"  endLine="203"  />
   </RTLInfo>
  <Instance name="uvm_custom_install_verdi_recording"  />
 </RTLBlock>

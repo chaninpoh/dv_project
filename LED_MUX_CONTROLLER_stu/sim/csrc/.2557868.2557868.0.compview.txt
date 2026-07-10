@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1783617880.173992186, "rt":9.02, "ut":9.19, "st":0.42}}
+{"vcselab":{"timestamp_begin":1783617889.267782752, "rt":0.23, "ut":0.16, "st":0.07}}
+{"link":{"timestamp_begin":1783617889.550520772, "rt":0.76, "ut":0.55, "st":0.23}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1783617879.490995548}
+{"VCS_COMP_START_TIME": 1783617879.490995548}
+{"VCS_COMP_END_TIME": 1783617890.435696745}
+{"VCS_USER_OPTIONS": "-full64 -l dut_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top top_tb -o dut_simv -ntb_opts uvm-1.2 +define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR -file /home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/tb/dut.f -timescale=1ns/1ps -cm line+tgl+cond+fsm+branch+assert -assert enable_diag -CFLAGS -DVCS"}
+{"vcs1": {"peak_mem": 488076}}
+{"vcselab": {"peak_mem": 178916}}

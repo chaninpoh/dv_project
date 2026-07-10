@@ -1,0 +1,22 @@
+"../tb/sva/led_mux_sva.sv", 18: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 30000ps failed at 30000ps
+	Offending '(sel_out == 6'h3e)'
+"../tb/sva/led_mux_sva.sv", 18: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 50000ps failed at 50000ps
+	Offending '(sel_out == 6'h3e)'
+"../tb/sva/led_mux_sva.sv", 18: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 70000ps failed at 70000ps
+	Offending '(sel_out == 6'h3e)'
+"../tb/sva/led_mux_sva.sv", 18: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 90000ps failed at 90000ps
+	Offending '(sel_out == 6'h3e)'
+
+=========== Generating Assertion Summary ==========
+
+"top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset", 55 attempts, 51 successes, 4 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_seg_out_stable_during_reset", 55 attempts, 55 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_sel_out_reset_value", 55 attempts, 55 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_seg_out_reset_value", 55 attempts, 55 successes, 0 failures, 0 incompletes
+"uvm_pkg.\uvm_reg_map::do_read .unnamed$$_0.unnamed$$_1", 0 attempts, 0 successes, 0 failures, 0 incompletes
+"uvm_pkg.\uvm_reg_map::do_write .unnamed$$_0.unnamed$$_1", 0 attempts, 0 successes, 0 failures, 0 incompletes
+"vcs_paramclassrepository.\uvm_component_name_check_visitor::visit .unnamed$$_0", 46 attempts, 46 successes, 0 failures, 0 incompletes
+Summary: 7 assertions, 5 with attempts, 1 with failures
+
+===========     End Assertion Summary    ==========
+

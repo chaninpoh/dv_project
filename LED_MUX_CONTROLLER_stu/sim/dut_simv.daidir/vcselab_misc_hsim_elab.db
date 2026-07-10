@@ -1,6 +1,6 @@
 psSimBaseName                      	dut_simv
 psLogFileName                      	dut_comp.log
-psDaiDir                           	/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/sim/dut_simv.daidir
+psDaiDir                           	/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/dut_simv.daidir
 destPath                           	csrc/
 fSharedMasterElab                  	0
 fHsimPCSharedLibSpecified          	0

@@ -87,10 +87,10 @@ ANF: vhdi_enc_ist_get_module_id('dut_simv: undefined symbol: vhdi_enc_ist_get_mo
 ANF: vhdi_enc_def_get_handle_by_module_id('dut_simv: undefined symbol: vhdi_enc_def_get_handle_by_module_id')
 VCS compile option:
  option[0]: dut_simv
- option[1]: +UVM_TESTNAME=my_test
+ option[1]: +UVM_TESTNAME=led_reset_values_test
  option[2]: +ntb_random_seed=0
  option[3]: -l
- option[4]: my_test_seed_0_sim.log
+ option[4]: led_reset_values_test_seed_0_sim.log
  option[5]: +UVM_NO_RELNOTES
  option[6]: -cm
  option[7]: line+tgl+cond+fsm+branch+assert
@@ -102,13 +102,13 @@ VCS compile option:
  option[13]: -cm
  option[14]: line+tgl+cond+fsm+branch+assert
  option[15]: -cm_name
- option[16]: my_test_0
+ option[16]: led_reset_values_test_0
  option[17]: +fsdb+sva_success
  option[18]: /home/synopsys/vcs/W-2024.09-SP2/linux64/bin/vcs1
  option[19]: -Mcc=gcc
  option[20]: -Mcplusplus=g++
  option[21]: -Masflags=
- option[22]: -Mcfl= -pipe -DVCSMX -DUVM_DPI_DO_TYPE_CHECK -fPIC -O -I/home/synopsys/vcs/W-2024.09-SP2/include 
+ option[22]: -Mcfl= -pipe -DVCSMX -DUVM_DPI_DO_TYPE_CHECK -fPIC -DVCS -O -I/home/synopsys/vcs/W-2024.09-SP2/include 
  option[23]: -Mxllcflags=
  option[24]: -Mxcflags= -pipe -DVCSMX -DUVM_DPI_DO_TYPE_CHECK -fPIC -I/home/synopsys/vcs/W-2024.09-SP2/include
  option[25]: -Mldflags= -rdynamic 
@@ -120,17 +120,17 @@ VCS compile option:
  option[31]: -Msaverestoreobj=/home/synopsys/vcs/W-2024.09-SP2/linux64/lib/vcs_save_restore_new.o
  option[32]: -Mcrt0=
  option[33]: -Mcrtn=
- option[34]: -Mcsrc=/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/dpi/uvm_dpi.cc /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/verdi/dpi/uvm_verdi_dpi.cpp 
+ option[34]: -Mcsrc=/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/dpi/uvm_dpi.cc /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/verdi/dpi/uvm_verdi_dpi.cpp 
  option[35]: -Msyslibs=/home/synopsys/verdi/W-2024.09-SP2/share/PLI/VCS/LINUX64/pli.a -ldl 
  option[36]: -l
  option[37]: dut_comp.log
  option[38]: +define+UVM_VERDI_VIF_RECORD
  option[39]: +define+UVM_VCS_RECORD
- option[40]: +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/vcs
- option[41]: /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/uvm_pkg.sv
- option[42]: /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/vcs/uvm_custom_install_vcs_recorder.sv
- option[43]: +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/verdi
- option[44]: /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/verdi/uvm_custom_install_verdi_recorder.sv
+ option[40]: +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/vcs
+ option[41]: /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/uvm_pkg.sv
+ option[42]: /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/vcs/uvm_custom_install_vcs_recorder.sv
+ option[43]: +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/verdi
+ option[44]: /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/verdi/uvm_custom_install_verdi_recorder.sv
  option[45]: -full64
  option[46]: +v2k
  option[47]: +vcs+lic+wait
@@ -143,14 +143,14 @@ VCS compile option:
  option[54]: -Xufe=2steps
  option[55]: -kdb=common_elab
  option[56]: -Xufe=2steps
- option[57]: -debug_report=.debug_acc_report.700869
+ option[57]: -debug_report=.debug_acc_report.2557868
  option[58]: -top
  option[59]: top_tb
  option[60]: -o
  option[61]: dut_simv
  option[62]: -ntb_opts
- option[63]: uvm-ieee-2020-2.0
- option[64]: +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-ieee-2020-2.0/
+ option[63]: uvm-1.2
+ option[64]: +incdir+/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/
  option[65]: +define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR
  option[66]: -timescale=1ns/1ps
  option[67]: -cm
@@ -167,72 +167,70 @@ VCS compile option:
  option[78]: -fsdb
  option[79]: -sverilog
  option[80]: -gen_obj
- option[81]: +incdir+../src
- option[82]: -Xfile_begin_f=../src/design.f
- option[83]: +incdir+../src/
+ option[81]: -Xfile_begin_f=/tmp/vcs_20260709172439_2557868/_vcs_optFile_tmp_-1257821694.f
+ option[82]: +incdir+../src
+ option[83]: +incdir+../src/AMBA/APB
  option[84]: ../src/AMBA/APB/APB_Slave.sv
- option[85]: ../src/dp_mux.sv
- option[86]: ../src/sdram_model.sv
- option[87]: ../src/ODDR2_behav.sv
- option[88]: ../src/dcm_165Mhz_model.sv
- option[89]: ../src/sdram_controller.v
- option[90]: ../src/debounce_explicit.v
- option[91]: ../src/LED_mux.v
- option[92]: ../src/bin2bcd.v
- option[93]: ../src/watchdog_mod.sv
- option[94]: ../src/dut.sv
- option[95]: -Xfile_end
- option[96]: -Xfile_begin_f=/tmp/vcs_20260316020712_700869/_vcs_optFile_tmp_0474665090.f
- option[97]: +incdir+../tb
- option[98]: +incdir+../tb/dp_agent/
- option[99]: +incdir+../tb/apb_agent/
- option[100]: ../tb/dp_agent/dp_agent_pkg.svh
- option[101]: ../tb/dp_if.sv
- option[102]: ../tb/apb_agent/apb_if.sv
- option[103]: ../tb/top_tb.sv
- option[104]: -Xfile_end
- option[105]: -load
- option[106]: /home/synopsys/verdi/W-2024.09-SP2/share/PLI/VCS/LINUX64/libnovas.so:FSDBDumpCmd
- option[107]: timescale=1ns/1ps
+ option[85]: ../src/bin2bcd.v
+ option[86]: ../src/LED_mux.v
+ option[87]: ../src/dp_mux.sv
+ option[88]: ../src/watchdog_mod.sv
+ option[89]: ../src/dut.sv
+ option[90]: +incdir+../tb
+ option[91]: +incdir+../tb/apb_agent
+ option[92]: +incdir+../tb/led_agent
+ option[93]: +incdir+../tb/sequences
+ option[94]: +incdir+../tb/sva
+ option[95]: ../tb/apb_agent/apb_if.sv
+ option[96]: ../tb/led_agent/led_if.sv
+ option[97]: ../tb/sva/led_mux_sva.sv
+ option[98]: ../tb/apb_agent/apb_agent_pkg.svh
+ option[99]: ../tb/led_agent/led_agent_pkg.svh
+ option[100]: ../tb/led_tb_pkg.svh
+ option[101]: ../tb/top_tb.sv
+ option[102]: -Xfile_end
+ option[103]: -load
+ option[104]: /home/synopsys/verdi/W-2024.09-SP2/share/PLI/VCS/LINUX64/libnovas.so:FSDBDumpCmd
+ option[105]: timescale=1ns/1ps
 Chronologic Simulation VCS Release W-2024.09-SP2_Full64
-Linux 4.18.0-553.105.1.el8_10.x86_64 #1 SMP Tue Feb 17 05:17:39 EST 2026 x86_64
+Linux 4.18.0-553.115.1.el8_10.x86_64 #1 SMP Mon Mar 30 00:05:24 EDT 2026 x86_64
 CPU cores: 44
 Limit information:
 ======================================
 cputime		unlimited
 filesize		unlimited
 datasize		unlimited
-stacksize		8305 kbytes
+stacksize		8309 kbytes
 coredumpsize		0 kbytes
 memoryuse		unlimited
 vmemoryuse		unlimited
 descriptors		1024
 memorylocked		64 kbytes
-maxproc		1013142
+maxproc		1013137
 ======================================
 (Special)Runtime environment variables:
 
 Runtime environment variables:
 XA_64=1
+DESKTOP_SESSION=xfce
 NANOTIME_HOME=/home/synopsys/nt/W-2024.09-SP4
 MODULEPATH=/etc/scl/modulefiles:/etc/scl/modulefiles:/etc/scl/modulefiles:/etc/scl/modulefiles:/etc/scl/modulefiles:/usr/share/Modules/modulefiles:/etc/modulefiles:/usr/share/modulefiles
-LVM_AHB_PATH=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/tb/VIP_Release_ETL_2026.03.06/VIP/lvm_ahb/
 VERDI_LIB=/home/synopsys/verdi/W-2024.09-SP2/share/PLI/VCS/linux64
-XMODIFIERS=@im=ibus
 ICVWB_HOME=/home/synopsys/icv_workbench/W-2024.09-SP2
 SHELL=/bin/bash
 VTE_VERSION=5204
 SYNOPSYS_ROOT=/home/synopsys
-TESTNAME=my_test
+TESTNAME=led_reset_values_test
 _=/bin/make
+XDG_CONFIG_DIRS=/etc/xdg
 SNPSLMD_DISABLE_DEBUG_LICENSE_CHECKS=1
 FLIST=1
 HISTCONTROL=ignoredups
 SNPSLMD_LICENSE_FILE=27020@192.168.17.70
-UVM_DESIGN=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/design
-XDG_DATA_DIRS=/home/pohsl/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+UVM_DESIGN=/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/design
+XDG_DATA_DIRS=/home/pohsl/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/usr/share
 TWEAKER_HOME=/home/synopsys/tweaker/W-2024.09-SP4
-UVM_LIBS=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/libs
+UVM_LIBS=/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/libs
 XRC_HOME=/home/synopsys/starrc/W-2024.09-SP4
 LESSOPEN=||/usr/bin/lesspipe.sh %s
 FM_HOME=/home/synopsys/fm/W-2024.09-SP4
@@ -240,15 +238,16 @@ PRIMELIB_HOME=/home/synopsys/primelib/W-2024.09-SP4
 PATH=/home/cadence/IC25.10.030/tools.lnx86/dfII/bin:/home/cadence/IC25.10.030/tools.lnx86/dfII/bin:/home/cadence/IC25.10.030/tools.lnx86/dfII/bin:/home/pohsl/.local/bin:/home/pohsl/bin:/usr/share/Modules/bin:/home/cadence/IC25.10.030/tools.lnx86/dfII/bin:/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:.:/home/synopsys/syn/W-2024.09-SP4/bin:/home/synopsys/rtla/W-2024.09-SP3/bin:/home/synopsys/icc/W-2024.09-SP2/bin:/home/synopsys/prime/W-2024.09-SP4/bin:/home/synopsys/prime/W-2024.09-SP4/linux64/syn/bin:/home/synopsys/lc/W-2024.09-SP3/bin:/home/synopsys/mw/W-2024.09-SP2/bin/linux64:/home/synopsys/vcs/W-2024.09-SP2/bin:/home/synopsys/fm/W-2024.09-SP4/bin:/home/synopsys/icc2/W-2024.09-SP3/bin:/home/synopsys/customcompiler/W-2024.09-SP2/bin:/home/synopsys/hspice/W-2024.09-SP2/hspice/bin:/home/synopsys/icvalidator/W-2024.09-SP4/bin/LINUX.64:/home/synopsys/starrc/W-2024.09-SP4/bin:/home/synopsys/wv/W-2024.09-SP2/bin:/home/synopsys/verdi/W-2024.09-SP2/bin:/home/synopsys/xa/W-2024.09-SP2/bin:/home/synopsys/primesim/W-2024.09-SP2/bin:/home/synopsys/primewave/W-2024.09-SP2/bin:/home/synopsys/primewave/W-2024.09-SP2/linux64/swv/bin:/home/synopsys/nt/W-2024.09-SP4/bin:/home/synopsys/primelib/W-2024.09-SP4/bin:/home/synopsys/spyglass/W-2024.09-SP2/SPYGLASS_HOME/bin:/home/synopsys/euclide/W-2024.09-SP2/linux.gtk.x86_64/eclipse:/home/synopsys/icv_workbench/W-2024.09-SP2/bin:/home/synopsys/vc_static/W-2024.09-SP2/bin:/home/synopsys/fusioncompiler/W-2024.09-SP3/bin:/home/synopsys/tweaker/W-2024.09-SP4/linux64/tweaker/bin:/home/synopsys/idq/W-2024.09-SP4/linux64/iddq/bin:/home/synopsys/rhsc_analysis_fusion/W-2024.09-SP3/linux_x86_64_rhel8_ece/bin:/home/synopsys/rh_analysis_fusion/W-2024.09-SP3/bin:/home/synopsys/testmax/W-2024.09-SP4/bin:/home/synopsys/cf/W-2024.09-SP2/bin:/home/synopsys/cck/W-2024.09-SP2/bin:/home/synopsys/primesim_emir/W-2024.09-SP2/bin:/home/synopsys/primesim_dr/W-2024.09-SP2/bin:/home/synopsys/primesim_di/W-2024.09-SP2/bin:/home/synopsys/pprtl/W-2024.09-SP4/bin
 PT_HOME=/home/synopsys/prime/W-2024.09-SP4
 SYNOPSYS_CUSTOM_SITE=/home/synopsys/nt/W-2024.09-SP4/admin/setup
-SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/263162,unix/unix:/tmp/.ICE-unix/263162
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/1097557,unix/unix:/tmp/.ICE-unix/1097557
 XDG_RUNTIME_DIR=/run/user/1029
 MODULES_CMD=/usr/share/Modules/libexec/modulecmd.tcl
 SYNOPSYS_SYSTYPE=LINUX.64
-XRDP_SESSION=263075
+WINDOWID=50331651
+XRDP_SESSION=1097494
 EUCLIDE_HOME=/home/synopsys/euclide/W-2024.09-SP2
 PRIMESIM_DI=/home/synopsys/primesim_di/W-2024.09-SP2
 ICV_INCLUDES=/home/synopsys/icvalidator/W-2024.09-SP4/include
-ROOT=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu
+ROOT=/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu
 ICC_HOME=/home/synopsys/icc/W-2024.09-SP2
 BASH_FUNC_scl%%=() {  if [ "$1" = "load" -o "$1" = "unload" ]; then
  eval "module $@";
@@ -256,9 +255,9 @@ BASH_FUNC_scl%%=() {  if [ "$1" = "load" -o "$1" = "unload" ]; then
  /usr/bin/scl "$@";
  fi
 }
-XDG_MENU_PREFIX=gnome-
+XDG_MENU_PREFIX=xfce-
 LS_COLORS=rs=0:di=38;5;33:ln=38;5;51:mh=00:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=01;05;37;41:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;40:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.zst=38;5;9:*.tzst=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.wim=38;5;9:*.swm=38;5;9:*.dwm=38;5;9:*.esd=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.mjpg=38;5;13:*.mjpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.m4a=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.oga=38;5;45:*.opus=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:
-SSH_AUTH_SOCK=/run/user/1029/keyring/ssh
+SSH_AUTH_SOCK=/tmp/ssh-fOEIuUEJqaPO/agent.1097557
 ASSERT=1
 DISPLAY=:16.0
 PRIMESIM_LIC=27020@192.168.17.70
@@ -267,8 +266,9 @@ which_declare=declare -f
 CF_HOME=/home/synopsys/cf/W-2024.09-SP2
 HOME=/home/pohsl
 VCS_HOME=/home/synopsys/vcs/W-2024.09-SP2
-PWD=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/sim
-SSH_AGENT_PID=263381
+UVM_VERSION=uvm-1.2
+PWD=/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim
+SSH_AGENT_PID=1097776
 VERDI_HOME=/home/synopsys/verdi/W-2024.09-SP2
 COVERAGE=1
 MANPATH=/usr/share/man:
@@ -281,13 +281,11 @@ MODULESHOME=/usr/share/Modules
 LOGNAME=pohsl
 CDS_LIC_FILE=5280@psdc-lic04
 HSPICE_HOME=/home/synopsys/hspice/W-2024.09-SP2
-GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 UVM_HOME=/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2
 HOSTNAME=psdc-eda01.psdc.org.my
 VCS_TARGET_ARCH=amd64
 SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
 IDDQ_HOME=/home/synopsys/idq/W-2024.09-SP4
-QT_IM_MODULE=ibus
 SHLVL=3
 XRDP_PULSE_SINK_SOCKET=xrdp_chansrv_audio_out_socket_16
 ICC2_HOME=/home/synopsys/icc2/W-2024.09-SP3
@@ -317,27 +315,27 @@ BASH_FUNC_switchml%%=() {  typeset swfound=1;
  return 1;
  fi
 }
-XDG_SESSION_ID=c10
+XDG_SESSION_ID=c8
 USER=pohsl
 MODULE_TB=top_tb
 XRDP_PULSE_SOURCE_SOCKET=xrdp_chansrv_audio_in_socket_16
-XDG_CURRENT_DESKTOP=GNOME
+XDG_CURRENT_DESKTOP=XFCE
 MODULES_RUN_QUARANTINE=LD_LIBRARY_PATH LD_PRELOAD
-LVM_APB_PATH=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/tb/VIP_Release_ETL_2026.03.06/VIP/lvm_apb/
 RTLA_HOME=/home/synopsys/rtla/W-2024.09-SP3
 TYPE=sv
 WV_HOME=/home/synopsys/wv/W-2024.09-SP2
 SYNOPSYS_LC_ROOT=/home/synopsys/lc/W-2024.09-SP3
-OLDPWD=/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER/sim
+OLDPWD=/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu
 CC_HOME=/home/synopsys/customcompiler/W-2024.09-SP2
 VC_STATIC_HOME=/home/synopsys/vc_static/W-2024.09-SP2
 BASH_FUNC_ml%%=() {  module ml "$@"
 }
+PANEL_GDK_CORE_DEVICE_EVENTS=0
 BASH_FUNC_module%%=() {  _module_raw "$@" 2>&1
 }
 UID=1029
 DORADO_HOME=/home/synopsys/tweaker/W-2024.09-SP4
-MAKEFLAGS= -- SEED=0 TESTNAME=my_test
+MAKEFLAGS= -- SEED=0 TESTNAME=led_reset_values_test
 MFLAGS=
 RH_HOME=/home/synopsys/rh_analysis_fusion/W-2024.09-SP3
 MAIL=/var/spool/mail/pohsl
@@ -347,7 +345,7 @@ SPYGLASS_HOME=/home/synopsys/spyglass/W-2024.09-SP2/SPYGLASS_HOME
 PRIMESIM_EMIR_HOME=/home/synopsys/primesim_emir/W-2024.09-SP2
 PULSE_SCRIPT=/etc/xrdp/pulse/default.pa
 CCK_HOME=/home/synopsys/cck/W-2024.09-SP2
-MAKE_TERMOUT=/dev/pts/11
+MAKE_TERMOUT=/dev/pts/18
 BASH_FUNC_which%%=() {  ( alias;
  eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
 }
@@ -360,16 +358,12 @@ MODULE=dut
 XRDP_SOCKET_PATH=/run/xrdp/1029
 NOVAS_HOME=/home/synopsys/verdi/W-2024.09-SP2
 MW_HOME=/home/synopsys/mw/W-2024.09-SP2
-GJS_DEBUG_TOPICS=JS ERROR;JS LOG
-GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/9ff52d22_9b2d_4d44_86c8_3bd61c0296f0
 SEED=0
 PPRTL_HOME=/home/synopsys/pprtl/W-2024.09-SP4
-GNOME_TERMINAL_SERVICE=:1.76
 HISTSIZE=1000
-GJS_DEBUG_OUTPUT=stderr
 RHSC_HOME=/home/synopsys/rhsc_analysis_fusion/W-2024.09-SP3
 TESTMAX=/home/synopsys/testmax/W-2024.09-SP4
-MAKE_TERMERR=/dev/pts/11
+MAKE_TERMERR=/dev/pts/18
 LANG=en_US.UTF-8
 TERM=xterm-256color
 PRIMESIM_HOME=/home/synopsys/primesim/W-2024.09-SP2
@@ -437,7 +431,6 @@ MODULES_USE_COMPAT_VERSION=0
 MODE=dv
 STEP=2
 NR=0
-UVM_VERSION=uvm-ieee-2020-2.0
 VCS_PATHMAP_PRELOAD_DONE=1
 VCS_STACK_EXEC=true
 VCS_EXEC_DONE=1
@@ -447,10 +440,10 @@ SPECMAN_OUTPUT_TO_TTY=1
 FLEXLM_BORROWFILE=/home/pohsl/.psdc-eda01.psdc.org.my-borrow.txt
 Runtime command line arguments:
 argv[0]=dut_simv
-argv[1]=+UVM_TESTNAME=my_test
+argv[1]=+UVM_TESTNAME=led_reset_values_test
 argv[2]=+ntb_random_seed=0
 argv[3]=-l
-argv[4]=my_test_seed_0_sim.log
+argv[4]=led_reset_values_test_seed_0_sim.log
 argv[5]=+UVM_NO_RELNOTES
 argv[6]=-cm
 argv[7]=line+tgl+cond+fsm+branch+assert
@@ -462,131 +455,99 @@ argv[12]=-debug_access+all
 argv[13]=-cm
 argv[14]=line+tgl+cond+fsm+branch+assert
 argv[15]=-cm_name
-argv[16]=my_test_0
+argv[16]=led_reset_values_test_0
 argv[17]=+fsdb+sva_success
-383 profile - 100
-          CPU/Mem usage: 0.070 sys,  0.220 user,  311.23M mem
-384 Elapsed time:    0:00:01    Mon Mar 16 10:07:26 2026
-385 User CPU time used: 0 seconds
-386 System CPU time used: 0 seconds
-387 pliAppInit
-388 FSDB_GATE is set.
-389 FSDB_RTL is set.
-390 FSDB_DYNAMIC_ALIAS is enabled.
-391 libnuma.so open fail. libnuma.so: cannot open shared object file: No such file or directory
-392 FSDB NUMA optimize not available.
-393 FSDB_PACKED_MODE is enabled.
-394 FSDB_GATE_PACKED is enabled.
-395 [SC]Init: MemoryConsumed=0.00MB ElapsedTime=0hour 0min. 0sec.
-396 FSDB_REDUCE_VC_MEM is enabled.
-397 FSDB_ALIAS_ARRAY_ELEM is set to 4294967295.
-398 Enable Parallel Dumping.
-399 pliAppMiscSet: New Sim Round
-400 pliEntryInit
-401 LIBSSCORE=found /home/synopsys/verdi/W-2024.09-SP2/share/PLI/lib/LINUXAMD64/libsscore_vcs202409.so through $NOVAS_HOME setting.
-402 FSDB Dumper for VCS, Release Verdi_W-2024.09-SP2, Linux x86_64/64bit, 03/03/2025
-403 (C) 1996 - 2025 by Synopsys, Inc.
-404 sps_call_fsdbDumpfile_main at 0 : ../tb/top_tb.sv(100)
-405 argv[0]: (waveform.fsdb)
-406 *Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
-407 *Verdi* : Create FSDB file 'waveform.fsdb'
-408 [spi_vcs_vd_ppi_create_root]: no upf option
-409 DUMPER_MEMORY_REDUCTION is enabled.
-410 compile option from '/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/sim/dut_simv.daidir/vcs_rebuild'.
-411   "vcs '-full64' '-l' 'dut_comp.log' '-sverilog' '+v2k' '+vcs+lic+wait' '+vcs+flush+all' '-debug_access+all' '-kdb' '-debug_report' '-top' 'top_tb' '-o' 'dut_simv' '-ntb_opts' 'uvm-ieee-2020-2.0' '+define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR' '-file' '/mnt/PCDA_share/pohsl/LED_MUX_CONTROLLER_stu/tb/dut.f' '-timescale=1ns/1ps' '-cm' 'line+tgl+cond+fsm+branch+assert' '-assert' 'enable_diag' 2>&1"
-412 DVDI_is_vir_unload_enabled is enable
-413 FSDB_VCS_ENABLE_NATIVE_VC is enable
-414 FSDB_VCS_ENABLE_MEMORY_NATIVE_VC is enabled
-415 spi_vcs_vd_vlog_vc_enable_vector_strength is skipped since VCS is not support.
-416 sps_call_fsdbDumpvars_vd_main at 0 : ../tb/top_tb.sv(101)
-417 argv[0]: (0)
-418 argv[1]: (top_tb)
-419 *Verdi* : Begin traversing the scope (top_tb), layer (0).
-420 *Verdi* : End of traversing.
-421 pliAppHDL_DumpVarComplete traverse var: profile - 
-          CPU/Mem usage: 0.070 sys,  0.220 user,  409.58M mem
-                   incr: 0.000 sys,  0.000 user,  8.07M mem
-                   accu: 0.000 sys,  0.000 user,  8.07M mem
-              accu incr: 0.000 sys,  0.000 user,  8.07M mem
+376 profile - 100
+          CPU/Mem usage: 0.050 sys,  0.190 user,  301.83M mem
+377 Elapsed time:    0:00:00    Fri Jul 10 01:24:50 2026
+378 User CPU time used: 0 seconds
+379 System CPU time used: 0 seconds
+380 pliAppInit
+381 FSDB_GATE is set.
+382 FSDB_RTL is set.
+383 FSDB_DYNAMIC_ALIAS is enabled.
+384 libnuma.so open fail. libnuma.so: cannot open shared object file: No such file or directory
+385 FSDB NUMA optimize not available.
+386 FSDB_PACKED_MODE is enabled.
+387 FSDB_GATE_PACKED is enabled.
+388 [SC]Init: MemoryConsumed=0.00MB ElapsedTime=0hour 0min. 0sec.
+389 FSDB_REDUCE_VC_MEM is enabled.
+390 FSDB_ALIAS_ARRAY_ELEM is set to 4294967295.
+391 Enable Parallel Dumping.
+392 pliAppMiscSet: New Sim Round
+393 pliEntryInit
+394 LIBSSCORE=found /home/synopsys/verdi/W-2024.09-SP2/share/PLI/lib/LINUXAMD64/libsscore_vcs202409.so through $NOVAS_HOME setting.
+395 FSDB Dumper for VCS, Release Verdi_W-2024.09-SP2, Linux x86_64/64bit, 03/03/2025
+396 (C) 1996 - 2025 by Synopsys, Inc.
+397 sps_call_fsdbDumpfile_main at 0 : ../tb/top_tb.sv(57)
+398 argv[0]: (waveform.fsdb)
+399 *Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+400 *Verdi* : Create FSDB file 'waveform.fsdb'
+401 [spi_vcs_vd_ppi_create_root]: no upf option
+402 DUMPER_MEMORY_REDUCTION is enabled.
+403 compile option from '/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/dut_simv.daidir/vcs_rebuild'.
+404   "vcs '-full64' '-l' 'dut_comp.log' '-sverilog' '+v2k' '+vcs+lic+wait' '+vcs+flush+all' '-debug_access+all' '-kdb' '-debug_report' '-top' 'top_tb' '-o' 'dut_simv' '-ntb_opts' 'uvm-1.2' '+define+UVM_OBJECT_MUST_HAVE_CONSTRUCTOR' '-file' '/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/tb/dut.f' '-timescale=1ns/1ps' '-cm' 'line+tgl+cond+fsm+branch+assert' '-assert' 'enable_diag' '-CFLAGS' '-DVCS' 2>&1"
+405 DVDI_is_vir_unload_enabled is enable
+406 FSDB_VCS_ENABLE_NATIVE_VC is enable
+407 FSDB_VCS_ENABLE_MEMORY_NATIVE_VC is enabled
+408 spi_vcs_vd_vlog_vc_enable_vector_strength is skipped since VCS is not support.
+409 sps_call_fsdbDumpvars_vd_main at 0 : ../tb/top_tb.sv(58)
+410 argv[0]: (0)
+411 argv[1]: (handle) top_tb
+412 *Verdi* : Begin traversing the scope (top_tb), layer (0).
+413 *Verdi* : End of traversing.
+414 pliAppHDL_DumpVarComplete traverse var: profile - 
+          CPU/Mem usage: 0.060 sys,  0.200 user,  401.75M mem
+                   incr: 0.000 sys,  0.010 user,  9.37M mem
+                   accu: 0.000 sys,  0.010 user,  9.37M mem
+              accu incr: 0.000 sys,  0.010 user,  9.37M mem
 
-          Count usage: 7 var,  7 idcode,  6 callback
-                 incr: 7 var,  7 idcode,  6 callback
-                 accu: 7 var,  7 idcode,  6 callback
-            accu incr: 7 var,  7 idcode,  6 callback
-422 Idcode  0 - bc1:0  mda:0
-423 Elapsed time:    0:00:01    Mon Mar 16 10:07:26 2026
-424 User CPU time used: 0 seconds
-425 System CPU time used: 0 seconds
-426 pliAppHDL_DumpVarComplete: profile - 
-          CPU/Mem usage: 0.070 sys,  0.220 user,  409.58M mem
+          Count usage: 153 var,  117 idcode,  78 callback
+                 incr: 153 var,  117 idcode,  78 callback
+                 accu: 153 var,  117 idcode,  78 callback
+            accu incr: 153 var,  117 idcode,  78 callback
+415 Idcode  0 - bc1:0  mda:0
+416 Elapsed time:    0:00:00    Fri Jul 10 01:24:50 2026
+417 User CPU time used: 0 seconds
+418 System CPU time used: 0 seconds
+419 pliAppHDL_DumpVarComplete: profile - 
+          CPU/Mem usage: 0.060 sys,  0.200 user,  401.75M mem
                    incr: 0.000 sys,  0.000 user,  0.00M mem
-                   accu: 0.000 sys,  0.000 user,  8.07M mem
+                   accu: 0.000 sys,  0.010 user,  9.37M mem
               accu incr: 0.000 sys,  0.000 user,  0.00M mem
 
-          Count usage: 7 var,  7 idcode,  6 callback
+          Count usage: 153 var,  117 idcode,  78 callback
                  incr: 0 var,  0 idcode,  0 callback
-                 accu: 7 var,  7 idcode,  6 callback
+                 accu: 153 var,  117 idcode,  78 callback
             accu incr: 0 var,  0 idcode,  0 callback
-427 Idcode  0 - bc1:0  mda:0
-428 Elapsed time:    0:00:01    Mon Mar 16 10:07:26 2026
-429 User CPU time used: 0 seconds
-430 System CPU time used: 0 seconds
-431 sps_call_fsdbDumpsva_vd_main at 0 : ../tb/top_tb.sv(102)
-432 *Verdi* : Begin traversing the SVA assertions, layer (0).
-433 *Verdi* : Enable +sva_success dumping.
-434 *Verdi* : End of traversing the SVA assertions.
-435 pliAppHDL_DumpSVAComplete traverse var: profile - 
-          CPU/Mem usage: 0.080 sys,  0.240 user,  426.51M mem
-                   incr: 0.010 sys,  0.020 user,  16.93M mem
-                   accu: 0.010 sys,  0.020 user,  16.93M mem
-              accu incr: 0.010 sys,  0.020 user,  16.93M mem
-
-          Count usage: 7 var,  7 idcode,  6 callback
-                 incr: 0 var,  0 idcode,  0 callback
-                 accu: 0 var,  0 idcode,  0 callback
-            accu incr: 0 var,  0 idcode,  0 callback
-436 Idcode  0 - bc1:0  mda:0
-437 Elapsed time:    0:00:01    Mon Mar 16 10:07:26 2026
-438 User CPU time used: 0 seconds
-439 System CPU time used: 0 seconds
-440 pliAppHDL_DumpSVAComplete: profile - 
-          CPU/Mem usage: 0.080 sys,  0.240 user,  426.51M mem
-                   incr: 0.000 sys,  0.000 user,  0.00M mem
-                   accu: 0.010 sys,  0.020 user,  16.93M mem
-              accu incr: 0.000 sys,  0.000 user,  0.00M mem
-
-          Count usage: 7 var,  7 idcode,  6 callback
-                 incr: 0 var,  0 idcode,  0 callback
-                 accu: 0 var,  0 idcode,  0 callback
-            accu incr: 0 var,  0 idcode,  0 callback
-441 Idcode  0 - bc1:0  mda:0
-442 Elapsed time:    0:00:01    Mon Mar 16 10:07:26 2026
-443 User CPU time used: 0 seconds
-444 System CPU time used: 0 seconds
-445 End of simulation at 1000000
-446 Memory usage: 426.525 M
-447 Maximum resident set size: 188 MB
-448 Hard page faults: 425
-449 Soft page faults: 19334
-450 Elapsed time:    0:00:01    Mon Mar 16 10:07:26 2026
-451 User CPU time used: 0 seconds
-452 System CPU time used: 0 seconds
-453 Begin FSDB profile info:
-454 FSDB Writer : bc1(100) bcn(0) mtf/stf(0/0)
-FSDB Writer elapsed time : flush(0.003289) io wait(0.000000) theadpool wait(0.000000)
+420 Idcode  0 - bc1:0  mda:0
+421 Elapsed time:    0:00:00    Fri Jul 10 01:24:50 2026
+422 User CPU time used: 0 seconds
+423 System CPU time used: 0 seconds
+424 End of simulation at 1110000
+425 Memory usage: 401.760 M
+426 Maximum resident set size: 174 MB
+427 Hard page faults: 0
+428 Soft page faults: 17989
+429 Elapsed time:    0:00:00    Fri Jul 10 01:24:50 2026
+430 User CPU time used: 0 seconds
+431 System CPU time used: 0 seconds
+432 Begin FSDB profile info:
+433 FSDB Writer : bc1(457) bcn(466) mtf/stf(0/0)
+FSDB Writer elapsed time : flush(0.004891) io wait(0.000000) theadpool wait(0.000000)
 FSDB Writer cpu time : MT Compression : 0
-455 End FSDB profile info
-456 FSDB closed. Name: waveform.fsdb Size: 9813
-457 Parallel profile     - ProducerThread:1 ConsumerThread:1 Buffer:64MB
-458                      - BlockUsed:1 Acquire:0 BufferUsed:2700
-459                      - Flush:4 Expand:0 ProducerWait:0 ConsumerWait:0
-460                      - MainProducerTime:0.338709978 TotalConsumerTime:0.000000000
-461                      - ElapsedTime:0.118882000
-462 Producer   0 profile - BlockUsed:2 Acquire:0 BufferUsed:2700
-463 Consumer   0 profile - Affinity:-1 CPUTime:0.000000000 LifeTime:0.000000000 (-nan%)
-464                      - BlockUsed:2 Acquire:0 BufferUsed:2700
-465 SimExit
-466 Elapsed time:    0:00:01    Mon Mar 16 10:07:26 2026
-467 User CPU time used: 0 seconds
-468 System CPU time used: 0 seconds
-469 Sim process exit
+434 End FSDB profile info
+435 FSDB closed. Name: waveform.fsdb Size: 14846
+436 Parallel profile     - ProducerThread:1 ConsumerThread:1 Buffer:64MB
+437                      - BlockUsed:1 Acquire:0 BufferUsed:14671
+438                      - Flush:3 Expand:0 ProducerWait:0 ConsumerWait:0
+439                      - MainProducerTime:0.308554819 TotalConsumerTime:0.000000000
+440                      - ElapsedTime:0.072672000
+441 Producer   0 profile - BlockUsed:2 Acquire:0 BufferUsed:14671
+442 Consumer   0 profile - Affinity:-1 CPUTime:0.000000000 LifeTime:0.000000000 (-nan%)
+443                      - BlockUsed:2 Acquire:0 BufferUsed:14671
+444 SimExit
+445 Elapsed time:    0:00:00    Fri Jul 10 01:24:50 2026
+446 User CPU time used: 0 seconds
+447 System CPU time used: 0 seconds
+448 Sim process exit

@@ -33,19 +33,17 @@ struct	_vcs_dpi_rsrc_msg_struct	{
 
  extern SV_STRING uvm_dpi_get_tool_version_c();
 
- extern SV_STRING uvm_re_deglobbed(/* INPUT */const char* glob, /* INPUT */unsigned char with_brackets);
+ extern void* uvm_dpi_regcomp(/* INPUT */const char* regex);
 
- extern SV_STRING uvm_re_buffer();
+ extern int uvm_dpi_regexec(/* INPUT */void* preg, /* INPUT */const char* str);
 
- extern void uvm_re_free(/* INPUT */void* rexp);
+ extern void uvm_dpi_regfree(/* INPUT */void* preg);
 
- extern void* uvm_re_comp(/* INPUT */const char* re, /* INPUT */unsigned char deglob);
+ extern int uvm_re_match(/* INPUT */const char* re, /* INPUT */const char* str);
 
- extern int uvm_re_exec(/* INPUT */void* rexp, /* INPUT */const char* str);
+ extern void uvm_dump_re_cache();
 
- extern void* uvm_re_compexec(/* INPUT */const char* re, /* INPUT */const char* str, /* INPUT */unsigned char deglob, /* OUTPUT */int *exec_ret);
-
- extern unsigned char uvm_re_compexecfree(/* INPUT */const char* re, /* INPUT */const char* str, /* INPUT */unsigned char deglob, /* OUTPUT */int *exec_ret);
+ extern SV_STRING uvm_glob_to_re(/* INPUT */const char* glob);
 
  extern int parse_rsrc_msg(/* INPUT */const char* message, /* OUTPUT */rsrc_msg_struct *_msg_fields);
 
@@ -111,6 +109,8 @@ struct	_vcs_dpi_rsrc_msg_struct	{
 
  extern void fsdbTransDPI_create_stream_end(/* OUTPUT */int *state, /* INPUT */int sid, /* INPUT */const char* options);
 
+ extern int fsdbTransDPI_get_ended_stream_id(/* OUTPUT */int *state, /* INPUT */const char* stream_fullname, /* INPUT */const char* options);
+
  extern long long fsdbTransDPI_begin(/* OUTPUT */int *state, /* INPUT */int sid, /* INPUT */const char* trans_type, /* INPUT */const char* options);
 
  extern void fsdbTransDPI_set_label(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* label, /* INPUT */const char* options);
@@ -119,7 +119,13 @@ struct	_vcs_dpi_rsrc_msg_struct	{
 
  extern void fsdbTransDPI_add_logicvec_attribute(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, const /* INPUT */svLogicVecVal *attribute, /* INPUT */int numbit, /* INPUT */const char* options);
 
+ extern void fsdbTransDPI_add_bitvec_attribute(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, const /* INPUT */svBitVecVal *attribute, /* INPUT */int numbit, /* INPUT */const char* options);
+
  extern void fsdbTransDPI_add_int_attribute(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */int attribute, /* INPUT */const char* options);
+
+ extern void fsdbTransDPI_add_shortint_attribute(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */short int attribute, /* INPUT */const char* options);
+
+ extern void fsdbTransDPI_add_longint_attribute(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */long long attribute, /* INPUT */const char* options);
 
  extern void fsdbTransDPI_add_string_attribute(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */const char* attribute, /* INPUT */const char* options);
 
@@ -129,7 +135,13 @@ struct	_vcs_dpi_rsrc_msg_struct	{
 
  extern void fsdbTransDPI_add_logicvec_attribute_with_expected_value(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, const /* INPUT */svLogicVecVal *attribute, /* INPUT */int numbit, const /* INPUT */svLogicVecVal *expected_val, /* INPUT */const char* options);
 
+ extern void fsdbTransDPI_add_bitvec_attribute_with_expected_value(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, const /* INPUT */svBitVecVal *attribute, /* INPUT */int numbit, const /* INPUT */svBitVecVal *expected_val, /* INPUT */const char* options);
+
  extern void fsdbTransDPI_add_int_attribute_with_expected_value(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */int attribute, /* INPUT */int expected_val, /* INPUT */const char* options);
+
+ extern void fsdbTransDPI_add_shortint_attribute_with_expected_value(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */short int attribute, /* INPUT */short int expected_val, /* INPUT */const char* options);
+
+ extern void fsdbTransDPI_add_longint_attribute_with_expected_value(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */long long attribute, /* INPUT */long long expected_val, /* INPUT */const char* options);
 
  extern void fsdbTransDPI_add_string_attribute_with_expected_value(/* OUTPUT */int *state, /* INPUT */long long tid, /* INPUT */const char* attribute_name, /* INPUT */const char* attribute, /* INPUT */const char* expected_val, /* INPUT */const char* options);
 

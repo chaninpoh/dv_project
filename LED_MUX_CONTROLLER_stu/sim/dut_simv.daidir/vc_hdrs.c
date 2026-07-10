@@ -301,14 +301,36 @@ __attribute__((weak)) SV_STRING uvm_dpi_get_tool_version_c()
 }
 #endif /* __VCS_IMPORT_DPI_STUB_uvm_dpi_get_tool_version_c */
 
-#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_deglobbed
-#define __VCS_IMPORT_DPI_STUB_uvm_re_deglobbed
-__attribute__((weak)) SV_STRING uvm_re_deglobbed(/* INPUT */const char* A_1, /* INPUT */unsigned char A_2)
+#ifndef __VCS_IMPORT_DPI_STUB_uvm_dpi_regcomp
+#define __VCS_IMPORT_DPI_STUB_uvm_dpi_regcomp
+__attribute__((weak)) void* uvm_dpi_regcomp(/* INPUT */const char* A_1)
 {
     static int _vcs_dpi_stub_initialized_ = 0;
-    static SV_STRING (*_vcs_dpi_fp_)(/* INPUT */const char* A_1, /* INPUT */unsigned char A_2) = NULL;
+    static void* (*_vcs_dpi_fp_)(/* INPUT */const char* A_1) = NULL;
     if (!_vcs_dpi_stub_initialized_) {
-        _vcs_dpi_fp_ = (SV_STRING (*)(const char* A_1, unsigned char A_2)) dlsym(RTLD_NEXT, "uvm_re_deglobbed");
+        _vcs_dpi_fp_ = (void* (*)(const char* A_1)) dlsym(RTLD_NEXT, "uvm_dpi_regcomp");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        return _vcs_dpi_fp_(A_1);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_dpi_regcomp");
+        return 0;
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_uvm_dpi_regcomp */
+
+#ifndef __VCS_IMPORT_DPI_STUB_uvm_dpi_regexec
+#define __VCS_IMPORT_DPI_STUB_uvm_dpi_regexec
+__attribute__((weak)) int uvm_dpi_regexec(/* INPUT */void* A_1, /* INPUT */const char* A_2)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static int (*_vcs_dpi_fp_)(/* INPUT */void* A_1, /* INPUT */const char* A_2) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (int (*)(void* A_1, const char* A_2)) dlsym(RTLD_NEXT, "uvm_dpi_regexec");
         _vcs_dpi_stub_initialized_ = 1;
     }
     if (_vcs_dpi_fp_) {
@@ -317,42 +339,20 @@ __attribute__((weak)) SV_STRING uvm_re_deglobbed(/* INPUT */const char* A_1, /* 
         const char *fileName;
         int lineNumber;
         svGetCallerInfo(&fileName, &lineNumber);
-        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_deglobbed");
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_dpi_regexec");
         return 0;
     }
 }
-#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_deglobbed */
+#endif /* __VCS_IMPORT_DPI_STUB_uvm_dpi_regexec */
 
-#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_buffer
-#define __VCS_IMPORT_DPI_STUB_uvm_re_buffer
-__attribute__((weak)) SV_STRING uvm_re_buffer()
-{
-    static int _vcs_dpi_stub_initialized_ = 0;
-    static SV_STRING (*_vcs_dpi_fp_)() = NULL;
-    if (!_vcs_dpi_stub_initialized_) {
-        _vcs_dpi_fp_ = (SV_STRING (*)()) dlsym(RTLD_NEXT, "uvm_re_buffer");
-        _vcs_dpi_stub_initialized_ = 1;
-    }
-    if (_vcs_dpi_fp_) {
-        return _vcs_dpi_fp_();
-    } else {
-        const char *fileName;
-        int lineNumber;
-        svGetCallerInfo(&fileName, &lineNumber);
-        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_buffer");
-        return 0;
-    }
-}
-#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_buffer */
-
-#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_free
-#define __VCS_IMPORT_DPI_STUB_uvm_re_free
-__attribute__((weak)) void uvm_re_free(/* INPUT */void* A_1)
+#ifndef __VCS_IMPORT_DPI_STUB_uvm_dpi_regfree
+#define __VCS_IMPORT_DPI_STUB_uvm_dpi_regfree
+__attribute__((weak)) void uvm_dpi_regfree(/* INPUT */void* A_1)
 {
     static int _vcs_dpi_stub_initialized_ = 0;
     static void (*_vcs_dpi_fp_)(/* INPUT */void* A_1) = NULL;
     if (!_vcs_dpi_stub_initialized_) {
-        _vcs_dpi_fp_ = (void (*)(void* A_1)) dlsym(RTLD_NEXT, "uvm_re_free");
+        _vcs_dpi_fp_ = (void (*)(void* A_1)) dlsym(RTLD_NEXT, "uvm_dpi_regfree");
         _vcs_dpi_stub_initialized_ = 1;
     }
     if (_vcs_dpi_fp_) {
@@ -361,19 +361,19 @@ __attribute__((weak)) void uvm_re_free(/* INPUT */void* A_1)
         const char *fileName;
         int lineNumber;
         svGetCallerInfo(&fileName, &lineNumber);
-        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_free");
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_dpi_regfree");
     }
 }
-#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_free */
+#endif /* __VCS_IMPORT_DPI_STUB_uvm_dpi_regfree */
 
-#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_comp
-#define __VCS_IMPORT_DPI_STUB_uvm_re_comp
-__attribute__((weak)) void* uvm_re_comp(/* INPUT */const char* A_1, /* INPUT */unsigned char A_2)
+#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_match
+#define __VCS_IMPORT_DPI_STUB_uvm_re_match
+__attribute__((weak)) int uvm_re_match(/* INPUT */const char* A_1, /* INPUT */const char* A_2)
 {
     static int _vcs_dpi_stub_initialized_ = 0;
-    static void* (*_vcs_dpi_fp_)(/* INPUT */const char* A_1, /* INPUT */unsigned char A_2) = NULL;
+    static int (*_vcs_dpi_fp_)(/* INPUT */const char* A_1, /* INPUT */const char* A_2) = NULL;
     if (!_vcs_dpi_stub_initialized_) {
-        _vcs_dpi_fp_ = (void* (*)(const char* A_1, unsigned char A_2)) dlsym(RTLD_NEXT, "uvm_re_comp");
+        _vcs_dpi_fp_ = (int (*)(const char* A_1, const char* A_2)) dlsym(RTLD_NEXT, "uvm_re_match");
         _vcs_dpi_stub_initialized_ = 1;
     }
     if (_vcs_dpi_fp_) {
@@ -382,77 +382,54 @@ __attribute__((weak)) void* uvm_re_comp(/* INPUT */const char* A_1, /* INPUT */u
         const char *fileName;
         int lineNumber;
         svGetCallerInfo(&fileName, &lineNumber);
-        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_comp");
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_match");
         return 0;
     }
 }
-#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_comp */
+#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_match */
 
-#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_exec
-#define __VCS_IMPORT_DPI_STUB_uvm_re_exec
-__attribute__((weak)) int uvm_re_exec(/* INPUT */void* A_1, /* INPUT */const char* A_2)
+#ifndef __VCS_IMPORT_DPI_STUB_uvm_dump_re_cache
+#define __VCS_IMPORT_DPI_STUB_uvm_dump_re_cache
+__attribute__((weak)) void uvm_dump_re_cache()
 {
     static int _vcs_dpi_stub_initialized_ = 0;
-    static int (*_vcs_dpi_fp_)(/* INPUT */void* A_1, /* INPUT */const char* A_2) = NULL;
+    static void (*_vcs_dpi_fp_)() = NULL;
     if (!_vcs_dpi_stub_initialized_) {
-        _vcs_dpi_fp_ = (int (*)(void* A_1, const char* A_2)) dlsym(RTLD_NEXT, "uvm_re_exec");
+        _vcs_dpi_fp_ = (void (*)()) dlsym(RTLD_NEXT, "uvm_dump_re_cache");
         _vcs_dpi_stub_initialized_ = 1;
     }
     if (_vcs_dpi_fp_) {
-        return _vcs_dpi_fp_(A_1, A_2);
+        _vcs_dpi_fp_();
     } else {
         const char *fileName;
         int lineNumber;
         svGetCallerInfo(&fileName, &lineNumber);
-        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_exec");
-        return 0;
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_dump_re_cache");
     }
 }
-#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_exec */
+#endif /* __VCS_IMPORT_DPI_STUB_uvm_dump_re_cache */
 
-#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_compexec
-#define __VCS_IMPORT_DPI_STUB_uvm_re_compexec
-__attribute__((weak)) void* uvm_re_compexec(/* INPUT */const char* A_1, /* INPUT */const char* A_2, /* INPUT */unsigned char A_3, /* OUTPUT */int *A_4)
+#ifndef __VCS_IMPORT_DPI_STUB_uvm_glob_to_re
+#define __VCS_IMPORT_DPI_STUB_uvm_glob_to_re
+__attribute__((weak)) SV_STRING uvm_glob_to_re(/* INPUT */const char* A_1)
 {
     static int _vcs_dpi_stub_initialized_ = 0;
-    static void* (*_vcs_dpi_fp_)(/* INPUT */const char* A_1, /* INPUT */const char* A_2, /* INPUT */unsigned char A_3, /* OUTPUT */int *A_4) = NULL;
+    static SV_STRING (*_vcs_dpi_fp_)(/* INPUT */const char* A_1) = NULL;
     if (!_vcs_dpi_stub_initialized_) {
-        _vcs_dpi_fp_ = (void* (*)(const char* A_1, const char* A_2, unsigned char A_3, int* A_4)) dlsym(RTLD_NEXT, "uvm_re_compexec");
+        _vcs_dpi_fp_ = (SV_STRING (*)(const char* A_1)) dlsym(RTLD_NEXT, "uvm_glob_to_re");
         _vcs_dpi_stub_initialized_ = 1;
     }
     if (_vcs_dpi_fp_) {
-        return _vcs_dpi_fp_(A_1, A_2, A_3, A_4);
+        return _vcs_dpi_fp_(A_1);
     } else {
         const char *fileName;
         int lineNumber;
         svGetCallerInfo(&fileName, &lineNumber);
-        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_compexec");
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_glob_to_re");
         return 0;
     }
 }
-#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_compexec */
-
-#ifndef __VCS_IMPORT_DPI_STUB_uvm_re_compexecfree
-#define __VCS_IMPORT_DPI_STUB_uvm_re_compexecfree
-__attribute__((weak)) unsigned char uvm_re_compexecfree(/* INPUT */const char* A_1, /* INPUT */const char* A_2, /* INPUT */unsigned char A_3, /* OUTPUT */int *A_4)
-{
-    static int _vcs_dpi_stub_initialized_ = 0;
-    static unsigned char (*_vcs_dpi_fp_)(/* INPUT */const char* A_1, /* INPUT */const char* A_2, /* INPUT */unsigned char A_3, /* OUTPUT */int *A_4) = NULL;
-    if (!_vcs_dpi_stub_initialized_) {
-        _vcs_dpi_fp_ = (unsigned char (*)(const char* A_1, const char* A_2, unsigned char A_3, int* A_4)) dlsym(RTLD_NEXT, "uvm_re_compexecfree");
-        _vcs_dpi_stub_initialized_ = 1;
-    }
-    if (_vcs_dpi_fp_) {
-        return _vcs_dpi_fp_(A_1, A_2, A_3, A_4);
-    } else {
-        const char *fileName;
-        int lineNumber;
-        svGetCallerInfo(&fileName, &lineNumber);
-        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "uvm_re_compexecfree");
-        return 0;
-    }
-}
-#endif /* __VCS_IMPORT_DPI_STUB_uvm_re_compexecfree */
+#endif /* __VCS_IMPORT_DPI_STUB_uvm_glob_to_re */
 
 #ifndef __VCS_IMPORT_DPI_STUB_parse_rsrc_msg
 #define __VCS_IMPORT_DPI_STUB_parse_rsrc_msg
@@ -1138,6 +1115,28 @@ __attribute__((weak)) void fsdbTransDPI_create_stream_end(/* OUTPUT */int *A_1, 
 }
 #endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_create_stream_end */
 
+#ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_get_ended_stream_id
+#define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_get_ended_stream_id
+__attribute__((weak)) int fsdbTransDPI_get_ended_stream_id(/* OUTPUT */int *A_1, /* INPUT */const char* A_2, /* INPUT */const char* A_3)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static int (*_vcs_dpi_fp_)(/* OUTPUT */int *A_1, /* INPUT */const char* A_2, /* INPUT */const char* A_3) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (int (*)(int* A_1, const char* A_2, const char* A_3)) dlsym(RTLD_NEXT, "fsdbTransDPI_get_ended_stream_id");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        return _vcs_dpi_fp_(A_1, A_2, A_3);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "fsdbTransDPI_get_ended_stream_id");
+        return 0;
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_get_ended_stream_id */
+
 #ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_begin
 #define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_begin
 __attribute__((weak)) long long fsdbTransDPI_begin(/* OUTPUT */int *A_1, /* INPUT */int A_2, /* INPUT */const char* A_3, /* INPUT */const char* A_4)
@@ -1223,6 +1222,27 @@ __attribute__((weak)) void fsdbTransDPI_add_logicvec_attribute(/* OUTPUT */int *
 }
 #endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_logicvec_attribute */
 
+#ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_bitvec_attribute
+#define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_bitvec_attribute
+__attribute__((weak)) void fsdbTransDPI_add_bitvec_attribute(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, const /* INPUT */svBitVecVal *A_4, /* INPUT */int A_5, /* INPUT */const char* A_6)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static void (*_vcs_dpi_fp_)(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, const /* INPUT */svBitVecVal *A_4, /* INPUT */int A_5, /* INPUT */const char* A_6) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (void (*)(int* A_1, long long A_2, const char* A_3, const svBitVecVal* A_4, int A_5, const char* A_6)) dlsym(RTLD_NEXT, "fsdbTransDPI_add_bitvec_attribute");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        _vcs_dpi_fp_(A_1, A_2, A_3, A_4, A_5, A_6);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "fsdbTransDPI_add_bitvec_attribute");
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_bitvec_attribute */
+
 #ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_int_attribute
 #define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_int_attribute
 __attribute__((weak)) void fsdbTransDPI_add_int_attribute(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */int A_4, /* INPUT */const char* A_5)
@@ -1243,6 +1263,48 @@ __attribute__((weak)) void fsdbTransDPI_add_int_attribute(/* OUTPUT */int *A_1, 
     }
 }
 #endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_int_attribute */
+
+#ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_shortint_attribute
+#define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_shortint_attribute
+__attribute__((weak)) void fsdbTransDPI_add_shortint_attribute(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */short int A_4, /* INPUT */const char* A_5)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static void (*_vcs_dpi_fp_)(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */short int A_4, /* INPUT */const char* A_5) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (void (*)(int* A_1, long long A_2, const char* A_3, short int A_4, const char* A_5)) dlsym(RTLD_NEXT, "fsdbTransDPI_add_shortint_attribute");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        _vcs_dpi_fp_(A_1, A_2, A_3, A_4, A_5);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "fsdbTransDPI_add_shortint_attribute");
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_shortint_attribute */
+
+#ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_longint_attribute
+#define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_longint_attribute
+__attribute__((weak)) void fsdbTransDPI_add_longint_attribute(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */long long A_4, /* INPUT */const char* A_5)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static void (*_vcs_dpi_fp_)(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */long long A_4, /* INPUT */const char* A_5) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (void (*)(int* A_1, long long A_2, const char* A_3, long long A_4, const char* A_5)) dlsym(RTLD_NEXT, "fsdbTransDPI_add_longint_attribute");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        _vcs_dpi_fp_(A_1, A_2, A_3, A_4, A_5);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "fsdbTransDPI_add_longint_attribute");
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_longint_attribute */
 
 #ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_string_attribute
 #define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_string_attribute
@@ -1328,6 +1390,27 @@ __attribute__((weak)) void fsdbTransDPI_add_logicvec_attribute_with_expected_val
 }
 #endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_logicvec_attribute_with_expected_value */
 
+#ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_bitvec_attribute_with_expected_value
+#define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_bitvec_attribute_with_expected_value
+__attribute__((weak)) void fsdbTransDPI_add_bitvec_attribute_with_expected_value(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, const /* INPUT */svBitVecVal *A_4, /* INPUT */int A_5, const /* INPUT */svBitVecVal *A_6, /* INPUT */const char* A_7)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static void (*_vcs_dpi_fp_)(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, const /* INPUT */svBitVecVal *A_4, /* INPUT */int A_5, const /* INPUT */svBitVecVal *A_6, /* INPUT */const char* A_7) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (void (*)(int* A_1, long long A_2, const char* A_3, const svBitVecVal* A_4, int A_5, const svBitVecVal* A_6, const char* A_7)) dlsym(RTLD_NEXT, "fsdbTransDPI_add_bitvec_attribute_with_expected_value");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        _vcs_dpi_fp_(A_1, A_2, A_3, A_4, A_5, A_6, A_7);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "fsdbTransDPI_add_bitvec_attribute_with_expected_value");
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_bitvec_attribute_with_expected_value */
+
 #ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_int_attribute_with_expected_value
 #define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_int_attribute_with_expected_value
 __attribute__((weak)) void fsdbTransDPI_add_int_attribute_with_expected_value(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */int A_4, /* INPUT */int A_5, /* INPUT */const char* A_6)
@@ -1348,6 +1431,48 @@ __attribute__((weak)) void fsdbTransDPI_add_int_attribute_with_expected_value(/*
     }
 }
 #endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_int_attribute_with_expected_value */
+
+#ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_shortint_attribute_with_expected_value
+#define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_shortint_attribute_with_expected_value
+__attribute__((weak)) void fsdbTransDPI_add_shortint_attribute_with_expected_value(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */short int A_4, /* INPUT */short int A_5, /* INPUT */const char* A_6)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static void (*_vcs_dpi_fp_)(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */short int A_4, /* INPUT */short int A_5, /* INPUT */const char* A_6) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (void (*)(int* A_1, long long A_2, const char* A_3, short int A_4, short int A_5, const char* A_6)) dlsym(RTLD_NEXT, "fsdbTransDPI_add_shortint_attribute_with_expected_value");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        _vcs_dpi_fp_(A_1, A_2, A_3, A_4, A_5, A_6);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "fsdbTransDPI_add_shortint_attribute_with_expected_value");
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_shortint_attribute_with_expected_value */
+
+#ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_longint_attribute_with_expected_value
+#define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_longint_attribute_with_expected_value
+__attribute__((weak)) void fsdbTransDPI_add_longint_attribute_with_expected_value(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */long long A_4, /* INPUT */long long A_5, /* INPUT */const char* A_6)
+{
+    static int _vcs_dpi_stub_initialized_ = 0;
+    static void (*_vcs_dpi_fp_)(/* OUTPUT */int *A_1, /* INPUT */long long A_2, /* INPUT */const char* A_3, /* INPUT */long long A_4, /* INPUT */long long A_5, /* INPUT */const char* A_6) = NULL;
+    if (!_vcs_dpi_stub_initialized_) {
+        _vcs_dpi_fp_ = (void (*)(int* A_1, long long A_2, const char* A_3, long long A_4, long long A_5, const char* A_6)) dlsym(RTLD_NEXT, "fsdbTransDPI_add_longint_attribute_with_expected_value");
+        _vcs_dpi_stub_initialized_ = 1;
+    }
+    if (_vcs_dpi_fp_) {
+        _vcs_dpi_fp_(A_1, A_2, A_3, A_4, A_5, A_6);
+    } else {
+        const char *fileName;
+        int lineNumber;
+        svGetCallerInfo(&fileName, &lineNumber);
+        vcsMsgReport1("DPI-DIFNF", fileName, lineNumber, 0, 0, "fsdbTransDPI_add_longint_attribute_with_expected_value");
+    }
+}
+#endif /* __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_longint_attribute_with_expected_value */
 
 #ifndef __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_string_attribute_with_expected_value
 #define __VCS_IMPORT_DPI_STUB_fsdbTransDPI_add_string_attribute_with_expected_value
