@@ -62,7 +62,10 @@ module top_tb;
     .clk     (clk),
     .rst_n   (rst_n),
     .sel_out (led_vif.sel_out),
-    .seg_out (led_vif.seg_out)
+    .seg_out (led_vif.seg_out),
+    .psel    (apb_vif.psel),
+    .penable (apb_vif.penable),
+    .pready  (apb_vif.pready)
   );
 
 endmodule

@@ -35,6 +35,9 @@
 | FIX-010 | 2 | Agent / topology empty; factory missing test | [§FIX-010](#fix-010-factory-or-topology-missing-in-log) |
 | FIX-011 | 3 | Scoreboard false fail before `Done==1` | [§FIX-011](#fix-011-scoreboard-compares-before-done) |
 | FIX-012 | 3 | SVA assertion failure / `dut_sva.rpt` | [§FIX-012](#fix-012-sva-assertion-failure) |
+| BUG-001 | 3 | `SCB-1` UVM_ERROR — LED_enable reads 0 after reset, expected 1 | [§BUG-001](#bug-001-apb-0x4000-led_enable-register-reset-value-mismatch) |
+| BUG-002 | 3 | `assert_sel_out_stable_during_reset` — 4 SVA failures during active reset | [§BUG-002](#bug-002-sel_out-toggling-during-active-reset) |
+| TB_BUG-001 | 3 | `assert_apb_access_phase` 49 failures — psel not cleared after READ | [§TB_BUG-001](#tb_bug-001-apb-driver--pselpenable-not-cleared-after-read-transaction) |
 | FIX-013 | 4 | `regress_p0.sh` permission denied | [§FIX-013](#fix-013-regress_p0sh-not-executable) |
 | FIX-014 | — | Excel `PermissionError` generating testplan | [§FIX-014](#fix-014-excel-testplan-permission-denied) |
 
@@ -188,6 +191,50 @@ vcs -full64 -sverilog ... -file $ROOT/tb/dut.f -CFLAGS -DVCS
 | **Symptom** | Assertion failures in sim log or `dut_sva.rpt` |
 | **Fix** | Match property name to TESTPLAN §0.3. Check `bind` port wiring in `top_tb`. Ensure `disable iff (!rst_n)`. Distinguish RTL bug vs stimulus timing (C-4 hold, C-5 latency). |
 | **Verify** | Assertion summary: 0 failures for enabled properties |
+
+---
+
+## Testbench Bugs
+
+### TB_BUG-001: APB driver — psel/penable not cleared after READ transaction
+
+| | |
+|---|---|
+| **Detected by** | `apb_pready_no_wait_test` — SVA `assert_apb_access_phase` (49 failures), `assert_apb_pready_complete` (1 failure) |
+| **Symptom** | After a READ completes, `psel=1` and `penable=1` remain asserted while slave has already cleared `pready=0`. SVA `(psel && penable) \|-> pready` fires on every idle clock until phase drain. |
+| **Root cause** | `apb_driver.sv` WRITE path has cleanup (`psel<=0; pwrite<=0; paddr<=0`). READ path exits the do-while and only reads `prdata` — no cleanup. |
+| **Location** | `tb/apb_agent/apb_driver.sv` — READ else-branch, after `req.data = dut_vif.prdata;` |
+| **Fix** | Add after `req.data = dut_vif.prdata;`: `dut_vif.psel<=0; dut_vif.pwrite<=0; dut_vif.paddr<=0; dut_vif.penable<=0;` |
+| **Status** | **FIXED** — mirrors WRITE cleanup pattern. |
+
+---
+
+## Design Bugs (detected by testbench — do not fix until root cause confirmed)
+
+### BUG-001: APB 0x4000 LED_enable register reset value mismatch
+
+| | |
+|---|---|
+| **Detected by** | `apb_reset_defaults_test` — SCB-1 |
+| **Symptom** | `UVM_ERROR [SCB-1] LED_enable mismatch @ 0x4000: got 0, exp 1` |
+| **Log** | `apb_reset_defaults_test_seed_0_sim.log` @ ~270 ns |
+| **Root cause (suspected)** | `APB_Slave.sv` resets `mem <= '0` (all registers zeroed) but separately asserts `o_led_enable <= 1'b1`. Reading address `0x4000` returns `mem[0] = 0`, not `1`. The APB register readback is inconsistent with the functional default. |
+| **RTL location** | `src/AMBA/APB/APB_Slave.sv` — `always @(posedge i_pclk or negedge i_prstn)` reset block: `mem<='0` vs `o_led_enable <= 1'b1` |
+| **Status** | **OPEN — awaiting DUT owner confirmation.** Do not adjust scoreboard expectation until confirmed whether this is an intentional design choice or a DUT bug. |
+| **If DUT bug confirmed** | Fix: Add `mem[0] <= 1` in the APB slave reset block alongside `o_led_enable <= 1'b1` so register readback matches the functional default. |
+| **If intentional** | Update scoreboard SCB-1 shadow init to `led_enable = 1'b0` to reflect APB register behaviour (not functional signal). Document discrepancy. |
+
+### BUG-002: `sel_out` toggling during active reset
+
+| | |
+|---|---|
+| **Detected by** | `led_reset_values_test` — SVA `assert_sel_out_stable_during_reset` |
+| **Symptom** | 4 failures at 30 ns, 50 ns, 70 ns, 90 ns; `sel_out != 6'h3E` during `rst_n = 0` |
+| **Log** | `dut_sva.rpt` and `led_reset_values_test_seed_0_sim.log` |
+| **Root cause (suspected)** | `dp_mux.sv` connects `LED_mux` reset as `.rst(rstn)` (undefined wire) instead of `.rst(rst_n)` — **BUG-3 in source comment**. With `rstn = Z`, the LED_mux async reset never fires; the combinational `always @(out_counter)` block overrides `sel_out` before the sequential reset block can hold it at `6'h3E`. |
+| **RTL location** | `src/dp_mux.sv` line 15: `.rst(rstn)` should be `.rst(rst_n)` |
+| **Status** | **OPEN — awaiting DUT owner confirmation.** |
+| **If DUT bug confirmed** | Fix: Change `.rst(rstn)` → `.rst(rst_n)` in `dp_mux.sv`. |
 
 ---
 

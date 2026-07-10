@@ -67,7 +67,11 @@ class apb_driver extends uvm_driver #(apb_transaction);
 	dut_vif.penable <= 1'b1;
      end while ( dut_vif.pready === 0);
      req.data =  dut_vif.prdata;
-  end  
+     dut_vif.paddr  <= 32'h0;
+     dut_vif.pwrite <= 1'b0;
+     dut_vif.psel   <= 1'b0;
+     dut_vif.penable<= 1'b0;
+  end
 
 
 

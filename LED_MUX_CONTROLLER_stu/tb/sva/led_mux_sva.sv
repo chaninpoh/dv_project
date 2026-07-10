@@ -3,7 +3,11 @@ module led_mux_sva (
   input logic       clk,
   input logic       rst_n,
   input logic [5:0] sel_out,
-  input logic [7:0] seg_out
+  input logic [7:0] seg_out,
+  // APB signals — for pready no-wait assertions (E06)
+  input logic       psel,
+  input logic       penable,
+  input logic       pready
 );
 
   // -------------------------------------------------------------------------
@@ -38,5 +42,31 @@ module led_mux_sva (
       $rose(rst_n) |-> ##1 (seg_out == 8'h80);
   endproperty
   assert_seg_out_reset_value: assert property (p_seg_out_after_reset);
+
+  // -------------------------------------------------------------------------
+  // APB pready no-wait-state assertions (E06 / TESTPLAN §0.3)
+  // WAIT_WRITE=0, WAIT_READ=0 — slave must assert pready within same access phase
+  // -------------------------------------------------------------------------
+
+  // Setup phase (psel=1, penable=0) must be followed immediately by access phase
+  property p_apb_setup_phase;
+    @(posedge clk) disable iff (!rst_n)
+      (psel && !penable) |-> ##1 (psel && penable);
+  endproperty
+  assert_apb_setup_phase: assert property (p_apb_setup_phase);
+
+  // In the access phase pready must already be asserted (no wait states)
+  property p_apb_access_phase;
+    @(posedge clk) disable iff (!rst_n)
+      (psel && penable) |-> pready;
+  endproperty
+  assert_apb_access_phase: assert property (p_apb_access_phase);
+
+  // Once pready is seen in the access phase, psel deasserts next cycle
+  property p_apb_pready_complete;
+    @(posedge clk) disable iff (!rst_n)
+      (psel && penable && pready) |-> ##1 !psel;
+  endproperty
+  assert_apb_pready_complete: assert property (p_apb_pready_complete);
 
 endmodule

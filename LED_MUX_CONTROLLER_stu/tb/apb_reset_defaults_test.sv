@@ -7,22 +7,12 @@ class apb_reset_defaults_test extends base_test;
   endfunction
 
   task run_phase(uvm_phase phase);
-    led_reset_seq            reset_seq;
-    apb_reset_defaults_vseq  vseq;
+    apb_reset_defaults_vseq vseq;
 
     phase.raise_objection(this);
 
-    reset_seq = led_reset_seq::type_id::create("reset_seq");
-
-    fork
-      reset_seq.start(env.led_agt.sequencer);
-    join
-
-    #100ns;
-
     vseq = apb_reset_defaults_vseq::type_id::create("vseq");
-    vseq.apb_seqr = env.apb_agt.sequencer;
-    vseq.start(null);
+    vseq.start(env.v_seqr);
 
     `uvm_info("PHASE3_P0", "PHASE 3 : P0 apb_reset_defaults_test complete", UVM_LOW)
 

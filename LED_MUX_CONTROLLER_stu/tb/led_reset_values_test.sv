@@ -7,12 +7,12 @@ class led_reset_values_test extends base_test;
   endfunction
 
   task run_phase(uvm_phase phase);
-    led_reset_seq reset_seq;
+    led_reset_vseq vseq;
 
     phase.raise_objection(this);
 
-    reset_seq = led_reset_seq::type_id::create("reset_seq");
-    reset_seq.start(env.led_agt.sequencer);
+    vseq = led_reset_vseq::type_id::create("vseq");
+    vseq.start(env.v_seqr);
 
     `uvm_info("PHASE3_P0", "PHASE 3 : P0 led_reset_values_test complete", UVM_LOW)
 

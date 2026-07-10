@@ -11,85 +11,57 @@ This document defines verification **phases** in build order. Each phase has one
 
 ## Agent / user workflow (mandatory)
 
-**VCS runs on the course Linux VM only — not on Windows. The agent never runs compile or simulation.**
+**VCS is available on this Linux machine. The agent runs compile and simulation directly, then reads the log and reports gate PASS/FAIL.**
 
 **If compile or simulation fails:** check **`FIX.md`** for known errors and fixes.
 
-### How to run (for users)
+### How it works (current workflow)
 
-Every phase follows the same handoff:
+Every phase follows this flow — the agent handles compile, sim, and gate check without waiting for a user prompt:
 
-1. **Agent** creates or updates source files and gives you the **exact shell commands** below.
-2. **Agent stops** — wait for you to run on the VM.
-3. **You** SSH or log in to the course Linux machine, run the commands, and confirm logs were written under `LED_MUX_CONTROLLER_stu/sim/`.
-4. **You** return to the agent chat and prompt, for example:
-   - `check logfiles` (Phase 1)
-   - `check logfiles for phase 2`
-   - `check logfiles for led_decimal_42_test`
-5. **Agent** reads `dut_comp.log` and `<TESTNAME>_seed_<SEED>_sim.log`, applies the phase gate checklist, and reports **PASS** or **FAIL**.
+1. **Agent** creates or updates source files.
+2. **Agent** runs `make dv TESTNAME=<test> SEED=0` in the terminal (from `LED_MUX_CONTROLLER_stu/sim/` with `proj1.setup` sourced).
+3. **Agent** reads `dut_comp.log` and `<TESTNAME>_seed_0_sim.log`, applies the phase gate checklist, and reports **PASS** or **FAIL**.
+4. On **PASS**: agent proceeds to the next step or asks which test to implement next.
+5. On **FAIL**: agent diagnoses the error from the log, applies a fix, and re-runs.
 
-Do not ask the agent to proceed to the next phase until the current gate is **PASS**.
-
-### One-time setup (each VM session)
+### Standard run command (this project)
 
 ```bash
-cd /path/to/dv_project/LED_MUX_CONTROLLER_stu
+cd /home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu
 source proj1.setup
 cd sim
-chmod +x run_sim.csh check_phase1_gate.sh check_phase2_gate.sh check_phase3_gate.sh 2>/dev/null
+make dv TESTNAME=<testname> SEED=0
 ```
 
-### Phase 1 — commands to run
+### Agent gate check (after each run)
 
-**Confirm before run** — agent prints this; user verifies `TESTNAME` matches the gate test:
+Passing signature — all must be true:
 
-```bash
-cd LED_MUX_CONTROLLER_stu
-source proj1.setup
-cd sim
-make clean
-make dv TESTNAME=phase1_tb_top_test SEED=0
-```
-
-**Logs to check after run:**
-
-| File | Path |
+| Check | Command |
 |---|---|
-| Compile | `sim/dut_comp.log` |
-| Simulation | `sim/phase1_tb_top_test_seed_0_sim.log` |
-
-**Optional local gate (on VM):**
-
-```bash
-./check_phase1_gate.sh dut_comp.log phase1_tb_top_test_seed_0_sim.log
-```
-
-Then prompt the agent: **`check logfiles`**
-
----
+| Phase marker present | `grep "PHASE 3 : P0 <testname>" <sim_log>` |
+| Zero UVM_ERROR | `grep -c UVM_ERROR <sim_log>` → 0 |
+| Zero UVM_FATAL | `grep -c UVM_FATAL <sim_log>` → 0 |
+| No compile errors | `grep -iE "error-\|syntax error" dut_comp.log` → no match |
 
 ### Agent / user roles (summary)
 
 | Step | Who | Action |
 |---|---|---|
-| 1 | **Agent** | Create or update RTL/TB/UVM/SVA files for the current phase step |
-| 2 | **Agent** | Print the **make commands** to run (see phase sections and §Quick reference) |
-| 3 | **Agent** | **Stop** — do not invoke `make`, `vcs`, or `simv` |
-| 4 | **User** | Run commands on the course Linux VM; collect `*_comp.log` and `*_sim.log` |
-| 5 | **User** | Prompt: *"check logfiles"* (or name the phase / test) |
-| 6 | **Agent** | Read logs, run gate checklist (§1.4, §2.5, §3.8), report PASS/FAIL; if FAIL, consult **FIX.md** with user |
+| 1 | **Agent** | Create or update TB/UVM/SVA source files |
+| 2 | **Agent** | Run `make dv TESTNAME=<test> SEED=0` in the terminal |
+| 3 | **Agent** | Read logs; check gate criteria; report PASS/FAIL |
+| 4 | **Agent** | On PASS: proceed to next step; on FAIL: fix and re-run |
+| 5 | **User** | Review results; approve proceeding to next test |
 
-Log files to expect:
+Log files the agent reads:
 
 | Pattern | Example |
 |---|---|
 | Compile | `sim/dut_comp.log` |
 | Simulation | `sim/<TESTNAME>_seed_<SEED>_sim.log` |
 | Fixes | **`FIX.md`** |
-
-Gate criteria (every phase): phase marker present, zero `UVM_ERROR` / `UVM_FATAL`, no compile `error-` / `syntax error`.
-
-**On gate FAIL:** grep the log for the error → open **`FIX.md`** quick lookup → apply fix → re-run `make dv TESTNAME=<test> SEED=0` → prompt `check logfiles`.
 
 ### Standard run command (this project)
 
@@ -983,17 +955,64 @@ make dv TESTNAME=phase2_agent_sanity_test SEED=0
 
 Sim log must show: `Build phase for led_scoreboard`, `led_scoreboard` under `env` in topology, `led_scoreboard` in `factory.print()`, `UVM_ERROR : 0`. Use the **first P0 test** (e.g. `led_reset_values_test`) — not only `phase2_agent_sanity_test` — once it exists.
 
+#### Virtual sequencer (create once — shared by all P0 vseqs)
+
+**`tb/led_virtual_sequencer.sv`** — holds handles to both agent sequencers. Create before `led_env` (include order in `test_lib.svh`).
+
+```systemverilog
+class led_virtual_sequencer extends uvm_sequencer;
+  `uvm_component_utils(led_virtual_sequencer)
+  uvm_sequencer #(apb_transaction) apb_seqr;
+  uvm_sequencer #(led_transaction) led_seqr;
+  function new(string name, uvm_component parent); super.new(name, parent); endfunction
+endclass
+```
+
+**`led_env.sv`** — instantiate `v_seqr` in `build_phase`; wire to agent sequencers in `connect_phase`:
+
+```systemverilog
+led_virtual_sequencer v_seqr;
+// build_phase:
+v_seqr = led_virtual_sequencer::type_id::create("v_seqr", this);
+// connect_phase:
+v_seqr.apb_seqr = apb_agt.sequencer;
+v_seqr.led_seqr = led_agt.sequencer;
+```
+
+**Virtual sequence pattern** — every vseq declares `p_sequencer` and starts sub-sequences on it directly:
+
+```systemverilog
+class my_vseq extends uvm_sequence;
+  `uvm_object_utils(my_vseq)
+  `uvm_declare_p_sequencer(led_virtual_sequencer)
+  task body();
+    led_reset_seq rs = led_reset_seq::type_id::create("rs");
+    rs.start(p_sequencer.led_seqr);      // LED physical sequencer
+    some_apb_seq.start(p_sequencer.apb_seqr); // APB physical sequencer
+  endtask
+endclass
+```
+
+**Test pattern** — tests reference only `env.v_seqr`; no physical sequencer handles in test:
+
+```systemverilog
+vseq = my_vseq::type_id::create("vseq");
+vseq.start(env.v_seqr);
+```
+
 #### Shared sequences to create (TESTPLAN §0.1)
 
 | Sequence | File | Used by P0 tests |
 |---|---|---|
+| `led_virtual_sequencer` | `tb/led_virtual_sequencer.sv` | All P0 vseqs |
+| `led_reset_seq` | `tb/sequences/led_reset_seq.sv` | All vseqs (via `p_sequencer.led_seqr`) |
+| `led_reset_vseq` | `tb/sequences/led_reset_vseq.sv` | E07 |
 | `apb_write_seq` | `tb/sequences/apb_write_seq.sv` | E03, E06, E08, E10 |
 | `apb_read_seq` | `tb/sequences/apb_read_seq.sv` | E02, E03, E04, E06 |
 | `apb_wr_rd_seq` | `tb/sequences/apb_wr_rd_seq.sv` | E03, E04 |
 | `apb_invalid_addr_seq` | `tb/sequences/apb_invalid_addr_seq.sv` | E05 |
 | `apb_done_poll_seq` | `tb/sequences/apb_done_poll_seq.sv` | E01, E08, E09, E11 |
 | `led_error_seq` | `tb/sequences/led_error_seq.sv` | E01, E08, E09, E10, E11 |
-| `led_reset_seq` | `tb/sequences/led_reset_seq.sv` | E02, E07 |
 | `led_mux_virtual_seq` | `tb/sequences/led_mux_virtual_seq.sv` | E01, E08, E09, E10, E11 |
 
 Package include: `tb/sequences/led_sequences_pkg.svh` (or add to agent packages).
@@ -1135,6 +1154,8 @@ For **each** row in §3.2, complete these steps:
 
 #### Example test class (pattern for every P0 test)
 
+Tests start **one** virtual sequence on `env.v_seqr`. No physical sequencer handles in the test.
+
 ```systemverilog
 class led_decimal_42_test extends base_test;
   `uvm_component_utils(led_decimal_42_test)
@@ -1148,8 +1169,8 @@ class led_decimal_42_test extends base_test;
     phase.raise_objection(this);
     vseq = led_mux_virtual_seq::type_id::create("vseq");
     vseq.error_q = 20'd42;
-    vseq.start(env.apb_agt.sequencer, env.led_agt.sequencer); // or virtual sequencer
-  `uvm_info("PHASE3_P0", "PHASE 3 : P0 led_decimal_42_test complete", UVM_LOW)
+    vseq.start(env.v_seqr);   // always start on virtual sequencer
+    `uvm_info("PHASE3_P0", "PHASE 3 : P0 led_decimal_42_test complete", UVM_LOW)
     phase.drop_objection(this);
     set_run_phase_drain_time(phase);
   endtask
@@ -1206,19 +1227,21 @@ When a P0 test needs checking:
 
 ```text
 LED_MUX_CONTROLLER_stu/tb/
+  led_virtual_sequencer.sv      # v_seqr: apb_seqr + led_seqr handles (BEFORE led_env in test_lib)
   led_tb_pkg.svh                # package — includes led_scoreboard.sv
-  led_env.sv                    # scb (+ optional cov) connected
+  led_env.sv                    # scb + v_seqr; connect_phase wires v_seqr to agent sequencers
   led_scoreboard.sv             # uvm_analysis_imp_decl macros + scoreboard class
   sva/
     led_mux_sva.sv              # all assert/cover/check properties
   sequences/
+    led_reset_seq.sv            # physical LED sequence (called from vseqs via p_sequencer.led_seqr)
+    led_reset_vseq.sv           # virtual sequence — wraps led_reset_seq (E07)
     apb_write_seq.sv
     apb_read_seq.sv
     apb_wr_rd_seq.sv
     apb_invalid_addr_seq.sv
     apb_done_poll_seq.sv
     led_error_seq.sv
-    led_reset_seq.sv
     led_mux_virtual_seq.sv
     led_sequences_pkg.svh
   tests/                        # or flat under tb/
@@ -1226,7 +1249,7 @@ LED_MUX_CONTROLLER_stu/tb/
     apb_reset_defaults_test.sv
     ...                         # 11 P0 tests total
     smoke_test.sv
-  test_lib.svh                  # `include all P0 tests
+  test_lib.svh                  # include order: led_virtual_sequencer → led_env → sequences → tests
   top_tb.sv                     # bind dut led_mux_sva
   dut.f
 ```

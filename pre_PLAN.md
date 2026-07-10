@@ -261,6 +261,9 @@ make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
 | L2 | driver, monitor, sequencer | Build prints in each `build_phase` |
 | L3 | `*_agent` | One agent at a time |
 | L4 | `{{ENV}}` | Instantiate agent; connect in `connect_phase` |
+| L5 | `{{VIRTUAL_SEQR}}` | Create in `{{ENV}}` build; wire handles to agent sequencers in `connect_phase` |
+
+**Virtual sequencer pattern (Phase 3+):** All virtual sequences use `uvm_declare_p_sequencer({{VIRTUAL_SEQR}})` and access agent sequencers via `p_sequencer.apb_seqr` / `p_sequencer.led_seqr`. Tests start vseqs on `env.v_seqr` only — no physical sequencer handles in tests.
 
 **Build print (every component):**
 
@@ -553,6 +556,7 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 | `{{ENV}}` | led_env | UVM environment |
 | `{{TB_PKG}}` | led_tb_pkg | Package — includes `{{SCOREBOARD}}.sv` |
 | `{{SCOREBOARD}}` | led_scoreboard | Scoreboard file — macros at top, then class |
+| `{{VIRTUAL_SEQR}}` | led_virtual_sequencer | Virtual sequencer — `apb_seqr` + `led_seqr` handles; wired in `{{ENV}}` connect_phase |
 | `{{SVA_MODULE}}` | led_mux_sva | Bound assertion module |
 | `{{PHASE1_TEST}}` | phase1_tb_top_test | Phase 1 gate test |
 | `{{PHASE2_TEST}}` | phase2_agent_sanity_test | Phase 2 gate test |
