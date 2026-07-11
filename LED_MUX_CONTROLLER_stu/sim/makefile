@@ -20,13 +20,17 @@ clean:
 	\rm -frd qrun sysProgressP.conf sysProgressPLog vdCov.conf vdCovLog
 	\rm -frd ${MODULE}_*_sim.fsdb ${MODULE}_*_sim.log ${MODULE}_sva.rpt* *_sva.rpt*
 
-# Compile + elaborate + run (course wrapper)
+# Compile + elaborate + run (course wrapper — default)
 run_dv:
 	csh ${ROOT}/sim/run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}
 
-compile: run_dv
+# Compile only — produces $(MODULE)_simv, no simulation
+compile:
+	STEP=compile csh ${ROOT}/sim/run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}
 
-run: run_dv
+# Run only — $(MODULE)_simv must already exist from a prior 'make compile'
+run:
+	STEP=run csh ${ROOT}/sim/run_sim.csh dv ${MODULE} ${TESTNAME} ${SEED}
 
 gate1:
 	@./check_phase1_gate.sh $(COMP_LOG) $(SIM_LOG)

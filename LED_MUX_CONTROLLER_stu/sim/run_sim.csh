@@ -77,15 +77,15 @@ else
     set qrun_file = ""
 endif
 if ($COVERAGE == 1) then
-    set coverage1 = "-cm line+tgl+cond+fsm+branch+group"
-    set coverage2 = "-cm line+tgl+cond+fsm+branch+group"
+    set coverage1 = "-cm line+tgl+cond+fsm+branch"
+    set coverage2 = "-cm line+tgl+cond+fsm+branch"
 else
     set coverage1 = ""
     set coverage2 = ""
 endif
 if ($ASSERT == 1) then
-    set coverage1 = "-cm line+tgl+cond+fsm+branch+assert+group"
-    set coverage2 = "-cm line+tgl+cond+fsm+branch+assert+group"
+    set coverage1 = "-cm line+tgl+cond+fsm+branch+assert"
+    set coverage2 = "-cm line+tgl+cond+fsm+branch+assert"
     set assert1 = "-assert enable_diag"
     set assert2 = "-assert summary -assert report=$MODULE\_sva.rpt"
 else
@@ -129,7 +129,27 @@ if ($MODE == "dv") then
         else
             echo "$command" >> $qrun_file
         endif
+    else if ($STEP == "compile") then
+        # Compile only — produces dut_simv, no simulation
+        set vcs_dpi_flags = "-CFLAGS -DVCS"
+        set command = "vcs -full64 -l $MODULE\_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top $MODULE_TB -o $MODULE\_simv $files $vcs_dpi_flags"
+        echo "[==== INFO ====] $command"
+        if ($NR != 1) then
+            eval $command
+        else
+            echo "$command" >> $qrun_file
+        endif
+    else if ($STEP == "run") then
+        # Run only — dut_simv must already exist from a prior compile step
+        set command = "$MODULE\_simv +UVM_TESTNAME=$testname +ntb_random_seed=${seed} -l $testname\_seed_${seed}\_sim.log +UVM_NO_RELNOTES $coverage2 $assert2 -debug_access+all -cm_name ${testname}_${seed} +fsdb+sva_success"
+        echo "[==== INFO ====] $command"
+        if ($NR != 1) then
+            eval $command
+        else
+            echo "$command" >> $qrun_file
+        endif
     else
+        # STEP=2 default: compile + run in one shot
         set vcs_dpi_flags = "-CFLAGS -DVCS"
         set command = "vcs -full64 -l $MODULE\_comp.log -sverilog +v2k +vcs+lic+wait +vcs+flush+all -debug_access+all -kdb -debug_report -top $MODULE_TB -o $MODULE\_simv $files $vcs_dpi_flags"
         echo "[==== INFO ====] $command"
@@ -139,7 +159,7 @@ if ($MODE == "dv") then
             echo "$command" >> $qrun_file
         endif
 
-        set command = "$MODULE\_simv +UVM_TESTNAME=$testname +ntb_random_seed=${seed} -l $testname\_seed_$seed\_sim.log +UVM_NO_RELNOTES $coverage2 $assert2 -debug_access+all -cm line+tgl+cond+fsm+branch+assert+group -cm_name ${TESTNAME}_${SEED}  +fsdb+sva_success"
+        set command = "$MODULE\_simv +UVM_TESTNAME=$testname +ntb_random_seed=${seed} -l $testname\_seed_${seed}\_sim.log +UVM_NO_RELNOTES $coverage2 $assert2 -debug_access+all -cm_name ${testname}_${seed} +fsdb+sva_success"
         echo "[==== INFO ====] $command"
         if ($NR != 1) then
             eval $command
