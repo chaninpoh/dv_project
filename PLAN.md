@@ -127,19 +127,120 @@ Do **not** call `super` in UVM phase methods (project convention). Phase 3+ P0 t
 
 ## Phase overview
 
-| Phase | Name | Single goal | Gate test |
+| Phase | Name | Single goal | Gate |
 |---|---|---|---|
-| **1** | Testbench top | Static `top_tb` instantiates DUT + interfaces, drives clk/rst, publishes virtual interfaces, and starts UVM | `phase1_tb_top_test` |
-| **2** | UVM agents | `base_test` + incremental agent integration; factory topology dump; both agents active in env | `phase2_agent_sanity_test` |
-| **3** | P0 tests + checkers | Implement all 11 P0 tests from `LED_MUX_CONTROLLER_testplan.xlsx` feature-by-feature; one `led_scoreboard`, one `led_mux_sva` bind file | Per-test gate → `regress_p0` |
-| **4** | P0 regression sign-off | All 11 P0 tests pass via `./regress_p0.sh` | `regress_p0` clean logs |
-| **5** | Coverage closure | P1 tests + `random_regression_test`; functional/code coverage annotated | TESTPLAN Excel |
+| **1** | Testplan XML | Read `TESTPLAN.md` → generate `LED_MUX_CONTROLLER_testplan.xml` | `hvp annotate -plan=LED_MUX_CONTROLLER_testplan.xml` — zero errors |
+| **2** | Testbench top | Static `top_tb` instantiates DUT + interfaces, drives clk/rst, publishes virtual interfaces, and starts UVM | `phase1_tb_top_test` |
+| **3** | UVM agents | `base_test` + incremental agent integration; factory topology dump; both agents active in env | `phase2_agent_sanity_test` |
+| **4** | P0 tests + checkers | Implement all 11 P0 tests from `LED_MUX_CONTROLLER_testplan.xlsx` feature-by-feature; one `led_scoreboard`, one `led_mux_sva` bind file | Per-test gate → `regress_p0` |
+| **5** | P0 regression sign-off | All 11 P0 tests pass via `./regress_p0.sh` | `regress_p0` clean logs |
+| **6** | Coverage closure | P1 tests + `random_regression_test`; functional/code coverage annotated | `LED_MUX_CONTROLLER_testplan.xml` annotated |
 
-> **Phases 1–4 are detailed below.** Phase 5 follows the same gate pattern. Do not start Phase 3 until Phase 2 review gate passes.
+> **Phases 1–5 are detailed below.** Phase 6 follows the same gate pattern. Do not start Phase 4 until Phase 3 review gate passes.
 
 ---
 
-## Phase 1 — Testbench top
+## Phase 1 — Testplan XML
+
+### Goal
+
+**Read `TESTPLAN.md` and generate `LED_MUX_CONTROLLER_testplan.xml` in `LED_MUX_CONTROLLER_stu/` so that `hvp annotate -plan=LED_MUX_CONTROLLER_testplan.xml` exits with zero errors.**
+
+### Step-by-step tasks
+
+| Step | Task | Output |
+|---|---|---|
+| 1.1 | Read `TESTPLAN.md` — extract every test ID, name, priority (P0/P1), description, sequences, SCB IDs, SVA property names, and expected behavior | Reference list |
+| 1.2 | Create **`LED_MUX_CONTROLLER_testplan.xml`** in `LED_MUX_CONTROLLER_stu/` following the `hvp` XML schema | `LED_MUX_CONTROLLER_stu/LED_MUX_CONTROLLER_testplan.xml` |
+| 1.3 | Write one `<testcase>` element per test row (all priorities); populate `name`, `description`, `priority`, and `status` | `LED_MUX_CONTROLLER_testplan.xml` |
+| 1.4 | **User runs** `hvp annotate -plan=LED_MUX_CONTROLLER_testplan.xml` on the VM | Pass/fail report |
+| 1.5 | **User prompts** log check; agent confirms zero `ERROR:` in output | Gate PASS / FAIL |
+
+### `LED_MUX_CONTROLLER_testplan.xml` — LED MUX Controller
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<testplan name="LED_MUX_CONTROLLER" version="1.0">
+
+  <!-- P0 tests — 11 total (TESTPLAN.md §1.1) -->
+  <testcase name="led_reset_values_test" priority="P0">
+    <description>Verify sel_out=6h3E and seg_out=8h80 one cycle after reset deasserts</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="apb_reset_defaults_test" priority="P0">
+    <description>Read LED_enable(0x4000)=1, Done(0x4004)=0, Scratchpad(0x4008)=0 after reset</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="apb_pready_no_wait_test" priority="P0">
+    <description>APB pready asserts in the same cycle as penable — no wait states</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="apb_led_enable_write_read_test" priority="P0">
+    <description>Write then read LED_enable register (0x4000); verify data integrity</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="apb_scratchpad_wr_rd_test" priority="P0">
+    <description>Write 0xDEADBEEF to Scratchpad (0x4008) then read back; verify no corruption</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="apb_invalid_addr_test" priority="P0">
+    <description>Access unmapped APB address; verify pslverr asserts</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="led_decimal_42_test" priority="P0">
+    <description>Drive error_q=42 (decimal); verify seg_out encodes digits 0,0,0,0,4,2 in active-low 7-seg</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="led_overflow_modulo_test" priority="P0">
+    <description>Drive error_q=1_000_001; verify display shows 000001 (modulo 1_000_000)</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="led_disable_blocks_update_test" priority="P0">
+    <description>Set LED_enable=0; verify seg_out does not update when error_q changes</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="led_all_digits_0_to_9_test" priority="P0">
+    <description>Drive error_q values that exercise all decimal digits 0–9 on seg_out; verify each 7-seg encoding</description>
+    <status>planned</status>
+  </testcase>
+  <testcase name="smoke_test" priority="P0">
+    <description>End-to-end integration: reset → enable → error_q=42 → poll Done → verify display and all SVA cover properties hit</description>
+    <status>planned</status>
+  </testcase>
+
+</testplan>
+```
+
+### Passing criteria
+
+```bash
+hvp annotate -plan=LED_MUX_CONTROLLER_testplan.xml
+```
+
+Gate PASS when this command exits with **zero errors** (no `ERROR:` in output).
+
+### Acceptance criteria
+
+| ID | Criterion | Expected |
+|---|---|---|
+| AC-P1-01 | `LED_MUX_CONTROLLER_testplan.xml` created | `LED_MUX_CONTROLLER_stu/LED_MUX_CONTROLLER_testplan.xml` exists |
+| AC-P1-02 | XML well-formed | `hvp annotate` parses without XML errors |
+| AC-P1-03 | Zero `hvp` errors | No `ERROR:` lines in tool output |
+| AC-P1-04 | All 11 P0 tests present | 11 `<testcase>` entries match TESTPLAN.md §1.1 |
+
+### Review gate — Phase 1
+
+| # | Check |
+|---|---|
+| G1 | `LED_MUX_CONTROLLER_testplan.xml` exists in `LED_MUX_CONTROLLER_stu/` |
+| G2 | `hvp annotate -plan=LED_MUX_CONTROLLER_testplan.xml` exits 0 |
+| G3 | No `ERROR:` in `hvp` output |
+
+**Prerequisite for Phase 2:** Phase 1 gate PASS.
+
+---
+
+## Phase 2 — Testbench top
 
 ### Goal
 
@@ -241,7 +342,7 @@ endmodule
 
 ---
 
-## 1.3 Makefile — VCS compile, elaborate, and run
+## 2.3 Makefile — VCS compile, elaborate, and run
 
 Primary target for all phases: **`make dv TESTNAME=<testname> SEED=0`**.
 
@@ -373,7 +474,7 @@ make run_dv TESTNAME=phase1_tb_top_test SEED=0
 
 ---
 
-## 1.4 Review gate — Phase 1
+## 2.4 Review gate — Phase 2
 
 **Do not proceed to Phase 2 until every check below passes.**
 
@@ -472,7 +573,7 @@ Then prompt the agent: **"check logfiles"** with paths to `dut_comp.log` and `ph
 
 ---
 
-## Phase 2 — UVM agents
+## Phase 3 — UVM agents
 
 ### Goal
 
@@ -701,7 +802,7 @@ cd LED_MUX_CONTROLLER_stu && source proj1.setup && cd sim
 make dv TESTNAME=phase2_agent_sanity_test SEED=0
 ```
 
-### 2.5 Review gate — Phase 2
+### 3.5 Review gate — Phase 3
 
 Same rules as Phase 1 (§1.4): logs must exist; phase marker found; **no `UVM_ERROR` or `errors` keyword** in compile and sim logs.
 
@@ -782,7 +883,7 @@ Proceed with next component: <next_name>? [y/n]
 
 ---
 
-## Phase 3 — P0 tests, scoreboard, and SVA (feature loop)
+## Phase 4 — P0 tests, scoreboard, and SVA (feature loop)
 
 ### Goal
 
@@ -1391,82 +1492,55 @@ Proceed with P0 test <next_testname>? [y/n]
 
 ---
 
-## Phase 4 — P0 regression sign-off
+## Phase 5 — P0 regression sign-off
 
 ### Goal
 
-Confirm all **11 P0 tests** pass after Phase 3. Each test was already gated individually; Phase 4 runs the full suite in one batch.
+Confirm all **10 P0 functional tests** pass across **10 seeds each** (100 total runs). `smoke_test` is excluded from regression — it runs separately only when testbench files change. Seed count is tunable via `NUM_SEEDS` in `regress_p0.sh`; increase after reviewing coverage results.
+
+### smoke_test policy
+
+| Trigger | Action |
+|---|---|
+| Regression (Phase 5) | **Excluded** — not in `P0_TESTS` array |
+| Any testbench file change (`tb/**`) | Run `make dv TESTNAME=smoke_test SEED=0` manually before committing |
 
 ### Farm vs local regression
-
-**Ask before Phase 4:**
-
-```text
-Do you have a farm/grid regression flow (LSF, SGE, SLURM, internal CI)?
-  • Yes → document farm submit command in this section
-  • No  → use sim/regress_p0.sh (created for this project)
-```
 
 | Option | Command |
 |---|---|
 | **Local batch (default)** | `cd sim && ./regress_p0.sh` |
 | **Farm (if available)** | Submit `regress_p0.sh` via your site command, e.g. `bsub -q normal ./regress_p0.sh` |
 
-### Local batch script — `sim/regress_p0.sh`
+### `sim/regress_p0.sh` — multi-seed batch
 
-Runs every P0 test with `make dv TESTNAME=<test> SEED=0` (TESTPLAN §1.1):
-
-```bash
-#!/usr/bin/env bash
-set -euo pipefail
-cd "$(dirname "$0")"
-source ../proj1.setup
-
-P0_TESTS=(
-  led_reset_values_test
-  apb_reset_defaults_test
-  apb_pready_no_wait_test
-  apb_led_enable_write_read_test
-  apb_scratchpad_wr_rd_test
-  apb_invalid_addr_test
-  led_decimal_42_test
-  led_overflow_modulo_test
-  led_disable_blocks_update_test
-  led_all_digits_0_to_9_test
-  smoke_test
-)
-
-for t in "${P0_TESTS[@]}"; do
-  echo "=== P0 regression: $t ==="
-  make dv TESTNAME="$t" SEED=0
-done
-echo "P0 batch complete — prompt agent: check logfiles for regress_p0"
-```
+`NUM_SEEDS` (default 10) controls seeds per test. Pass an override on the CLI: `./regress_p0.sh 20`. Script prints one `PASS`/`FAIL` line per run and a summary table at the end. Exit code 0 = all pass; exit code 1 = at least one failure.
 
 **User runs on VM:**
 
 ```bash
 cd LED_MUX_CONTROLLER_stu/sim
-chmod +x regress_p0.sh
-./regress_p0.sh
+./regress_p0.sh           # 10 tests × 10 seeds = 100 runs
+./regress_p0.sh 20        # override to 20 seeds = 200 runs
 ```
 
-### Review gate — Phase 4
+### Review gate — Phase 5
 
 | # | Check |
 |---|---|
-| G1 | 11 sim logs exist: `<testname>_seed_0_sim.log` |
-| G2 | Each log: zero `UVM_ERROR`, zero `UVM_FATAL` |
-| G3 | Each log: `PHASE 3 : P0 <testname>` present |
+| G1 | 100 sim logs exist: `<testname>_seed_<0..9>_sim.log` for each of 10 tests |
+| G2 | Every log: `UVM_ERROR : 0`, `UVM_FATAL : 0` (parsed from UVM summary line) |
+| G3 | Every log: `PHASE 3 : P0 <testname>` present |
 | G4 | Final `dut_comp.log`: no compile errors |
+| G5 | Script exits 0; summary shows `FAIL : 0` |
 
 Then prompt agent: **`check logfiles for regress_p0`**
 
-**If gate FAIL:** see **`FIX.md`** — Phase 4 (FIX-006, FIX-013); see also Phase 3 entries for failing tests.
+**If gate FAIL:** see **`FIX.md`** — Phase 5; also Phase 4 per-test entries for the failing test.
 
 ---
 
-## Phase 5 — Coverage closure (goal only)
+## Phase 6 — Coverage closure (goal only)
 
 **Goal:** P1 tests + `random_regression_test`; TESTPLAN Excel annotated with PASS and coverage %.
 
@@ -1481,25 +1555,34 @@ Then prompt agent: **`check logfiles for regress_p0`**
 **Copy these on the Linux VM. The agent does not run them and waits until you prompt `check logfiles`.**
 
 ```bash
-# --- Setup (every session) ---
+# --- Phase 1 (LED_MUX_CONTROLLER_testplan.xml) ---
+hvp annotate -plan=LED_MUX_CONTROLLER_testplan.xml
+# → check for zero ERROR: lines; prompt agent: check phase 1
+
+# --- Setup (every session — Phases 2–6) ---
 cd LED_MUX_CONTROLLER_stu && source proj1.setup && cd sim
 
-# --- Phase 1 ---
+# --- Phase 2 (testbench top) ---
 make clean
 make dv TESTNAME=phase1_tb_top_test SEED=0
 # → prompt agent: check logfiles
 
-# --- Phase 2 ---
+# --- Phase 3 (UVM agents) ---
 make dv TESTNAME=phase2_agent_sanity_test SEED=0
-# → prompt agent: check logfiles for phase 2
+# → prompt agent: check logfiles for phase 3
 
-# --- Phase 3 (one P0 test) ---
+# --- Phase 4 (one P0 test) ---
 make dv TESTNAME=led_decimal_42_test SEED=0
 # → prompt agent: check logfiles for led_decimal_42_test
 
-# --- Phase 4 (full P0 regression) ---
-./regress_p0.sh
+# --- Phase 5 (P0 regression — 10 tests × 10 seeds, smoke_test excluded) ---
+./regress_p0.sh           # default NUM_SEEDS=10  →  100 runs
+./regress_p0.sh 20        # override to 20 seeds  →  200 runs
 # → prompt agent: check logfiles for regress_p0
+
+# --- smoke_test (run manually on TB file changes only) ---
+make dv TESTNAME=smoke_test SEED=0
+# → prompt agent: check logfiles for smoke_test
 
 # --- Logs the agent will read ---
 #   sim/dut_comp.log
@@ -1512,14 +1595,15 @@ make dv TESTNAME=led_decimal_42_test SEED=0
 
 | PLAN.md | ARCHITECTURE.md | TESTPLAN.md |
 |---|---|---|
-| Phase 1 `top_tb` | §4 Static top (`tb_top.sv`) | — (infra) |
-| Phase 2 agents | §1 agents, §3 class diagram, §4 env/agents | P0 prep |
-| Phase 2 `base_test` | §4 Test layer — factory, config_db | — |
-| Phase 3 P0 loop | §0.1–0.3, §1.1, §2, §7 | `LED_MUX_CONTROLLER_testplan.xlsx` P0 rows |
-| Phase 3 `led_scoreboard` | §0.2, §3 class diagram SCB | SCB-1..9 |
-| Phase 3 `led_mux_sva` | §0.3, §4 Static top bind | All assert/cover/check names |
-| Phase 4 `regress_p0` | — | §9 regression P0 |
-| Phase 5 | — | §1.2 P1 + §9 regression |
+| Phase 1 `LED_MUX_CONTROLLER_testplan.xml` | — | All test rows (P0 + P1) → `LED_MUX_CONTROLLER_testplan.xml` |
+| Phase 2 `top_tb` | §4 Static top (`tb_top.sv`) | — (infra) |
+| Phase 3 agents | §1 agents, §3 class diagram, §4 env/agents | P0 prep |
+| Phase 3 `base_test` | §4 Test layer — factory, config_db | — |
+| Phase 4 P0 loop | §0.1–0.3, §1.1, §2, §7 | `LED_MUX_CONTROLLER_testplan.xlsx` P0 rows |
+| Phase 4 `led_scoreboard` | §0.2, §3 class diagram SCB | SCB-1..9 |
+| Phase 4 `led_mux_sva` | §0.3, §4 Static top bind | All assert/cover/check names |
+| Phase 5 `regress_p0` | — | §9 regression P0 |
+| Phase 6 | — | §1.2 P1 + §9 regression |
 | Any phase | **FIX.md** | Known errors / resolutions |
 
 ---

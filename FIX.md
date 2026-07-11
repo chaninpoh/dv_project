@@ -43,6 +43,7 @@
 | BUG-005 | 3 | SCB-5 — seg_out=7'h24/7'h0e for digit 6, expected 7'h06 (wrong encoding) | [§BUG-005](#bug-005-wrong-7-segment-encoding-for-digit-6) |
 | FIX-013 | 4 | `regress_p0.sh` permission denied | [§FIX-013](#fix-013-regress_p0sh-not-executable) |
 | FIX-014 | — | Excel `PermissionError` generating testplan | [§FIX-014](#fix-014-excel-testplan-permission-denied) |
+| BUG-006 | 4 | SCB-5 — wrong seg_out at some digit positions in overflow test | [§BUG-006](#bug-006-wrong-seg_out-at-mux-positions-in-led_overflow_modulo_test) |
 
 ---
 
@@ -276,6 +277,23 @@ vcs -full64 -sverilog ... -file $ROOT/tb/dut.f -CFLAGS -DVCS
 | **RTL location** | `src/` 7-seg encoder (do not read to confirm — SPEC is source of truth) |
 | **Status** | **OPEN — awaiting DUT owner confirmation.** |
 | **If DUT bug confirmed** | Fix 7-seg lookup table: digit 6 → `7'h06` (segments 0,3,4,5,6 ON per SPEC §4.4). |
+
+---
+
+### BUG-006: Wrong seg_out at MUX positions in `led_overflow_modulo_test`
+
+| | |
+|---|---|
+| **Detected by** | `led_overflow_modulo_test` — SCB-5 (6 failures per run, all 10 seeds) |
+| **Symptom** | `seg_out` mismatch at digit positions 1 and 2 when displaying digit=0, and position 0 when displaying digit=1. Correct values appear at positions 3,4,5. |
+| **Example errors** | `SCB-5 seg_out mismatch @ digit_pos=1 (digit=0): got 7'h71 exp 7'h01` |
+| | `SCB-5 seg_out mismatch @ digit_pos=2 (digit=0): got 7'h24 exp 7'h01` |
+| | `SCB-5 seg_out mismatch @ digit_pos=0 (digit=1): got 7'h71 exp 7'h73` |
+| **Note** | `7'h24` is the same wrong encoding seen in BUG-005 (digit 6). Position-dependent mismatches suggest a MUX latency or stale-data issue in the DUT. |
+| **Log** | `led_overflow_modulo_test_seed_0_sim.log` — UVM_ERROR :    6 |
+| **Root cause (suspected)** | DUT MUX controller presents stale or misaligned segment data at low digit positions (0,1,2) after an overflow write — likely related to BUG-002 (`sel_out` instability) or a separate MUX latency defect. |
+| **RTL location** | Unknown — do not read RTL. SPEC is source of truth. |
+| **Status** | **OPEN — awaiting DUT owner confirmation.** Do not adjust scoreboard or test stimulus. |
 
 ---
 

@@ -137,19 +137,82 @@ Do **not** call `super` in UVM phase methods (project convention).
 
 ## Phase overview (template)
 
-| Phase | Name | Single goal | Gate test |
+| Phase | Name | Single goal | Gate |
 |---|---|---|---|
-| **1** | Testbench top | Static `{{TB_TOP}}` — DUT, interfaces, clk/rst, `config_db`, `run_test()` | `{{PHASE1_TEST}}` |
-| **2** | UVM agents | `{{BASE_TEST}}` + agents integrated layer-by-layer | `{{PHASE2_TEST}}` |
-| **3** | P0 tests + checkers | First test + sequence, then scoreboard if new; P0 loop from testplan | Per-test → `regress_p0` |
-| **4** | P0 regression sign-off | All P0 tests pass in one regression | `regress_p0` |
-| **5** | Coverage closure | P1 tests + coverage annotation | Testplan Excel |
+| **1** | Testplan XML | Read `{{TESTPLAN_DOC}}` → generate `{{TESTPLAN_XML}}` | `hvp annotate -plan={{TESTPLAN_XML}}` — zero errors |
+| **2** | Testbench top | Static `{{TB_TOP}}` — DUT, interfaces, clk/rst, `config_db`, `run_test()` | `{{PHASE2_TEST}}` |
+| **3** | UVM agents | `{{BASE_TEST}}` + agents integrated layer-by-layer | `{{PHASE3_TEST}}` |
+| **4** | P0 tests + checkers | First test + sequence, then scoreboard if new; P0 loop from testplan | Per-test → `regress_p0` |
+| **5** | P0 regression sign-off | All P0 tests pass in one regression | `regress_p0` |
+| **6** | Coverage closure | P1 tests + coverage annotation | Testplan XML annotated |
 
-> Detail Phases 1–3 in `PLAN.md`. Phases 4–5 use the same gate pattern.
+> Detail Phases 1–4 in `PLAN.md`. Phases 5–6 use the same gate pattern.
 
 ---
 
-## Phase 1 — Testbench top (template)
+## Phase 1 — Testplan XML (template)
+
+### Goal
+
+**Read `{{TESTPLAN_DOC}}` and generate a `{{TESTPLAN_XML}}` file that passes `hvp annotate -plan={{TESTPLAN_XML}}` with zero errors.**
+
+### Step-by-step tasks
+
+| Step | Task | Output |
+|---|---|---|
+| 1.1 | Read `{{TESTPLAN_DOC}}` — extract all test IDs, names, priorities, descriptions, sequences, SCB/SVA columns | Reference for XML |
+| 1.2 | Create **`{{TESTPLAN_XML}}`** in `{{PROJECT_ROOT}}/` following the `hvp` XML schema | `{{PROJECT_ROOT}}/{{TESTPLAN_XML}}` |
+| 1.3 | Populate one `<testcase>` entry per test row (all priorities); include `name`, `description`, `priority`, and `status` attributes | `{{TESTPLAN_XML}}` |
+| 1.4 | **User runs** `hvp annotate -plan={{TESTPLAN_XML}}` on the VM | Pass/fail report |
+| 1.5 | **User prompts** log check; agent confirms zero `ERROR:` lines | Gate PASS / FAIL |
+
+### `{{TESTPLAN_XML}}` schema (template)
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<testplan name="{{PROJECT_NAME}}" version="1.0">
+
+  <!-- One <testcase> per row in {{TESTPLAN_DOC}} -->
+  <testcase name="{{EXAMPLE_P0_TEST}}" priority="P0">
+    <description>{{TESTPLAN_DOC}} — brief description of test intent</description>
+    <status>planned</status>
+  </testcase>
+
+  <!-- Repeat for every test (P0 and P1) -->
+
+</testplan>
+```
+
+### Passing criteria — Phase 1 gate
+
+```bash
+hvp annotate -plan={{TESTPLAN_XML}}
+```
+
+Gate PASS when this command exits with **zero errors** (`ERROR:` count = 0 in output).
+
+### Acceptance criteria (template)
+
+| ID | Criterion | Expected |
+|---|---|---|
+| AC-P1-01 | `{{TESTPLAN_XML}}` created | File exists in `{{PROJECT_ROOT}}/` |
+| AC-P1-02 | XML is well-formed | `hvp annotate` parses without XML parse errors |
+| AC-P1-03 | Zero `hvp` errors | Tool output contains no `ERROR:` lines |
+| AC-P1-04 | All test IDs from `{{TESTPLAN_DOC}}` present | `<testcase>` count matches total test count in TESTPLAN |
+
+### Review gate — Phase 1 (template)
+
+| # | Check |
+|---|---|
+| G1 | `{{TESTPLAN_XML}}` exists in `{{PROJECT_ROOT}}/` |
+| G2 | `hvp annotate -plan={{TESTPLAN_XML}}` exits 0 |
+| G3 | No `ERROR:` in `hvp` tool output |
+
+**Prerequisite for Phase 2:** Phase 1 gate PASS.
+
+---
+
+## Phase 2 — Testbench top (template)
 
 ### Goal
 
@@ -276,7 +339,7 @@ make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
 
 ---
 
-## Phase 2 — UVM agents (template)
+## Phase 3 — UVM agents (template)
 
 ### Goal
 
@@ -334,7 +397,7 @@ make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 
 ---
 
-## Phase 3 — P0 tests, scoreboard, SVA (template)
+## Phase 4 — P0 tests, scoreboard, SVA (template)
 
 ### Goal
 
@@ -472,74 +535,119 @@ Same as Phase 1/2 plus: factory lists new test; scoreboard/SVA quiet unless nega
 
 ---
 
-## Phase 4 — P0 regression sign-off (template)
+## Phase 5 — P0 regression sign-off (template)
 
 ### Goal
 
-**All P0 tests pass in a single regression after Phase 3 is complete.**
+**All P0 functional tests pass across `NUM_SEEDS` seeds each. `smoke_test` is excluded from regression — run it manually only when testbench files change.**
 
-### Step 1 — Ask about farm / grid regression
+### smoke_test policy (mandatory — capture in PLAN.md)
 
-**Agent must prompt the user before creating regression scripts:**
+| Trigger | Action |
+|---|---|
+| Phase 5 regression | **Excluded** — not in `P0_TESTS` array |
+| Any `{{TB_DIR}}/**` file change | Run `make {{RUN_TARGET}} TESTNAME=smoke_test SEED=0` before committing |
 
-```text
-Do you have a farm or grid regression flow for this project?
-  (e.g. LSF bsub, SGE qsub, SLURM sbatch, internal CI)
-  [ ] Yes — provide farm command template or script path
-  [ ] No  — I will create a local batch script with all make dv commands
-```
+### Step 1 — Check for existing regression infrastructure
+
+**Only create `{{REGRESS_BATCH}}` if it does not already exist in `{{SIM_DIR}}/`.**
+
+If a farm / grid regression flow is available (LSF, SGE, SLURM, internal CI):
 
 | User answer | Agent action |
 |---|---|
 | **Farm available** | Document `{{FARM_SUBMIT_CMD}}` and test list in `PLAN.md`; user submits jobs on farm |
-| **No farm** | Create `{{SIM_DIR}}/{{REGRESS_BATCH}}` — shell script that runs every P0 test |
+| **No farm** | Create `{{SIM_DIR}}/{{REGRESS_BATCH}}` — multi-seed batch script (§Step 2) |
 
-### Step 2 — Local batch script (when no farm)
+### Step 2 — Local multi-seed batch script (when no farm and script absent)
 
-Create `{{REGRESS_BATCH}}` with one line per P0 test:
+`NUM_SEEDS` controls seeds per test; increase after reviewing coverage results. Seeds used: `0 .. NUM_SEEDS-1`. Script prints one `PASS`/`FAIL` line per run and a summary table; exits 1 on any failure.
 
 ```bash
 #!/usr/bin/env bash
-set -euo pipefail
+# P0 regression — multi-seed ({{SMOKE_TEST}} excluded — run on TB changes only)
+# Usage: ./{{REGRESS_BATCH}} [num_seeds]
 cd "$(dirname "$0")"
 source ../{{SETUP_SCRIPT}}
-# Repeat for each P0 test from TESTPLAN:
-make {{RUN_TARGET}} TESTNAME={{P0_TEST_1}} SEED=0
-make {{RUN_TARGET}} TESTNAME={{P0_TEST_2}} SEED=0
-# ...
-echo "P0 batch regression complete — prompt agent: check logfiles for regress_p0"
+
+NUM_SEEDS=${1:-10}
+
+P0_TESTS=(
+  {{P0_TEST_1}}
+  {{P0_TEST_2}}
+  # ... all P0 tests except smoke_test
+)
+
+PASS=0; FAIL=0; FAIL_LIST=()
+
+check_log() {
+  local log="$1"
+  [[ -f "$log" ]] || return 1
+  local err fat
+  err=$(awk '/UVM_ERROR :/{val=$NF} END{printf "%d", val+0}' "$log")
+  fat=$(awk '/UVM_FATAL :/{val=$NF} END{printf "%d", val+0}' "$log")
+  [[ "$err" -eq 0 && "$fat" -eq 0 ]]
+}
+
+for t in "${P0_TESTS[@]}"; do
+  for (( s=0; s<NUM_SEEDS; s++ )); do
+    printf "%-48s  seed=%-3d  " "$t" "$s"
+    SIM_LOG="${t}_seed_${s}_sim.log"
+    make {{RUN_TARGET}} TESTNAME="$t" SEED="$s" >/dev/null 2>&1
+    if check_log "$SIM_LOG"; then
+      echo "PASS"; PASS=$(( PASS+1 ))
+    else
+      echo "FAIL"; FAIL=$(( FAIL+1 )); FAIL_LIST+=("$t  seed=$s")
+    fi
+  done
+done
+
+TOTAL=$(( ${#P0_TESTS[@]} * NUM_SEEDS ))
+echo ""
+echo "=============================================="
+echo " P0 Regression  (seeds 0..$((NUM_SEEDS-1)))"
+echo "=============================================="
+printf " Tests      : %d\n" "${#P0_TESTS[@]}"
+printf " Seeds/test : %d\n" "$NUM_SEEDS"
+printf " Total runs : %d\n" "$TOTAL"
+printf " PASS       : %d\n" "$PASS"
+printf " FAIL       : %d\n" "$FAIL"
+[[ $FAIL -gt 0 ]] && for f in "${FAIL_LIST[@]}"; do printf "   - %s\n" "$f"; done
+echo "=============================================="
+[[ $FAIL -eq 0 ]] && echo "Result: PASS" || { echo "Result: FAIL"; exit 1; }
 ```
 
 | Step | Task |
 |---|---|
-| 4.1 | List all P0 test names from `{{TESTPLAN_DOC}}` / Excel |
-| 4.2 | Generate `{{REGRESS_BATCH}}` with `make {{RUN_TARGET}} TESTNAME=<each> SEED=0` |
-| 4.3 | `chmod +x {{REGRESS_BATCH}}` |
-| 4.4 | **User runs** `./{{REGRESS_BATCH}}` on VM |
-| 4.5 | **User prompts** agent to check **all** `*_seed_0_sim.log` + last `{{MODULE}}_comp.log` |
+| 5.1 | List all P0 test names from `{{TESTPLAN_DOC}}` — exclude `smoke_test` |
+| 5.2 | Create `{{REGRESS_BATCH}}` with `NUM_SEEDS=10`; `chmod +x {{REGRESS_BATCH}}` |
+| 5.3 | **User runs** `./{{REGRESS_BATCH}}` on VM |
+| 5.4 | **User prompts** agent to check summary and any `*_seed_*_sim.log` failures |
 
-### Review gate — Phase 4
+### Review gate — Phase 5
 
 | # | Check |
 |---|---|
-| G1 | Every P0 test has a sim log |
-| G2 | Each log: zero `UVM_ERROR`, zero `UVM_FATAL` |
-| G3 | Each log: `PHASE 3 : P0 <testname>` present (from Phase 3) |
-| G4 | No compile errors in final `{{MODULE}}_comp.log` |
+| G1 | `N_tests × NUM_SEEDS` sim logs exist: `<testname>_seed_<s>_sim.log` |
+| G2 | Every log: `UVM_ERROR : 0`, `UVM_FATAL : 0` |
+| G3 | Every log: `PHASE 3 : P0 <testname>` present |
+| G4 | Final `{{MODULE}}_comp.log`: no compile errors |
+| G5 | Script exits 0; summary line `FAIL : 0` |
 
-**User command (local batch):**
+**User command:**
 
 ```bash
 cd {{PROJECT_ROOT}}/{{SIM_DIR}}
-./{{REGRESS_BATCH}}
+./{{REGRESS_BATCH}}           # default NUM_SEEDS=10
+./{{REGRESS_BATCH}} 20        # override to 20 seeds
 # → prompt agent: check logfiles for regress_p0
 ```
 
-**If gate FAIL:** see **`FIX.md`** — Phase 4 (FIX-006, FIX-013); also per-test Phase 3 entries.
+**If gate FAIL:** see **`FIX.md`**; also Phase 4 per-test entries for the failing test.
 
 ---
 
-## Phase 5 — Coverage closure (template)
+## Phase 6 — Coverage closure (template)
 
 **Goal:** P1 tests + `{{RANDOM_REGRESS_TEST}}`; annotate testplan Excel with PASS and coverage %.
 
@@ -550,19 +658,31 @@ cd {{PROJECT_ROOT}}/{{SIM_DIR}}
 ## Quick reference (template — user runs on VM)
 
 ```bash
-cd {{PROJECT_ROOT}} && source {{SETUP_SCRIPT}} && cd {{SIM_DIR}}
+# --- Phase 1 ---
+hvp annotate -plan={{TESTPLAN_XML}}
+# → check for zero ERROR: lines
 
-make {{RUN_TARGET}} TESTNAME={{PHASE1_TEST}} SEED=0
+# --- Phase 2 ---
+cd {{PROJECT_ROOT}} && source {{SETUP_SCRIPT}} && cd {{SIM_DIR}}
+make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 # → check logfiles
 
-make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
-# → check logfiles for phase 2
+# --- Phase 3 ---
+make {{RUN_TARGET}} TESTNAME={{PHASE3_TEST}} SEED=0
+# → check logfiles for phase 3
 
+# --- Phase 4 (P0 tests) ---
 make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 # → check logfiles for <test>
 
-./{{REGRESS_BATCH}}
+# --- Phase 5 (P0 regression — 10 seeds, no smoke_test) ---
+./{{REGRESS_BATCH}}           # default NUM_SEEDS=10
+./{{REGRESS_BATCH}} 20        # override to 20 seeds
 # → check logfiles for regress_p0
+
+# --- smoke_test (run manually on TB file changes only) ---
+make {{RUN_TARGET}} TESTNAME=smoke_test SEED=0
+# → check logfiles for smoke_test
 ```
 
 ---
@@ -593,11 +713,12 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 | `{{SCOREBOARD}}` | led_scoreboard | Scoreboard file — macros at top, then class |
 | `{{VIRTUAL_SEQR}}` | led_virtual_sequencer | Virtual sequencer — `apb_seqr` + `led_seqr` handles; wired in `{{ENV}}` connect_phase |
 | `{{SVA_MODULE}}` | led_mux_sva | Bound assertion module |
-| `{{PHASE1_TEST}}` | phase1_tb_top_test | Phase 1 gate test |
-| `{{PHASE2_TEST}}` | phase2_agent_sanity_test | Phase 2 gate test |
-| `{{PHASE1_MARKER}}` | PHASE 1 : testbench top | Log substring |
-| `{{PHASE2_MARKER}}` | PHASE 2 : uvm agents | Log substring |
-| `{{PHASE1_ID}}` | PHASE1_TB_TOP | `uvm_info` id |
+| `{{TESTPLAN_XML}}` | LED_MUX_CONTROLLER_testplan.xml | `<IP_name>_testplan.xml` — output XML for `hvp annotate` |
+| `{{PHASE2_TEST}}` | phase1_tb_top_test | Phase 2 gate test (was Phase 1) |
+| `{{PHASE3_TEST}}` | phase2_agent_sanity_test | Phase 3 gate test (was Phase 2) |
+| `{{PHASE2_MARKER}}` | PHASE 2 : testbench top | Log substring |
+| `{{PHASE3_MARKER}}` | PHASE 3 : uvm agents | Log substring |
+| `{{PHASE2_ID}}` | PHASE2_TB_TOP | `uvm_info` id |
 | `{{EXAMPLE_P0_TEST}}` | led_decimal_42_test | Sample P0 test |
 | `{{RUN_TARGET}}` | dv | Makefile target (`make dv`) |
 | `{{UVM_PHASE_DRAIN_TIME}}` | 1000ns | Run-phase drain after `drop_objection` (all tests) |
@@ -612,11 +733,12 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 
 | PLAN.md section | ARCHITECTURE | TESTPLAN |
 |---|---|---|
-| Phase 1 `{{TB_TOP}}` | Static top | — |
-| Phase 2 agents | Agents / env | P0 prep |
-| Phase 3 P0 | SCB / SVA | P0 rows |
-| Phase 4 | — | Regression |
-| Phase 5 | Coverage | P1 |
+| Phase 1 {{TESTPLAN_XML}} | — | All test rows → `{{TESTPLAN_XML}}` |
+| Phase 2 `{{TB_TOP}}` | Static top | — |
+| Phase 3 agents | Agents / env | P0 prep |
+| Phase 4 P0 | SCB / SVA | P0 rows |
+| Phase 5 | — | Regression |
+| Phase 6 | Coverage | P1 |
 | Any phase | **FIX.md** | Error lookup |
 
 ---
