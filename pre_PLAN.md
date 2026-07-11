@@ -16,6 +16,17 @@
 4. Customize phase count, gate tests, and build order for the DUT.
 5. Keep this `pre_PLAN.md` unchanged as the master skeleton.
 6. Create **`FIX.md`** from the template in this repo (or copy and extend per project).
+7. Create **`CLAUDE.md`** in the project root with project-specific agent rules (SPEC-only policy, one-test-at-a-time, bug tagging, sim command).
+
+## Mandatory agent rules (capture in CLAUDE.md per project)
+
+| Rule | Summary |
+|---|---|
+| SPEC-only | Never read RTL to understand DUT behavior — only SPEC, ARCHITECTURE, TESTPLAN |
+| One test at a time | Create 1 test → run sim → gate PASS → then next test; never batch |
+| Bug tagging | `TB_BUG-xxx` = testbench defect; `BUG-xxx` = DUT/RTL defect (separate sections in FIX.md) |
+| No silent workarounds | Do not adjust TB to hide suspected DUT bugs; document OPEN in FIX.md and wait for confirmation |
+| Sim command | `cd <project_root> && source proj1.setup && cd sim && make dv TESTNAME=<test> SEED=0` |
 
 **Example (this repo):** `PLAN.md` — LED MUX Controller; **`FIX.md`** — known errors.
 
@@ -76,6 +87,30 @@ chmod +x run_sim.csh check_phase*_gate.sh 2>/dev/null
 **Gate criteria (every phase):** phase marker in sim log; zero `UVM_ERROR` / `UVM_FATAL`; no compile `error-` / `syntax error`.
 
 **On gate FAIL:** grep logs for the error text → open **`FIX.md`** quick lookup table → apply fix → re-run `make {{RUN_TARGET}} TESTNAME=<test> SEED=0` → prompt `check logfiles` again.
+
+### Notification on gate failure
+
+When a new failure is detected, the agent reports it directly in the Claude conversation — no external email or webhook required.
+
+**Agent notification protocol (mandatory on every new failure):**
+
+1. Stop implementation immediately.
+2. Post a clearly formatted failure report in the Claude conversation:
+
+```
+⚠ NEW FAILURE DETECTED
+Test    : <testname>
+Bug tag : <BUG-xxx or TB_BUG-xxx>
+Symptom : <one-line description>
+Log ref : sim/<testname>_seed_0_sim.log @ <timestamp>
+Detail  : <got vs expected, signal name, digit/address>
+Action  : Awaiting user confirmation before proceeding.
+```
+
+3. Document the bug in `FIX.md` under the correct section (Design Bugs or Testbench Bugs) with status **OPEN**.
+4. Do **not** proceed to the next test until the user confirms the bug or instructs otherwise.
+
+**No `mail`, `sendmail`, `curl`, or external webhook calls.** Notification happens through Claude only.
 
 ### UVM test conventions (all phases)
 

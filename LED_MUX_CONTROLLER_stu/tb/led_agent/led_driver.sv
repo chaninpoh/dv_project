@@ -27,6 +27,7 @@ end
 endfunction
 
 task drive_0_at_reset();
+  dut_vif.error_q <= 20'h0;
 endtask
 
 
@@ -49,6 +50,10 @@ endtask
 
 
 virtual task drive_item();
+  // Drive error_q and hold for >= 1100 cycles (SPEC C-4: must hold >= 1002 cycles)
+  @(posedge dut_vif.clk);
+  dut_vif.error_q <= req.error_q;
+  repeat(1100) @(posedge dut_vif.clk);
 endtask
   
   

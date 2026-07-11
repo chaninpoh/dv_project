@@ -63,9 +63,12 @@ module top_tb;
     .rst_n   (rst_n),
     .sel_out (led_vif.sel_out),
     .seg_out (led_vif.seg_out),
+    .error_q (led_vif.error_q),
     .psel    (apb_vif.psel),
     .penable (apb_vif.penable),
-    .pready  (apb_vif.pready)
+    .pready  (apb_vif.pready),
+    .paddr   (apb_vif.paddr),
+    .pslverr (apb_vif.pslverr)
   );
 
 endmodule

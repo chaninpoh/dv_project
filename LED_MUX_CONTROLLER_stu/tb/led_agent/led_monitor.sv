@@ -45,7 +45,8 @@ class led_monitor extends uvm_monitor;
     @(posedge dut_vif.clk iff ~dut_vif.sel_out[i]);//start capturing
     $display("SEL_OUT %b", collected_trans.sel_out);
     collected_trans.seg_out <= dut_vif.seg_out;
-    collected_trans.sel_out <= dut_vif.sel_out; 
+    collected_trans.sel_out <= dut_vif.sel_out;
+    collected_trans.error_q <= dut_vif.error_q;
 
     repeat(80)@(posedge dut_vif.clk); 
 //  $display("Print from Monitor : ");

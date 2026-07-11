@@ -1,9 +1,11 @@
 # Verification PLAN — LED MUX Controller
 
 **Template source:** `pre_PLAN.md` (reusable skeleton for new projects)  
-**References:** SPEC.md · ARCHITECTURE.md · TESTPLAN.md · **FIX.md**  
+**References:** SPEC.md · ARCHITECTURE.md · TESTPLAN.md · **FIX.md** · **CLAUDE.md**  
 **Tool:** Synopsys VCS + UVM 1.2  
 **Project tree:** `LED_MUX_CONTROLLER_stu/` (RTL `src/`, testbench `tb/`, simulation `sim/`)
+
+> **Agent rules:** See `CLAUDE.md` for mandatory project rules (SPEC-only policy, one-test-at-a-time, TB_BUG vs BUG tagging, sim command, gate criteria).
 
 This document defines verification **phases** in build order. Each phase has one clear goal, step-by-step tasks, testable acceptance criteria, Makefile targets, and a **review gate** before the next phase starts.
 
@@ -24,6 +26,22 @@ Every phase follows this flow — the agent handles compile, sim, and gate check
 3. **Agent** reads `dut_comp.log` and `<TESTNAME>_seed_0_sim.log`, applies the phase gate checklist, and reports **PASS** or **FAIL**.
 4. On **PASS**: agent proceeds to the next step or asks which test to implement next.
 5. On **FAIL**: agent diagnoses the error from the log, applies a fix, and re-runs.
+
+### Failure notification — Claude only
+
+When a **new** failure is found the agent posts this block in the conversation and stops:
+
+```
+⚠ NEW FAILURE DETECTED
+Test    : <testname>
+Bug tag : <BUG-xxx or TB_BUG-xxx>
+Symptom : <one-line description>
+Log ref : sim/<testname>_seed_0_sim.log @ <timestamp>
+Detail  : <got vs expected>
+Action  : Awaiting user confirmation before proceeding.
+```
+
+No external email or webhook is used. Notification is through Claude only. The bug is also documented in `FIX.md` with status **OPEN** before stopping.
 
 ### Standard run command (this project)
 

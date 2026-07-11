@@ -36,8 +36,11 @@
 | FIX-011 | 3 | Scoreboard false fail before `Done==1` | [§FIX-011](#fix-011-scoreboard-compares-before-done) |
 | FIX-012 | 3 | SVA assertion failure / `dut_sva.rpt` | [§FIX-012](#fix-012-sva-assertion-failure) |
 | BUG-001 | 3 | `SCB-1` UVM_ERROR — LED_enable reads 0 after reset, expected 1 | [§BUG-001](#bug-001-apb-0x4000-led_enable-register-reset-value-mismatch) |
-| BUG-002 | 3 | `assert_sel_out_stable_during_reset` — 4 SVA failures during active reset | [§BUG-002](#bug-002-sel_out-toggling-during-active-reset) |
+| BUG-002 | 3 | `assert_sel_out_stable_during_reset` — 4 SVA failures; `sel_out != 6'h3E` during active reset | [§BUG-002](#bug-002-sel_out-not-holding-6h3e-during-active-reset) |
 | TB_BUG-001 | 3 | `assert_apb_access_phase` 49 failures — psel not cleared after READ | [§TB_BUG-001](#tb_bug-001-apb-driver--pselpenable-not-cleared-after-read-transaction) |
+| BUG-003 | 3 | `assert_apb_pslerr_invalid_addr` — 2 SVA failures; pslverr hardwired 0 | [§BUG-003](#bug-003-pslverr-hardwired-to-0--never-asserted-for-invalid-addresses) |
+| BUG-004 | 3 | SCB-5 — seg_out=7'h4a for digit 2, expected 7'h48 (top bar missing) | [§BUG-004](#bug-004-wrong-7-segment-encoding-for-digit-2) |
+| BUG-005 | 3 | SCB-5 — seg_out=7'h24/7'h0e for digit 6, expected 7'h06 (wrong encoding) | [§BUG-005](#bug-005-wrong-7-segment-encoding-for-digit-6) |
 | FIX-013 | 4 | `regress_p0.sh` permission denied | [§FIX-013](#fix-013-regress_p0sh-not-executable) |
 | FIX-014 | — | Excel `PermissionError` generating testplan | [§FIX-014](#fix-014-excel-testplan-permission-denied) |
 
@@ -224,17 +227,55 @@ vcs -full64 -sverilog ... -file $ROOT/tb/dut.f -CFLAGS -DVCS
 | **If DUT bug confirmed** | Fix: Add `mem[0] <= 1` in the APB slave reset block alongside `o_led_enable <= 1'b1` so register readback matches the functional default. |
 | **If intentional** | Update scoreboard SCB-1 shadow init to `led_enable = 1'b0` to reflect APB register behaviour (not functional signal). Document discrepancy. |
 
-### BUG-002: `sel_out` toggling during active reset
+### BUG-002: `sel_out` not holding 6'h3E during active reset
 
 | | |
 |---|---|
-| **Detected by** | `led_reset_values_test` — SVA `assert_sel_out_stable_during_reset` |
-| **Symptom** | 4 failures at 30 ns, 50 ns, 70 ns, 90 ns; `sel_out != 6'h3E` during `rst_n = 0` |
+| **Detected by** | `led_reset_values_test` — SVA `p_sel_out_during_reset` / `assert_sel_out_stable_during_reset` |
+| **Symptom** | 4 failures at 30 ns, 50 ns, 70 ns, 90 ns; `sel_out != 6'h3E` during `rst_n = 0`. SVA report: 55 attempts, 51 successes, 4 failures. SPEC §3.3 requires `sel_out = 6'h3E` throughout active reset. |
 | **Log** | `dut_sva.rpt` and `led_reset_values_test_seed_0_sim.log` |
-| **Root cause (suspected)** | `dp_mux.sv` connects `LED_mux` reset as `.rst(rstn)` (undefined wire) instead of `.rst(rst_n)` — **BUG-3 in source comment**. With `rstn = Z`, the LED_mux async reset never fires; the combinational `always @(out_counter)` block overrides `sel_out` before the sequential reset block can hold it at `6'h3E`. |
+| **Root cause (suspected)** | `dp_mux.sv` connects `LED_mux` reset as `.rst(rstn)` (undefined wire) instead of `.rst(rst_n)` — **BUG-3 in source comment**. With `rstn = Z`, the LED_mux output counter starts cycling for 4 cycles before any reset effect, causing `sel_out` to deviate from 6'h3E. |
 | **RTL location** | `src/dp_mux.sv` line 15: `.rst(rstn)` should be `.rst(rst_n)` |
 | **Status** | **OPEN — awaiting DUT owner confirmation.** |
 | **If DUT bug confirmed** | Fix: Change `.rst(rstn)` → `.rst(rst_n)` in `dp_mux.sv`. |
+
+### BUG-003: `pslverr` hardwired to 0 — never asserted for invalid addresses
+
+| | |
+|---|---|
+| **Detected by** | `apb_invalid_addr_test` — SVA `assert_apb_pslerr_invalid_addr` (2 failures) |
+| **Symptom** | Accessing address `0x400C` (write + read) completes with `pslverr=0`; SVA requires `pslverr=1` for unmapped addresses |
+| **Log** | `apb_invalid_addr_test_seed_0_sim.log` — `assert_apb_pslerr_invalid_addr: 2 failures` |
+| **Root cause (suspected)** | `APB_Slave.sv` hardwires `assign o_pslverr = 1'b0`. No address range decoder implemented. |
+| **RTL location** | `src/AMBA/APB/APB_Slave.sv` — `assign o_pslverr = 1'b0;` |
+| **Status** | **CONFIRMED Design Bug** — user confirmed 2026-07-10. |
+| **If DUT bug confirmed** | Add address range check: assert `o_pslverr` when `i_paddr` is not in `{32'h4000, 32'h4004, 32'h4008}` during access phase. |
+
+### BUG-004: Wrong 7-segment encoding for digit 2
+
+| | |
+|---|---|
+| **Detected by** | `led_decimal_42_test` — SCB-5 (2 failures) |
+| **Symptom** | `seg_out[6:0]=7'h4a` for digit 2 (ones position of error_q=42); SPEC §4.4 requires `7'h48` |
+| **Difference** | bit 1 = 1 (segment 1 = top horizontal bar is OFF). For digit "2", segment 1 must be ON. `7'h48=7'b1001000` (SPEC), `7'h4a=7'b1001010` (DUT). |
+| **Log** | `led_decimal_42_test_seed_0_sim.log` — SCB-5 @ 11930000ps and 22130000ps |
+| **Root cause (suspected)** | DUT 7-segment lookup table has wrong encoding for digit 2 — top bar (segment 1) is missing. |
+| **RTL location** | `src/` 7-seg encoder (do not read to confirm — SPEC is source of truth) |
+| **Status** | **OPEN — awaiting DUT owner confirmation.** |
+| **If DUT bug confirmed** | Fix 7-seg lookup table: digit 2 → `7'h48` (segments 0,1,2,4,5 ON = top bar + upper-right + middle + lower-left + bottom). |
+
+### BUG-005: Wrong 7-segment encoding for digit 6
+
+| | |
+|---|---|
+| **Detected by** | `led_all_digits_0_to_9_test` — SCB-5 (3 failures) |
+| **Symptom** | `seg_out[6:0]=7'h24` (first monitor scan) then `7'h0e` (subsequent scans) for digit 6; SPEC §4.4 requires `7'h06` |
+| **Difference** | `7'h06=7'b0000110` (SPEC: segments 0,3,4,5,6 ON). DUT: `7'h24=7'b0100100` (matches digit 5 encoding — off-by-one suspect), `7'h0e=7'b0001110` (unstable/wrong). |
+| **Log** | `led_all_digits_0_to_9_test_seed_0_sim.log` @ 134330000ps, 144530000ps, 154730000ps |
+| **Root cause (suspected)** | DUT 7-segment lookup table has wrong encoding for digit 6. First-scan value `7'h24` matches digit 5's SPEC encoding, suggesting an off-by-one or indexing error in the RTL lookup. |
+| **RTL location** | `src/` 7-seg encoder (do not read to confirm — SPEC is source of truth) |
+| **Status** | **OPEN — awaiting DUT owner confirmation.** |
+| **If DUT bug confirmed** | Fix 7-seg lookup table: digit 6 → `7'h06` (segments 0,3,4,5,6 ON per SPEC §4.4). |
 
 ---
 
