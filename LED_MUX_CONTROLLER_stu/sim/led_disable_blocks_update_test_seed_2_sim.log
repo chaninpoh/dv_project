@@ -1,7 +1,7 @@
 Command: /home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/./dut_simv +UVM_TESTNAME=led_disable_blocks_update_test +ntb_random_seed=2 -l led_disable_blocks_update_test_seed_2_sim.log +UVM_NO_RELNOTES -cm line+tgl+cond+fsm+branch+assert -assert summary -assert report=dut_sva.rpt -debug_access+all -cm line+tgl+cond+fsm+branch+assert -cm_name led_disable_blocks_update_test_2 +fsdb+sva_success
 Chronologic VCS simulator copyright 1991-2024
 Contains Synopsys proprietary information.
-Compiler version W-2024.09-SP2_Full64; Runtime version W-2024.09-SP2_Full64;  Jul 11 22:32 2026
+Compiler version W-2024.09-SP2_Full64; Runtime version W-2024.09-SP2_Full64;  Jul 11 22:59 2026
 UVM_INFO @ 0: reporter [RNTST] Running test led_disable_blocks_update_test...
 *Verdi* Loading libsscore_vcs202409.so
 FSDB Dumper for VCS, Release Verdi_W-2024.09-SP2, Linux x86_64/64bit, 03/03/2025
@@ -1450,5 +1450,5 @@ VCS Coverage Metrics: during simulation line, cond, FSM, branch, tgl was monitor
 ---------------------------------------------------------------------------
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 23290000 ps
-CPU Time:      0.460 seconds;       Data structure size:  43.1Mb
-Sat Jul 11 22:32:45 2026
+CPU Time:      0.430 seconds;       Data structure size:  43.1Mb
+Sat Jul 11 22:59:14 2026
