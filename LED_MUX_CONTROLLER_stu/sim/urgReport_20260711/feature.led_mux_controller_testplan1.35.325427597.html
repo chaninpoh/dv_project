@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: HVP Feature</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.colResizable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    }  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+  $("table").colResizable({    liveDrag:true,
+    fixed:false,
+    draggingClass:"dragging"
+  });
+});
+</script>
+</head>
+<body><div class="ui-layout-north">
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | hierarchy | modlist | groups | tests | asserts | <a href="userdata.html" ><b>userdata</b></a> | <a href="hvp.led_mux_controller_testplan.html" ><b>hvp</b></a></div>
+
+<div id="north-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul>
+    <li>
+      <a href="hvp.led_mux_controller_testplan.html">HVP Hierarchy</a>    </li>
+    <li>
+      <a href="plan.led_mux_controller_testplan1.1.html">led_mux_controller_testplan</a>    </li>
+    <li>
+      <a href="feature.led_mux_controller_testplan1.21.-1807466779.html">APB_Controller</a>    </li>
+    <li>
+      <a href="#">LED_enable_write_and_read</a>    </li>
+  </ul>
+</div>
+</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div class=modhdr>
+<br clear=all>
+<span class=titlename><a name="tag_urg_hvp_led_mux_controller_testplan.APB_Controller.LED_enable_write_and_read"></a>
+Feature : <a href="hvp.led_mux_controller_testplan.html#tag_urg_hvp_led_mux_controller_testplan.APB_Controller.LED_enable_write_and_read" >led_mux_controller_testplan.APB_Controller.LED_enable_write_and_read</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td><td>SNPSAVG</td><td>test</td><td>pass</td><td>fail</td><td>warn</td><td>assert</td><td>unknown</td></tr><tr>
+<td class="wht cl rt"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+</tr></table><br clear=all>
+<hr>
+<a name="tag_urg_hvp_measure_totals"></a>
+<br clear=all>
+<span class=repname>Measure Totals:</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td><td>SNPSAVG</td><td>test</td><td>pass</td><td>fail</td><td>warn</td><td>assert</td><td>unknown</td></tr><tr>
+<td class="wht cl rt"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+</tr></table><br clear=all>
+<hr>
+<a name="measure_t_apb_led_enable_write_read_test"></a>
+<br clear=all>
+<span class=repname>Measure t_apb_led_enable_write_read_test: </span>
+<br clear=all>
+Metrics: <a href="userdata.test.html" >test</a><br clear=all>
+Goal: (test.fail == 0) <br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td><td>SNPSAVG</td><td>test</td><td>pass</td><td>fail</td><td>warn</td><td>assert</td><td>unknown</td></tr><tr>
+<td class="wht cl rt"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Sources:</span>
+<br clear=all>
+<a name="apb_led_enable_write_read_test"></a>
+apb_led_enable_write_read_test<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td><td>SNPSAVG</td><td>test</td><td>pass</td><td>fail</td><td>warn</td><td>assert</td><td>unknown</td></tr><tr>
+<td class="wht cl"><a href="userdata.test.html#tag_urg_ud_apb_led_enable_write_read_test" >apb_led_enable_write_read_test</a></td>
+<td class="wht cl rt"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="wht cl"></td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">1     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+<td class="s10 cl rt">0     </td>
+</tr></table><br clear=all>
+<br clear=all>
+<hr>
+<a name="tag_urg_hvp_attr_val"></a>
+<br clear=all>
+<span class=repname>Attribute/Annotation values:</span>
+<br clear=all>
+<div class=ind1>
+description: LED_enable write and read</div>
+<div class=ind1>
+priority: P1</div>
+<div class=ind1>
+goal_ref: AC-E1, AC-E2</div>
+<div class=ind1>
+owner: slpoh</div>
+Goal: (test.fail == 0) <br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul>
+    <li>
+      <a href="#tag_urg_hvp_led_mux_controller_testplan.APB_Controller.LED_enable_write_and_read">Feature : led_mux_controller_testplan.APB_Controller.LED_enable_write_and_read</a>    </li>
+    <li>
+      <a href="#tag_urg_hvp_measure_totals">Measure Totals</a>    </li>
+    <li>
+      <a href="#measure_t_apb_led_enable_write_read_test">Measure t_apb_led_enable_write_read_test</a>    </li>
+    <li>
+      <a href="#tag_urg_hvp_attr_val">Attribute/Annotation values</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>

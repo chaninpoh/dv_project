@@ -1,0 +1,80 @@
+<session version="1.1" release="W-2024.09-SP2" timestp="2026-07-11 15:25:57 GMT">
+  <info>
+    <attr name="datetime" value="Sat Jul 11 23:31:22 2026
+"/>
+    <attr name="command" value="urg -dir dut_ -plan led_mux_controller_testplan.hvp -userdata test_results.hvpdata -xmlplan -report urgReport_20260711"/>
+  </info>
+  <hvp>
+    <datadef>
+      <metdef name="Line" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Cond" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="FSM" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Toggle" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Branch" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.assert" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.cover" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.ast_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Assert.cov_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group" type="percent" aggregator="average" builtin="1" />
+      <metdef name="Group.count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.grp_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.cvp_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.bin_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.covered_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.uncovered_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.excluded_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="SnpsAvg" type="percent" aggregator="average" builtin="1" isaggr="1">
+        <aggrdef name="Line" />
+        <aggrdef name="Cond" />
+        <aggrdef name="FSM" />
+        <aggrdef name="Toggle" />
+        <aggrdef name="Branch" />
+        <aggrdef name="Assert" />
+        <aggrdef name="Group" />
+      </metdef>
+      <metdef name="test" type="enum" aggregator="sum" builtin="1">
+        <enumdef name="pass" />
+        <enumdef name="fail" />
+        <enumdef name="warn" />
+        <enumdef name="assert" />
+        <enumdef name="unknown" />
+      </metdef>
+      <metdef name="test.completion" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="AssertResult" type="enum" aggregator="sum" builtin="1">
+        <enumdef name="successes" />
+        <enumdef name="failures" />
+        <enumdef name="unknown" />
+      </metdef>
+    </datadef>
+    <scope type="plan" name="led_mux_controller_testplan" active="1">
+      <scorelist type="total">
+        <score name="Assert" value="0/1" />
+        <score name="Branch" value="0/1" />
+        <score name="Cond" value="0/1" />
+        <score name="FSM" value="0/1" />
+        <score name="Line" value="0/1" />
+        <score name="SnpsAvg" value="0%" />
+        <score name="Toggle" value="0/1" />
+        <score name="test" value="38">
+          <enumval name="pass" value="6" />
+          <enumval name="fail" value="5" />
+          <enumval name="warn" value="0" />
+          <enumval name="assert" value="0" />
+          <enumval name="unknown" value="27" />
+        </score>
+        <score name="Score" value="0.00%" />
+      </scorelist>
+    </scope>
+  </hvp>
+  <old_coverage>
+  <scope type="top" name="top">
+  </scope>
+  <scope type="instance" name="top">
+  </scope>
+  <scope type="group" name="top">
+  </scope>
+  <scope type="assert" name="Statistics">
+  </scope>
+  </old_coverage>
+</session>
