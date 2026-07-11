@@ -28,7 +28,7 @@ This testplan is the build checklist. **Start with §1 P0 essential tests (11)**
 | `SVA` | SystemVerilog assertion or cover property in `led_mux_sva` (use **snake_case** names from §0.3) |
 | `SCB` | `led_scoreboard` check |
 | `MON` | Monitor or driver protocol enforcement |
-| `COV` | `led_coverage` covergroup bin |
+| `COV` | `led_coverage` covergroup / coverpoint / cross |
 | `P0` | **Essential** — must implement; blocks spec sign-off |
 | `P1` | **Good to have** — closes coverage gaps; add after P0 passes |
 | `P2` | **Stretch** — stress / redundant; optional before presentation |
@@ -105,13 +105,58 @@ Rules:
 
 ### 0.4 Functional coverage (`led_coverage`) — build checklist
 
-| Covergroup | Bins / crosses | Closed by |
+Implement **one** `led_coverage` component (UVM subscriber or analysis-imp fan-in). Add **covergroups**, **coverpoints**, and **crosses** incrementally when the **first** P0/P1 test that needs them is built — same rule as SCB/SVA. Do not create unused coverpoints ahead of the feature that samples them.
+
+#### Naming convention
+
+| Kind | Prefix / form | Example |
 |---|---|---|
-| `cg_error_q` | `0`, `1`, `9`, `99`, `999_999`, `1_000_000`, `1_048_575`, random mid-range | LED tests |
-| `cg_digits` | digit position 0–5 × digit value 0–9 | LED + random tests |
-| `cg_enable` | `LED_enable` 0→1, 1→0, default-at-reset | APB + integration tests |
-| `cg_done` | `Done` 0, `Done` 1, poll-before-done | Integration tests |
-| `cg_overflow` | in-range vs overflow bucket | Overflow corner tests |
+| Covergroup | `cg_<feature>` | `cg_enable`, `cg_digits` |
+| Coverpoint | `cp_<signal_or_aspect>` | `cp_led_enable`, `cp_digit_pos` |
+| Cross | `cx_<a>_x_<b>` | `cx_digit_pos_x_digit_val` |
+
+#### Covergroup inventory (coverpoints + crosses)
+
+| Covergroup | Coverpoints | Crosses | Sample when | Spec / AC |
+|---|---|---|---|---|
+| `cg_enable` | `cp_led_enable` `{bin_off, bin_on}`; `cp_enable_trans` `{off_to_on, on_to_off, default_at_reset}` | — | APB write/read `0x4000`; reset defaults | AC-E1, AC-E2 |
+| `cg_done` | `cp_done` `{bin_0, bin_1}`; `cp_poll_before_done` `{polled_while_0}` | — | APB read `0x4004` / Done poll | AC-D1, AC-D2 |
+| `cg_error_q` | `cp_error_q` bins: `0`, `1`, `9`, `99`, `999_999`, `1_000_000`, `1_048_575`, `mid_range` (illegal / auto) | — | LED `error_q` drive | AC-B1, AC-B4 |
+| `cg_overflow` | `cp_range` `{in_range (<=999_999), overflow (>999_999)}` | — | LED overflow / max tests | AC-B4 |
+| `cg_digits` | `cp_digit_pos` `{0..5}`; `cp_digit_val` `{0..9}` | **`cx_digit_pos_x_digit_val`** = `cp_digit_pos × cp_digit_val` | After `Done==1`, per digit sample | AC-C1, AC-B1 |
+| `cg_apb_addr` *(optional P1)* | `cp_apb_addr` `{enable, done, scratch, invalid}` | — | APB address decode | AC-A1, AC-A2 |
+
+#### Feature → coverage map (add when working that feature)
+
+| Feature set | First test that needs COV | Add to `led_coverage` |
+|---|---|---|
+| Reset / defaults | E02 `apb_reset_defaults_test` | `cg_enable.cp_enable_trans` bin `default_at_reset`; `cg_done.cp_done` bin `bin_0` |
+| LED_enable RW | E03 `apb_led_enable_write_read_test` | `cg_enable` coverpoints (`cp_led_enable`, `cp_enable_trans`) |
+| Disable gating | E10 `led_disable_blocks_update_test` | Hit `cg_enable` `bin_off` / `on_to_off` |
+| Display / BCD | E08 `led_decimal_42_test` | `cg_error_q` (bin for 42 / mid); start `cg_digits` coverpoints |
+| Overflow | E09 `led_overflow_modulo_test` | `cg_overflow`; `cg_error_q` overflow bins |
+| All digits 0–9 | E11 `led_all_digits_0_to_9_test` | Complete `cg_digits` + **cross** `cx_digit_pos_x_digit_val` |
+| Integration smoke | E01 `smoke_test` | Sample all existing covergroups end-to-end |
+| Coverage closure | G09 `random_regression_test` | Close remaining bins / crosses (P1) |
+
+#### Implementation rules
+
+1. **One class** — `led_coverage` only; no per-test covergroup classes.
+2. **Incremental** — create the covergroup shell when the first feature needs it; add coverpoints/crosses on later features that require them.
+3. **Crosses** — require both coverpoints to exist first; add `cx_*` when the feature needs correlation (e.g. digit position × digit value for E11).
+4. **Sample source** — sample from APB and/or LED analysis transactions (or scoreboard mirror), not from ad-hoc test `$display`s.
+5. **Env hook** — instantiate once in `led_env`; connect monitor analysis ports (or fan-out from scoreboard) in `connect_phase`.
+6. **Excel** — put covergroup names in the **Covergroups** column; crosses count as functional coverage for AC-C2.
+
+#### Minimal covergroup sketch
+
+```systemverilog
+covergroup cg_digits;
+  cp_digit_pos: coverpoint digit_pos { bins pos[] = {[0:5]}; }
+  cp_digit_val: coverpoint digit_val { bins val[] = {[0:9]}; }
+  cx_digit_pos_x_digit_val: cross cp_digit_pos, cp_digit_val;
+endgroup
+```
 
 ---
 
@@ -184,8 +229,8 @@ Full sequence, constraint, and checker detail for each **essential** test only. 
 
 | # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
 |---|---|---|---|---|---|
-| E02 | `apb_reset_defaults_test` | `led_reset_seq` → `apb_read_seq` ×3 | 1. Reset DUT 2. Read `0x4000` (expect `LED_enable=1`) 3. Read `0x4004` (expect `Done=0`) 4. Read `0x4008` (expect `0`) | No APB traffic during reset assert | **SCB-1, SCB-2, SCB-3**; **assert_sel_out_reset_value, assert_seg_out_reset_value** |
-| E03 | `apb_led_enable_write_read_test` | `apb_wr_rd_seq` | 1. Write `0x4000 = 0` 2. Read `0x4000` 3. Write `0x4000 = 1` 4. Read `0x4000` | `wdata[0]` only (FR 3.4) | **SCB-1**; **COV** `cg_enable` |
+| E02 | `apb_reset_defaults_test` | `led_reset_seq` → `apb_read_seq` ×3 | 1. Reset DUT 2. Read `0x4000` (expect `LED_enable=1`) 3. Read `0x4004` (expect `Done=0`) 4. Read `0x4008` (expect `0`) | No APB traffic during reset assert | **SCB-1, SCB-2, SCB-3**; **assert_sel_out_reset_value, assert_seg_out_reset_value**; **COV** `cg_enable` (`default_at_reset`), `cg_done` (`bin_0`) |
+| E03 | `apb_led_enable_write_read_test` | `apb_wr_rd_seq` | 1. Write `0x4000 = 0` 2. Read `0x4000` 3. Write `0x4000 = 1` 4. Read `0x4000` | `wdata[0]` only (FR 3.4) | **SCB-1**; **COV** `cg_enable` (`cp_led_enable`, `cp_enable_trans`) |
 | E04 | `apb_scratchpad_wr_rd_test` | `apb_wr_rd_seq` | 1. Write `0x4008 = 32'hDEAD_BEEF` 2. Read `0x4008` | Full 32-bit `wdata` | **SCB-3** |
 | E05 | `apb_invalid_addr_test` | `apb_invalid_addr_seq` | 1. Write `0x5000` 2. Check `pslerr` 3. Read `0x0000` 4. Check `pslerr` | Addr outside `{0x4000,0x4004,0x4008}` | **assert_apb_pslerr_invalid_addr**; **MON** `pslerr==1` |
 | E06 | `apb_pready_no_wait_test` | `apb_write_seq` + `apb_read_seq` | 1. Write `0x4000` 2. Read `0x4004` | Standard 2-phase APB (C-6) | **assert_apb_setup_phase, assert_apb_access_phase, assert_apb_pready_complete** |
@@ -195,16 +240,16 @@ Full sequence, constraint, and checker detail for each **essential** test only. 
 | # | Test name | Virtual / child sequences | Sequence flow | Constraints | Checkers |
 |---|---|---|---|---|---|
 | E07 | `led_reset_values_test` | `led_reset_seq` | 1. Assert `rst_n=0` 2. Check outputs 3. Deassert reset 4. Check outputs | Sample after reset (FR 3.3) | **assert_sel_out_reset_value, assert_seg_out_reset_value** |
-| E08 | `led_decimal_42_test` | `led_mux_virtual_seq` | 1. `LED_enable=1` 2. `error_q=42` 3. Poll Done 4. Compare digits `0,0,0,0,4,2` | C-4 hold ≥1002; C-5 latency | **SCB-4..6, SCB-8**; **assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one, check_60_80_cycle** |
-| E09 | `led_overflow_modulo_test` | `led_mux_virtual_seq` | 1. `error_q=1_000_001` 2. Poll Done 3. Expect display `000001` | Golden = `error_q % 1_000_000` | **SCB-9**; **COV** `cg_overflow` |
-| E10 | `led_disable_blocks_update_test` | `led_mux_virtual_seq` | 1. Write `LED_enable=0` 2. Drive `error_q=55` 3. Confirm no `seg_out` update | `LED_enable=0` (FR 3.4) | **SCB-7**; **COV** `cg_enable` |
-| E11 | `led_all_digits_0_to_9_test` | `led_mux_virtual_seq` loop | For `d` in 0..9: drive value with ones digit `d`; poll Done; compare encoding | 10 iterations | **SCB-5**; **cover_seg_out_decimal_digit**; **COV** `cg_digits` |
+| E08 | `led_decimal_42_test` | `led_mux_virtual_seq` | 1. `LED_enable=1` 2. `error_q=42` 3. Poll Done 4. Compare digits `0,0,0,0,4,2` | C-4 hold ≥1002; C-5 latency | **SCB-4..6, SCB-8**; **assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one, check_60_80_cycle**; **COV** `cg_error_q`, `cg_digits` (`cp_digit_pos`, `cp_digit_val`) |
+| E09 | `led_overflow_modulo_test` | `led_mux_virtual_seq` | 1. `error_q=1_000_001` 2. Poll Done 3. Expect display `000001` | Golden = `error_q % 1_000_000` | **SCB-9**; **COV** `cg_overflow`, `cg_error_q` overflow bins |
+| E10 | `led_disable_blocks_update_test` | `led_mux_virtual_seq` | 1. Write `LED_enable=0` 2. Drive `error_q=55` 3. Confirm no `seg_out` update | `LED_enable=0` (FR 3.4) | **SCB-7**; **COV** `cg_enable` (`bin_off`, `on_to_off`) |
+| E11 | `led_all_digits_0_to_9_test` | `led_mux_virtual_seq` loop | For `d` in 0..9: drive value with ones digit `d`; poll Done; compare encoding | 10 iterations | **SCB-5**; **cover_seg_out_decimal_digit**; **COV** `cg_digits` + cross **`cx_digit_pos_x_digit_val`** |
 
 ### 2.3 Integration — Essential
 
 | # | Test name | Sequence flow | Constraints | Checkers |
 |---|---|---|---|---|
-| E01 | `smoke_test` | Reset → default enable → `error_q=42` → poll Done → scoreboard | `error_q=42` | Full **SCB**; all §0.3 **assert_** / **cover_** / **check_** properties |
+| E01 | `smoke_test` | Reset → default enable → `error_q=42` → poll Done → scoreboard | `error_q=42` | Full **SCB**; all §0.3 **assert_** / **cover_** / **check_** properties; **COV** all covergroups sampled |
 
 ---
 
@@ -220,7 +265,7 @@ Full sequence, constraint, and checker detail for each **essential** test only. 
 | G06 | `led_latency_window_test` | Drive `error_q=100` → wait 60–80 cycles → sample | C-5 | **check_60_80_cycle**; **SCB-8** |
 | G07 | `led_reenable_after_disable_test` | Disable → drive (no effect) → enable → drive new value → poll Done | Two `error_q` values | **SCB-7**, then **SCB-4..6** |
 | G08 | `full_display_flow_test` | Enable → random `error_q` → poll Done → read scratch → read Done | `error_q` in `[0:999_999]` | **SCB-1..6, SCB-8** |
-| G09 | `random_regression_test` | Random APB + LED virtual sequence; 80% in-range / 20% overflow | C-4; multi-seed | All **SCB**, all §0.3 properties, **COV** |
+| G09 | `random_regression_test` | Random APB + LED virtual sequence; 80% in-range / 20% overflow | C-4; multi-seed | All **SCB**, all §0.3 properties, **COV** (close remaining coverpoints / crosses) |
 
 ---
 
@@ -317,19 +362,21 @@ Quick lookup from **SPEC.md** when writing tests and sequences.
 
 ## 7. Test → checker traceability (P0 only)
 
-| Test name | SCB | SVA / check properties | COV | MON |
+| Test name | SCB | SVA / check properties | COV (covergroup / coverpoint / cross) | MON |
 |---|---|---|---|---|
-| `apb_reset_defaults_test` | 1,2,3 | assert_sel_out_reset_value, assert_seg_out_reset_value | enable | — |
+| `apb_reset_defaults_test` | 1,2,3 | assert_sel_out_reset_value, assert_seg_out_reset_value | `cg_enable.default_at_reset`, `cg_done.bin_0` | — |
+| `apb_led_enable_write_read_test` | 1 | — | `cg_enable` (`cp_led_enable`, `cp_enable_trans`) | — |
 | `apb_invalid_addr_test` | — | assert_apb_pslerr_invalid_addr | — | pslerr |
 | `led_reset_values_test` | — | assert_sel_out_reset_value, assert_seg_out_reset_value | — | — |
-| `led_decimal_42_test` | 4,5,6,8 | assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one, check_60_80_cycle | digits | latency |
-| `led_overflow_modulo_test` | 9 | assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one | overflow | — |
-| `led_disable_blocks_update_test` | 7 | — | enable | — |
-| `led_sel_onehot_scan_test` | 5 | assert_sel_out_onehot_active_low, cover_sel_out_digit_position | digits | one-hot |
+| `led_decimal_42_test` | 4,5,6,8 | assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one, check_60_80_cycle | `cg_error_q`, `cg_digits` coverpoints | latency |
+| `led_overflow_modulo_test` | 9 | assert_sel_out_onehot_active_low, assert_seg_out_bit7_always_one | `cg_overflow`, `cg_error_q` overflow bins | — |
+| `led_disable_blocks_update_test` | 7 | — | `cg_enable` (`bin_off`, `on_to_off`) | — |
+| `led_all_digits_0_to_9_test` | 5 | cover_seg_out_decimal_digit | `cg_digits` + **`cx_digit_pos_x_digit_val`** | — |
+| `led_sel_onehot_scan_test` | 5 | assert_sel_out_onehot_active_low, cover_sel_out_digit_position | `cg_digits` | one-hot |
 | `led_latency_window_test` | 8 | check_60_80_cycle | — | defer sample |
 | `led_hold_time_min_test` | 4 | check_hold_1002_cycle | — | hold |
-| `smoke_test` | all | all §0.3 properties | all | hold+latency |
-| `random_regression_test` | all | all §0.3 properties | all | all |
+| `smoke_test` | all | all §0.3 properties | all covergroups | hold+latency |
+| `random_regression_test` | all | all §0.3 properties | all (closure of coverpoints / crosses) | all |
 
 ---
 

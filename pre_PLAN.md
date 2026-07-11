@@ -401,7 +401,7 @@ make {{RUN_TARGET}} TESTNAME={{PHASE2_TEST}} SEED=0
 
 ### Goal
 
-**Implement all P0 tests from `{{TESTPLAN_XLS}}` / TESTPLAN one feature at a time.** If the scoreboard has never been created, build at least one P0 test and its sequence(s) before scoreboard integration.
+**Implement all P0 tests from `{{TESTPLAN_XLS}}` / TESTPLAN one feature at a time.** If the scoreboard has never been created, build at least one P0 test and its sequence(s) before scoreboard integration. For each feature, also add **covergroups / coverpoints / crosses** when TESTPLAN §0.4 maps COV to that test.
 
 ### Shared infrastructure — Phase 3 entry order
 
@@ -499,10 +499,24 @@ endpackage
 2. Create or extend sequences
 3. Extend **one** `{{SCOREBOARD}}` only if test needs SCB (no extra scoreboards)
 4. Add SVA to **one** `{{SVA_MODULE}}.sv` + `bind` when test needs it
-5. Create or update test; register in `test_lib.svh`
-6. **User runs:** `make {{RUN_TARGET}} TESTNAME=<test> SEED=0`
-7. **User prompts** log check
-8. Proceed only on PASS
+5. Add/extend **`{{COVERAGE}}`** covergroups / coverpoints / crosses when TESTPLAN §0.4 maps COV to this feature — **consult Context7** for covergroup/coverpoint/cross syntax first
+6. Create or update test; register in `test_lib.svh`
+7. **User runs:** `make {{RUN_TARGET}} TESTNAME=<test> SEED=0`
+8. **User prompts** log check
+9. Proceed only on PASS
+
+#### Coverage rule (mandatory during P0 feature loop)
+
+**Context7 (mandatory):** Before writing or extending any covergroup, coverpoint, or cross, query Context7 for SystemVerilog / UVM coverage syntax (`resolve-library-id` → `query-docs`). Example queries: *"SystemVerilog covergroup coverpoint bins cross sample syntax"*, *"UVM functional coverage covergroup in component"*. Apply the returned syntax; do not invent from memory alone.
+
+| Check | Action |
+|---|---|
+| TESTPLAN §0.4 lists COV for this test? | Yes → **Context7** first, then add/extend covergroup, coverpoints, and any required **cross** |
+| First COV use? | Create `{{COVERAGE}}` shell; instantiate in `{{ENV}}`; connect analysis ports |
+| Cross needed? | Only when feature needs correlation (e.g. digit position × digit value); both coverpoints must exist first; confirm `cross` syntax via Context7 |
+| No COV for this test? | Skip — do not invent unused coverpoints |
+
+Checkpoint must report: `COV added : <cg_*/cp_*/cx_*> / none` (and note Context7 was consulted when COV was added).
 
 Each P0 test `run_phase` must call `set_run_phase_drain_time(phase)` after `drop_objection` ({{UVM_PHASE_DRAIN_TIME}}).
 
@@ -529,7 +543,7 @@ make {{RUN_TARGET}} TESTNAME={{EXAMPLE_P0_TEST}} SEED=0
 
 ### Review gate — Phase 3 (per test)
 
-Same as Phase 1/2 plus: factory lists new test; scoreboard/SVA quiet unless negative test.
+Same as Phase 1/2 plus: factory lists new test; scoreboard/SVA quiet unless negative test; if COV was added for this feature, `{{COVERAGE}}` compiles and is connected (coverpoint/cross definitions match TESTPLAN §0.4).
 
 **If gate FAIL:** see **`FIX.md`** — Phase 3 (FIX-006, FIX-011, FIX-012).
 
@@ -711,6 +725,7 @@ make {{RUN_TARGET}} TESTNAME=smoke_test SEED=0
 | `{{ENV}}` | led_env | UVM environment |
 | `{{TB_PKG}}` | led_tb_pkg | Package — includes `{{SCOREBOARD}}.sv` |
 | `{{SCOREBOARD}}` | led_scoreboard | Scoreboard file — macros at top, then class |
+| `{{COVERAGE}}` | led_coverage | Functional covergroups / coverpoints / crosses (use **Context7** for syntax) |
 | `{{VIRTUAL_SEQR}}` | led_virtual_sequencer | Virtual sequencer — `apb_seqr` + `led_seqr` handles; wired in `{{ENV}}` connect_phase |
 | `{{SVA_MODULE}}` | led_mux_sva | Bound assertion module |
 | `{{TESTPLAN_XML}}` | LED_MUX_CONTROLLER_testplan.xml | `<IP_name>_testplan.xml` — output XML for `hvp annotate` |
@@ -736,7 +751,7 @@ make {{RUN_TARGET}} TESTNAME=smoke_test SEED=0
 | Phase 1 {{TESTPLAN_XML}} | — | All test rows → `{{TESTPLAN_XML}}` |
 | Phase 2 `{{TB_TOP}}` | Static top | — |
 | Phase 3 agents | Agents / env | P0 prep |
-| Phase 4 P0 | SCB / SVA | P0 rows |
+| Phase 4 P0 | SCB / SVA / **COV** | P0 rows + §0.4 cover map |
 | Phase 5 | — | Regression |
 | Phase 6 | Coverage | P1 |
 | Any phase | **FIX.md** | Error lookup |

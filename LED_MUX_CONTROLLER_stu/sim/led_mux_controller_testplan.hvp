@@ -1,0 +1,422 @@
+plan led_mux_controller_testplan;
+  annotation string priority = "";
+  annotation string goal_ref = "";
+
+  feature General_and_basic_sequence;
+    description = "General and basic sequence";
+    owner = "slpoh";
+
+    feature Reset_values_on_LED_interface;
+      description = "Reset values on LED interface";
+      priority = "P0";
+      goal_ref = "AC-R1, AC-R2";
+      measure test t_led_reset_values_test;
+        source = "led_reset_values_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+  endfeature
+
+  feature APB_Controller;
+    description = "APB Controller";
+    owner = "slpoh";
+
+    feature Reset_register_defaults;
+      description = "Reset register defaults";
+      priority = "P0";
+      goal_ref = "AC-R1, AC-R2";
+      measure test t_apb_reset_defaults_test;
+        source = "apb_reset_defaults_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature LED_enable_write_and_read;
+      description = "LED_enable write and read";
+      priority = "P0";
+      goal_ref = "AC-E1, AC-E2";
+      measure test t_apb_led_enable_write_read_test;
+        source = "apb_led_enable_write_read_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Scratch_pad_write_and_read;
+      description = "Scratch pad write and read";
+      priority = "P0";
+      goal_ref = "AC-A1";
+      measure test t_apb_scratchpad_wr_rd_test;
+        source = "apb_scratchpad_wr_rd_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Done_register_read_only;
+      description = "Done register read-only";
+      priority = "P1";
+      goal_ref = "AC-D2";
+      measure test t_apb_done_read_only_test;
+        source = "apb_done_read_only_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature APB_pready_no_wait_state;
+      description = "APB pready no-wait-state";
+      priority = "P0";
+      goal_ref = "AC-A3";
+      measure test t_apb_pready_no_wait_test;
+        source = "apb_pready_no_wait_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Default_LED_enable_display_path;
+      description = "Default LED_enable display path";
+      priority = "P0";
+      goal_ref = "AC-E1, AC-B1";
+      measure test t_apb_default_enable_led_path_test;
+        source = "apb_default_enable_led_path_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+  endfeature
+
+  feature Corner_cases;
+    description = "Corner cases";
+    owner = "slpoh";
+
+    feature Invalid_APB_address;
+      description = "Invalid APB address";
+      priority = "P0";
+      goal_ref = "AC-A2";
+      measure test t_apb_invalid_addr_test;
+        source = "apb_invalid_addr_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Done_poll_timeout_without_error_q;
+      description = "Done poll timeout without error_q";
+      priority = "P2";
+      goal_ref = "AC-D1";
+      measure test t_apb_done_poll_timeout_test;
+        source = "apb_done_poll_timeout_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Scratch_pad_all_ones;
+      description = "Scratch pad all-ones";
+      priority = "P2";
+      goal_ref = "AC-A1";
+      measure test t_apb_scratchpad_all_ones_test;
+        source = "apb_scratchpad_all_ones_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Scratch_pad_walking_one;
+      description = "Scratch pad walking-one";
+      priority = "P2";
+      goal_ref = "AC-A1";
+      measure test t_apb_scratchpad_walking_one_test;
+        source = "apb_scratchpad_walking_one_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature LED_enable_toggle_stress;
+      description = "LED_enable toggle stress";
+      priority = "P2";
+      goal_ref = "AC-E2";
+      measure test t_apb_enable_toggle_stress_test;
+        source = "apb_enable_toggle_stress_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Read_Done_during_LED_processing;
+      description = "Read Done during LED processing";
+      priority = "P2";
+      goal_ref = "AC-D1";
+      measure test t_apb_read_during_processing_test;
+        source = "apb_read_during_processing_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Overflow_modulo_display;
+      description = "Overflow modulo display";
+      priority = "P0";
+      goal_ref = "AC-B4";
+      measure test t_led_overflow_modulo_test;
+        source = "led_overflow_modulo_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Overflow_maximum_error_q;
+      description = "Overflow maximum error_q";
+      priority = "P1";
+      goal_ref = "AC-B4";
+      measure test t_led_overflow_max_test;
+        source = "led_overflow_max_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Overflow_boundary_values;
+      description = "Overflow boundary values";
+      priority = "P1";
+      goal_ref = "AC-B4";
+      measure test t_led_overflow_boundary_test;
+        source = "led_overflow_boundary_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature LED_enable_disables_propagation;
+      description = "LED_enable disables propagation";
+      priority = "P0";
+      goal_ref = "AC-E2";
+      measure test t_led_disable_blocks_update_test;
+        source = "led_disable_blocks_update_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Re_enable_after_disable;
+      description = "Re-enable after disable";
+      priority = "P2";
+      goal_ref = "AC-E2";
+      measure test t_led_reenable_after_disable_test;
+        source = "led_reenable_after_disable_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Back_to_back_error_q_changes;
+      description = "Back-to-back error_q changes";
+      priority = "P2";
+      goal_ref = "AC-E1, C-5";
+      measure test t_led_back_to_back_error_test;
+        source = "led_back_to_back_error_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Reset_recovery_mid_display;
+      description = "Reset recovery mid-display";
+      priority = "P2";
+      goal_ref = "AC-R1, AC-R2";
+      measure test t_led_reset_during_display_test;
+        source = "led_reset_during_display_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Done_clears_after_reset;
+      description = "Done clears after reset";
+      priority = "P2";
+      goal_ref = "AC-D2";
+      measure test t_led_done_clear_after_reset_test;
+        source = "led_done_clear_after_reset_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Hold_below_minimum_negative;
+      description = "Hold below minimum (negative)";
+      priority = "P2";
+      goal_ref = "C-4";
+      measure test t_led_hold_below_min_negative_test;
+        source = "led_hold_below_min_negative_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature All_decimal_digits_0_9_on_display;
+      description = "All decimal digits 0-9 on display";
+      priority = "P0";
+      goal_ref = "AC-C1, AC-B1";
+      measure test t_led_all_digits_0_to_9_test;
+        source = "led_all_digits_0_to_9_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Random_regression;
+      description = "Random regression";
+      priority = "P2";
+      goal_ref = "AC-C1, AC-C2";
+      measure test t_random_regression_test;
+        source = "random_regression_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Virtual_sequence_stress_20x;
+      description = "Virtual sequence stress (20x)";
+      priority = "P2";
+      goal_ref = "AC-C2";
+      measure test t_virtual_seq_stress_test;
+        source = "virtual_seq_stress_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Disable_then_overflow_then_enable;
+      description = "Disable then overflow then enable";
+      priority = "P2";
+      goal_ref = "AC-E2, AC-B4";
+      measure test t_enable_off_overflow_test;
+        source = "enable_off_overflow_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Tight_Done_poll_stress;
+      description = "Tight Done poll stress";
+      priority = "P2";
+      goal_ref = "AC-D1";
+      measure test t_poll_until_done_stress_test;
+        source = "poll_until_done_stress_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+  endfeature
+
+  feature LED_MUX;
+    description = "LED MUX";
+    owner = "slpoh";
+
+    feature Single_digit_zero_display;
+      description = "Single digit zero display";
+      priority = "P1";
+      goal_ref = "AC-B1";
+      measure test t_led_single_digit_zero_test;
+        source = "led_single_digit_zero_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Single_digit_one_display;
+      description = "Single digit one display";
+      priority = "P1";
+      goal_ref = "AC-B1";
+      measure test t_led_single_digit_one_test;
+        source = "led_single_digit_one_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Binary_to_BCD_display_decimal_42;
+      description = "Binary-to-BCD display (decimal 42)";
+      priority = "P0";
+      goal_ref = "AC-B1, AC-M1";
+      measure test t_led_decimal_42_test;
+        source = "led_decimal_42_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Max_displayable_value_999999;
+      description = "Max displayable value (999999)";
+      priority = "P1";
+      goal_ref = "AC-B1";
+      measure test t_led_max_displayable_test;
+        source = "led_max_displayable_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature sel_out_one_hot_multiplex_scan;
+      description = "sel_out one-hot multiplex scan";
+      priority = "P1";
+      goal_ref = "AC-M1, AC-M2, AC-M3";
+      measure test t_led_sel_onehot_scan_test;
+        source = "led_sel_onehot_scan_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature seg_out_active_low_encoding;
+      description = "seg_out active-low encoding";
+      priority = "P1";
+      goal_ref = "AC-B2, AC-B3";
+      measure test t_led_seg_active_low_test;
+        source = "led_seg_active_low_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Minimum_hold_time_1002_cycles;
+      description = "Minimum hold time (1002 cycles)";
+      priority = "P1";
+      goal_ref = "AC-M2, AC-M3";
+      measure test t_led_hold_time_min_test;
+        source = "led_hold_time_min_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Output_latency_window_60_80_cycles;
+      description = "Output latency window (60-80 cycles)";
+      priority = "P1";
+      goal_ref = "AC-E1, C-5";
+      measure test t_led_latency_window_test;
+        source = "led_latency_window_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+  endfeature
+
+  feature Integration;
+    description = "Integration";
+    owner = "slpoh";
+
+    feature End_to_end_smoke;
+      description = "End-to-end smoke";
+      priority = "P0";
+      goal_ref = "AC-R1..AC-C3";
+      measure test t_smoke_test;
+        source = "smoke_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Full_display_flow_with_scratch_pad;
+      description = "Full display flow with scratch pad";
+      priority = "P1";
+      goal_ref = "AC-D1, AC-A1";
+      measure test t_full_display_flow_test;
+        source = "full_display_flow_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+    feature Scratch_pad_then_LED_display;
+      description = "Scratch pad then LED display";
+      priority = "P1";
+      goal_ref = "AC-A1, AC-D1";
+      measure test t_scratch_then_display_test;
+        source = "scratch_then_display_test";
+      endmeasure
+      test = (test.fail == 0);
+    endfeature
+
+  endfeature
+
+  feature Code_and_Functional_Coverage;
+    description = "DUT code and functional coverage (top_tb.dut_inst)";
+    measure SnpsAvg, Line, Cond, Toggle, FSM, Branch, Assert dut_cov;
+      source = "tree: top_tb.dut_inst";
+    endmeasure
+    Line = Line >= 80%;
+  endfeature
+endplan

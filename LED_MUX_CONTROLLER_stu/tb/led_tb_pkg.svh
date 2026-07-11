@@ -1,4 +1,4 @@
-// Scoreboard + analysis imp declarations (must live in a package for VCS)
+// Scoreboard + coverage + sequences (must live in a package for VCS)
 package led_tb_pkg;
 
   import uvm_pkg::*;
@@ -8,9 +8,10 @@ package led_tb_pkg;
   `include "uvm_macros.svh"
 
   `include "led_scoreboard.sv"
+  `include "led_coverage.sv"
   `include "led_virtual_sequencer.sv"
 
-  // Sequences — include here, not in test_lib.svh
+  // Sequences - include here, not in test_lib.svh
   `include "sequences/led_reset_seq.sv"
   `include "sequences/led_reset_vseq.sv"
   `include "sequences/apb_read_seq.sv"

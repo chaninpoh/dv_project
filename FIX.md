@@ -35,6 +35,7 @@
 | FIX-010 | 2 | Agent / topology empty; factory missing test | [§FIX-010](#fix-010-factory-or-topology-missing-in-log) |
 | FIX-011 | 3 | Scoreboard false fail before `Done==1` | [§FIX-011](#fix-011-scoreboard-compares-before-done) |
 | FIX-012 | 3 | SVA assertion failure / `dut_sva.rpt` | [§FIX-012](#fix-012-sva-assertion-failure) |
+| FIX-017 | 3 | URG Groups empty / no cg_* / missing `-cm group` | [§FIX-017](#fix-017-urg-groups-empty--no-functional-covergroups--cm-group-missing) |
 | BUG-001 | 3 | `SCB-1` UVM_ERROR — LED_enable reads 0 after reset, expected 1 | [§BUG-001](#bug-001-apb-0x4000-led_enable-register-reset-value-mismatch) |
 | BUG-002 | 3 | `assert_sel_out_stable_during_reset` — 4 SVA failures; `sel_out != 6'h3E` during active reset | [§BUG-002](#bug-002-sel_out-not-holding-6h3e-during-active-reset) |
 | TB_BUG-001 | 3 | `assert_apb_access_phase` 49 failures — psel not cleared after READ | [§TB_BUG-001](#tb_bug-001-apb-driver--pselpenable-not-cleared-after-read-transaction) |
@@ -195,6 +196,15 @@ vcs -full64 -sverilog ... -file $ROOT/tb/dut.f -CFLAGS -DVCS
 | **Symptom** | Assertion failures in sim log or `dut_sva.rpt` |
 | **Fix** | Match property name to TESTPLAN §0.3. Check `bind` port wiring in `top_tb`. Ensure `disable iff (!rst_n)`. Distinguish RTL bug vs stimulus timing (C-4 hold, C-5 latency). |
 | **Verify** | Assertion summary: 0 failures for enabled properties |
+
+### FIX-017: URG Groups empty — no functional covergroups / `-cm group` missing
+
+| | |
+|---|---|
+| **Symptom** | `urgReport_*/groups.html` missing; `<scope type="group">` empty; no `cg_*` / `cp_*` in report |
+| **Cause** | `led_coverage` not implemented, and/or VCS `-cm` lacked `group` |
+| **Fix** | Add `tb/led_coverage.sv` (TESTPLAN §0.4), instantiate in `led_env`, include in `led_tb_pkg.svh`. Enable `-cm …+group` in `sim/run_sim.csh`. |
+| **Verify** | After recompile + `make dv`, URG Groups lists `cg_enable`, `cg_done`, `cg_error_q`, `cg_overflow`, `cg_digits` |
 
 ---
 

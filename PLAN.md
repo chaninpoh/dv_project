@@ -887,7 +887,7 @@ Proceed with next component: <next_name>? [y/n]
 
 ### Goal
 
-**Implement all 11 essential (P0) tests from `LED_MUX_CONTROLLER_testplan.xlsx` / TESTPLAN.md §1.1 and §2, one feature set at a time.** If the scoreboard does not exist yet, create **at least one** P0 test and its sequence(s) **before** integrating the scoreboard shell. For each test: create or extend sequences and the UVM test, extend the **single** `led_scoreboard` when SCB is needed (do not add extra scoreboards), add SVA to **one** bind file when required, run `make dv TESTNAME=<test> SEED=0`, and pass the per-test gate before moving on. Phase 3 ends when E01–E11 all pass individually; Phase 4 runs `./regress_p0.sh`.
+**Implement all 11 essential (P0) tests from `LED_MUX_CONTROLLER_testplan.xlsx` / TESTPLAN.md §1.1 and §2, one feature set at a time.** If the scoreboard does not exist yet, create **at least one** P0 test and its sequence(s) **before** integrating the scoreboard shell. For each test: create or extend sequences and the UVM test, extend the **single** `led_scoreboard` when SCB is needed (do not add extra scoreboards), add SVA to **one** bind file when required, add or extend **`led_coverage` covergroups / coverpoints / crosses** when the feature needs COV (TESTPLAN §0.4), run `make dv TESTNAME=<test> SEED=0`, and pass the per-test gate before moving on. Phase 3 ends when E01–E11 all pass individually; Phase 4 runs `./regress_p0.sh`.
 
 **Prerequisite:** Phase 2 review gate PASS (`make dv TESTNAME=phase2_agent_sanity_test SEED=0`).
 
@@ -911,10 +911,12 @@ python scripts/generate_testplan.py --owner "slpoh" --tier p0
 │ 2. Create / extend sequences (§3.3)                         │
 │ 3. Extend led_scoreboard only if test needs SCB (§3.4)      │
 │ 4. Add SVA to led_mux_sva.sv + bind if test needs SVA (§3.5)│
-│ 5. Create or update *_test; register test_lib               │
-│ 6. make dv TESTNAME=<test> SEED=0                            │
-│ 7. Per-test gate: no errors + factory lists new test (§3.8)│
-│ 8. Prompt: proceed to next P0 test?                         │
+│ 5. Add/extend led_coverage covergroups/coverpoints/crosses  │
+│    if test needs COV (TESTPLAN §0.4 feature map)            │
+│ 6. Create or update *_test; register test_lib               │
+│ 7. make dv TESTNAME=<test> SEED=0                            │
+│ 8. Per-test gate: no errors + factory lists new test (§3.8)│
+│ 9. Prompt: proceed to next P0 test?                         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -1161,6 +1163,8 @@ Use **one** `led_scoreboard` in **`led_tb_pkg`** for all P0 tests. Add checks in
 
 Put **all** concurrent assertions and cover properties in **`tb/sva/led_mux_sva.sv`**. Bind **once** to the DUT in `top_tb.sv`. Add a second file only if you must `bind` to a different hierarchy (e.g. APB slave submodule); otherwise add properties to the same module.
 
+**Context7 (mandatory before writing SVA):** Query Context7 for concurrent assertion / `property` / `disable iff` / implication syntax before adding or changing properties.
+
 **SVA module skeleton** (Surelog / IEEE concurrent assertion style):
 
 ```systemverilog
@@ -1215,6 +1219,50 @@ Use `default_clocking` / `disable iff (!rst_n)` on each property. Name every pro
 
 **Incremental SVA rule:** Add properties when the **first** P0 test that lists them in the Excel **Assertions/Cover property** column is implemented. Do not add unused properties ahead of the test that needs them.
 
+#### Functional coverage — covergroups / coverpoints / crosses (TESTPLAN §0.4 + Context7)
+
+Use **one** `led_coverage` class. Add covergroups, coverpoints, and crosses **when the feature under test needs them** — same incremental rule as SCB/SVA.
+
+**Context7 (mandatory before writing COV code):** Before creating or extending any covergroup, coverpoint, or cross, the agent **must** query Context7 for current SystemVerilog / UVM coverage syntax. Do not rely on memory alone.
+
+| Step | Context7 action |
+|---|---|
+| 1 | `resolve-library-id` with library name such as `UVM SystemVerilog` or `SystemVerilog` |
+| 2 | Pick best match (prefer Accellera UVM / IEEE-oriented docs) |
+| 3 | `query-docs` with a full question, e.g. *"SystemVerilog covergroup coverpoint bins cross sample syntax UVM coverage"* |
+| 4 | Apply returned syntax for `covergroup` / `coverpoint` / `bins` / `cross` / `sample()` / option fields |
+
+Suggested Context7 queries (use as needed per feature):
+
+- `SystemVerilog covergroup coverpoint bins illegal_bins syntax`
+- `SystemVerilog cross coverpoint covergroup sample`
+- `UVM functional coverage covergroup in uvm_component sample from analysis port`
+
+| Step | Action |
+|---|---|
+| C0 | **Context7** — fetch covergroup/coverpoint/cross syntax (see above) |
+| C1 | Open TESTPLAN §0.4 **feature → coverage map** for the current P0 test |
+| C2 | If COV column is empty for this test → skip coverage this step |
+| C3 | If `led_coverage` does not exist yet → create shell + instantiate in `led_env`; connect analysis ports |
+| C4 | Add or extend the listed **covergroup(s)** and **coverpoint(s)** using Context7 syntax |
+| C5 | Add **cross** only when the feature needs correlation (e.g. E11 → `cx_digit_pos_x_digit_val`) |
+| C6 | Sample from APB/LED transactions (or scoreboard mirror) — not from the test class |
+| C7 | User re-runs the current P0 test; confirm no compile errors |
+
+**P0 feature → COV add table:**
+
+| When implementing | Add to `led_coverage` |
+|---|---|
+| E02 | `cg_enable` (`default_at_reset`); `cg_done` (`bin_0`) |
+| E03 | `cg_enable` (`cp_led_enable`, `cp_enable_trans`) |
+| E08 | `cg_error_q`; start `cg_digits` coverpoints |
+| E09 | `cg_overflow`; `cg_error_q` overflow bins |
+| E10 | `cg_enable` (`bin_off`, `on_to_off`) |
+| E11 | Complete `cg_digits` + cross **`cx_digit_pos_x_digit_val`** |
+| E01 | Sample all existing covergroups (no new definition required if prior tests added them) |
+
+**Do not** create a separate covergroup class per test. **Do** add crosses only after both crossed coverpoints exist.
+
 ---
 
 ### 3.2 P0 build order (one test at a time)
@@ -1226,16 +1274,16 @@ Implement in this order so each test builds on sequences/checkers from prior ste
 | 0a | E07 | `led_reset_values_test` | LED | **First:** `led_reset_seq` + test only — **no scoreboard**; gate PASS |
 | 0b | — | *(shared)* | Infra | **Then:** `led_scoreboard` shell, `led_tb_pkg`, env `connect_phase`; re-run E07 |
 | 0c | E07 | `led_reset_values_test` | LED | SVA: `assert_sel_out_reset_value`, `assert_seg_out_reset_value` |
-| 1 | E02 | `apb_reset_defaults_test` | APB | `apb_read_seq`; SCB-1,2,3 |
+| 1 | E02 | `apb_reset_defaults_test` | APB | `apb_read_seq`; SCB-1,2,3; **COV** `cg_enable` / `cg_done` (start coverpoints) |
 | 2 | E06 | `apb_pready_no_wait_test` | APB | SVA: `assert_apb_setup_phase`, `assert_apb_access_phase`, `assert_apb_pready_complete` |
-| 3 | E03 | `apb_led_enable_write_read_test` | APB | SCB-1 |
+| 3 | E03 | `apb_led_enable_write_read_test` | APB | SCB-1; **COV** `cg_enable` coverpoints |
 | 4 | E04 | `apb_scratchpad_wr_rd_test` | APB | SCB-3 |
 | 5 | E05 | `apb_invalid_addr_test` | APB | SVA: `assert_apb_pslerr_invalid_addr`; MON `pslerr` |
-| 6 | E08 | `led_decimal_42_test` | LED | `led_mux_virtual_seq`; SCB-4,5,6,8; SVA one-hot, bit7, `check_60_80_cycle` |
-| 7 | E09 | `led_overflow_modulo_test` | LED | SCB-9 |
-| 8 | E10 | `led_disable_blocks_update_test` | LED | SCB-7 |
-| 9 | E11 | `led_all_digits_0_to_9_test` | LED | SCB-5; `cover_seg_out_decimal_digit` |
-| 10 | E01 | `smoke_test` | Integration | Full SCB + all §0.3 properties exercised |
+| 6 | E08 | `led_decimal_42_test` | LED | `led_mux_virtual_seq`; SCB-4,5,6,8; SVA one-hot, bit7, `check_60_80_cycle`; **COV** `cg_error_q`, `cg_digits` cps |
+| 7 | E09 | `led_overflow_modulo_test` | LED | SCB-9; **COV** `cg_overflow` |
+| 8 | E10 | `led_disable_blocks_update_test` | LED | SCB-7; **COV** `cg_enable` off bins |
+| 9 | E11 | `led_all_digits_0_to_9_test` | LED | SCB-5; `cover_seg_out_decimal_digit`; **COV** `cg_digits` + **cross** |
+| 10 | E01 | `smoke_test` | Integration | Full SCB + all §0.3 properties; sample all COV |
 
 ---
 
@@ -1249,27 +1297,29 @@ For **each** row in §3.2, complete these steps:
 | 3.3.2 | Create **`<testname>_test.sv`** extending **`base_test`** (not `phase2_agent_sanity_test`) |
 | 3.3.3 | In `build_phase`: `factory.set_type_override` only if needed; else default factory create |
 | 3.3.4 | In `run_phase`: `raise_objection` → start virtual/child sequences from Excel **Test Steps** → `drop_objection` → `set_run_phase_drain_time(phase)` (1000ns) |
-| 3.3.5 | Add phase marker: `` `uvm_info("PHASE3_P0", "PHASE 3 : P0 <testname> complete", UVM_LOW) `` |
-| 3.3.6 | Register in **`test_lib.svh`** |
-| 3.3.7 | **User runs:** `make dv TESTNAME=<testname> SEED=0` |
-| 3.3.8 | **User prompts** log check; agent runs per-test gate (§3.8) |
-| 3.3.9 | **Prompt:** `Proceed with P0 test <next_testname>? [y/n]` |
+| 3.3.5 | Extend **SCB** / **SVA** / **COV** only if this feature needs them (TESTPLAN §0.2 / §0.3 / §0.4) |
+| 3.3.6 | For COV: **Context7** covergroup/coverpoint/cross syntax → add per §0.4 feature map; wire `led_coverage` if first use |
+| 3.3.7 | Add phase marker: `` `uvm_info("PHASE3_P0", "PHASE 3 : P0 <testname> complete", UVM_LOW) `` |
+| 3.3.8 | Register in **`test_lib.svh`** |
+| 3.3.9 | **User runs:** `make dv TESTNAME=<testname> SEED=0` |
+| 3.3.10 | **User prompts** log check; agent runs per-test gate (§3.8) |
+| 3.3.11 | **Prompt:** `Proceed with P0 test <next_testname>? [y/n]` |
 
 #### P0 test detail (from TESTPLAN §2 + Excel)
 
-| ID | Test | Sequences | Scoreboard | SVA to add this step |
-|---|---|---|---|---|
-| E07 | `led_reset_values_test` | `led_reset_seq` | — | `assert_sel_out_reset_value`, `assert_seg_out_reset_value` |
-| E02 | `apb_reset_defaults_test` | `led_reset_seq` → `apb_read_seq`×3 | SCB-1,2,3 | *(reuse reset SVA)* |
-| E06 | `apb_pready_no_wait_test` | `apb_write_seq`, `apb_read_seq` | — | `assert_apb_setup_phase`, `assert_apb_access_phase`, `assert_apb_pready_complete` |
-| E03 | `apb_led_enable_write_read_test` | `apb_wr_rd_seq` | SCB-1 | — |
-| E04 | `apb_scratchpad_wr_rd_test` | `apb_wr_rd_seq` (`0x4008`, `32'hDEAD_BEEF`) | SCB-3 | — |
-| E05 | `apb_invalid_addr_test` | `apb_invalid_addr_seq` | — | `assert_apb_pslerr_invalid_addr` |
-| E08 | `led_decimal_42_test` | `led_mux_virtual_seq` (`error_q=42`) | SCB-4,5,6,8 | `assert_sel_out_onehot_active_low`, `assert_seg_out_bit7_always_one`, `check_60_80_cycle` |
-| E09 | `led_overflow_modulo_test` | `led_mux_virtual_seq` (`error_q=1_000_001`) | SCB-9 | *(reuse one-hot, bit7)* |
-| E10 | `led_disable_blocks_update_test` | `led_mux_virtual_seq` (enable=0) | SCB-7 | — |
-| E11 | `led_all_digits_0_to_9_test` | `led_mux_virtual_seq` loop d=0..9 | SCB-5 | `cover_seg_out_decimal_digit` |
-| E01 | `smoke_test` | Reset → enable → `error_q=42` → poll Done | all SCB | all §0.3 properties active |
+| ID | Test | Sequences | Scoreboard | SVA to add this step | COV to add this step |
+|---|---|---|---|---|---|
+| E07 | `led_reset_values_test` | `led_reset_seq` | — | `assert_sel_out_reset_value`, `assert_seg_out_reset_value` | — |
+| E02 | `apb_reset_defaults_test` | `led_reset_seq` → `apb_read_seq`×3 | SCB-1,2,3 | *(reuse reset SVA)* | `cg_enable.default_at_reset`, `cg_done.bin_0` |
+| E06 | `apb_pready_no_wait_test` | `apb_write_seq`, `apb_read_seq` | — | `assert_apb_setup_phase`, `assert_apb_access_phase`, `assert_apb_pready_complete` | — |
+| E03 | `apb_led_enable_write_read_test` | `apb_wr_rd_seq` | SCB-1 | — | `cg_enable` (`cp_led_enable`, `cp_enable_trans`) |
+| E04 | `apb_scratchpad_wr_rd_test` | `apb_wr_rd_seq` (`0x4008`, `32'hDEAD_BEEF`) | SCB-3 | — | — |
+| E05 | `apb_invalid_addr_test` | `apb_invalid_addr_seq` | — | `assert_apb_pslerr_invalid_addr` | — |
+| E08 | `led_decimal_42_test` | `led_mux_virtual_seq` (`error_q=42`) | SCB-4,5,6,8 | `assert_sel_out_onehot_active_low`, `assert_seg_out_bit7_always_one`, `check_60_80_cycle` | `cg_error_q`; `cg_digits` coverpoints |
+| E09 | `led_overflow_modulo_test` | `led_mux_virtual_seq` (`error_q=1_000_001`) | SCB-9 | *(reuse one-hot, bit7)* | `cg_overflow`; `cg_error_q` overflow bins |
+| E10 | `led_disable_blocks_update_test` | `led_mux_virtual_seq` (enable=0) | SCB-7 | — | `cg_enable` (`bin_off`, `on_to_off`) |
+| E11 | `led_all_digits_0_to_9_test` | `led_mux_virtual_seq` loop d=0..9 | SCB-5 | `cover_seg_out_decimal_digit` | `cg_digits` + **`cx_digit_pos_x_digit_val`** |
+| E01 | `smoke_test` | Reset → enable → `error_q=42` → poll Done | all SCB | all §0.3 properties active | sample all covergroups |
 
 #### Example test class (pattern for every P0 test)
 
@@ -1350,6 +1400,7 @@ LED_MUX_CONTROLLER_stu/tb/
   led_tb_pkg.svh                # package — includes led_scoreboard.sv
   led_env.sv                    # scb + v_seqr; connect_phase wires v_seqr to agent sequencers
   led_scoreboard.sv             # uvm_analysis_imp_decl macros + scoreboard class
+  led_coverage.sv               # covergroups / coverpoints / crosses (TESTPLAN §0.4)
   sva/
     led_mux_sva.sv              # all assert/cover/check properties
   sequences/
@@ -1469,8 +1520,9 @@ echo "GATE PASS: P0 $TESTNAME"
 | AC-P3-04 | Each P0 test passes individually | 11× `check_phase3_gate.sh` | All PASS |
 | AC-P3-05 | `regress_p0` | `./regress_p0.sh` | Exit code 0; 11 sim logs clean |
 | AC-P3-06 | Excel traceability | `LED_MUX_CONTROLLER_testplan.xlsx` | Every P0 row has matching `*_test.sv` |
-| AC-P3-07 | TESTPLAN §7 closed | Traceability matrix | SCB/SVA columns satisfied per test |
+| AC-P3-07 | TESTPLAN §7 closed | Traceability matrix | SCB/SVA/**COV** columns satisfied per test |
 | AC-P3-08 | `smoke_test` | `make dv TESTNAME=smoke_test SEED=0` | All checkers exercised; no errors |
+| AC-P3-09 | Single coverage component | Code review | Only `led_coverage`; coverpoints/crosses added per feature (§0.4) |
 
 ---
 
@@ -1482,6 +1534,7 @@ Test      : <testname>  (Excel Priority: P0)
 Sequences : <list>
 SCB added : SCB-<n> / none
 SVA added : <property names> / none
+COV added : <cg_*/cp_*/cx_*> / none  (Context7 consulted if COV added)
 Compile   : PASS / FAIL
 Sim       : PASS / FAIL
 Factory   : <testname> visible in factory.print → yes / no
@@ -1599,9 +1652,10 @@ make dv TESTNAME=smoke_test SEED=0
 | Phase 2 `top_tb` | §4 Static top (`tb_top.sv`) | — (infra) |
 | Phase 3 agents | §1 agents, §3 class diagram, §4 env/agents | P0 prep |
 | Phase 3 `base_test` | §4 Test layer — factory, config_db | — |
-| Phase 4 P0 loop | §0.1–0.3, §1.1, §2, §7 | `LED_MUX_CONTROLLER_testplan.xlsx` P0 rows |
+| Phase 4 P0 loop | §0.1–0.4, §1.1, §2, §7 | `LED_MUX_CONTROLLER_testplan.xlsx` P0 rows |
 | Phase 4 `led_scoreboard` | §0.2, §3 class diagram SCB | SCB-1..9 |
 | Phase 4 `led_mux_sva` | §0.3, §4 Static top bind | All assert/cover/check names |
+| Phase 4 `led_coverage` | §0.4 covergroups / coverpoints / crosses | Feature → COV map |
 | Phase 5 `regress_p0` | — | §9 regression P0 |
 | Phase 6 | — | §1.2 P1 + §9 regression |
 | Any phase | **FIX.md** | Known errors / resolutions |

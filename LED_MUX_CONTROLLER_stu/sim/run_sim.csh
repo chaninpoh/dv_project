@@ -77,15 +77,15 @@ else
     set qrun_file = ""
 endif
 if ($COVERAGE == 1) then
-    set coverage1 = "-cm line+tgl+cond+fsm+branch"
-    set coverage2 = "-cm line+tgl+cond+fsm+branch"
+    set coverage1 = "-cm line+tgl+cond+fsm+branch+group"
+    set coverage2 = "-cm line+tgl+cond+fsm+branch+group"
 else
     set coverage1 = ""
     set coverage2 = ""
 endif
 if ($ASSERT == 1) then
-    set coverage1 = "-cm line+tgl+cond+fsm+branch+assert"
-    set coverage2 = "-cm line+tgl+cond+fsm+branch+assert"
+    set coverage1 = "-cm line+tgl+cond+fsm+branch+assert+group"
+    set coverage2 = "-cm line+tgl+cond+fsm+branch+assert+group"
     set assert1 = "-assert enable_diag"
     set assert2 = "-assert summary -assert report=$MODULE\_sva.rpt"
 else
@@ -139,7 +139,7 @@ if ($MODE == "dv") then
             echo "$command" >> $qrun_file
         endif
 
-        set command = "$MODULE\_simv +UVM_TESTNAME=$testname +ntb_random_seed=${seed} -l $testname\_seed_$seed\_sim.log +UVM_NO_RELNOTES $coverage2 $assert2 -debug_access+all -cm line+tgl+cond+fsm+branch+assert -cm_name ${TESTNAME}_${SEED}  +fsdb+sva_success"
+        set command = "$MODULE\_simv +UVM_TESTNAME=$testname +ntb_random_seed=${seed} -l $testname\_seed_$seed\_sim.log +UVM_NO_RELNOTES $coverage2 $assert2 -debug_access+all -cm line+tgl+cond+fsm+branch+assert+group -cm_name ${TESTNAME}_${SEED}  +fsdb+sva_success"
         echo "[==== INFO ====] $command"
         if ($NR != 1) then
             eval $command
