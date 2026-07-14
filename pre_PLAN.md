@@ -663,9 +663,68 @@ cd {{PROJECT_ROOT}}/{{SIM_DIR}}
 
 ## Phase 6 — Coverage closure (template)
 
-**Goal:** P1 tests + `{{RANDOM_REGRESS_TEST}}`; annotate testplan Excel with PASS and coverage %.
+**Passing criteria:** every code-coverage metric > 90 % AND testplan score > 95 %.
 
-**If gate FAIL:** see **`FIX.md`** — tooling (FIX-014) and Phase 3 sim errors.
+### Step-by-step tasks
+
+1. **Run regression and generate coverage report** with all waiver files:
+   ```bash
+   cd {{PROJECT_ROOT}} && source {{SETUP_SCRIPT}} && cd {{SIM_DIR}}
+   rm -rf *.vdb
+   ./{{REGRESS_BATCH}}
+   # urg is called at end of script with all -elfile excl/*.cfg entries
+   ```
+
+2. **Gap triage** — classify every uncovered item into one of three buckets:
+
+   | Category | Description | Resolution |
+   |----------|-------------|------------|
+   | **STRUCTURAL** | Unreachable by any spec-compliant stimulus (parameter=0 dead code, BCD-bounded decoder arms, counter-wrap MISSING_DEFAULT) | Create URG elfile in `{{SIM_DIR}}/excl/`; add `-elfile` flag to `urg` call in `{{REGRESS_BATCH}}` |
+   | **FIXABLE-TEST** | Reachable, but no test exercises the path (rst_n re-assert, full-width data patterns, boundary digit values) | Add or update test/sequence; one test at a time per Rule 2 |
+   | **FIXABLE-RTL-BUG** | Unreachable due to a confirmed DUT defect | Document as `BUG-xxx` in `FIX.md`; block on DUT owner; do not waive |
+
+3. **Create structural waiver files** in `{{SIM_DIR}}/excl/`:
+   - Generate canonical format: `urg -dump full_exclusions line+branch+cond -dir {{SIMV}}.vdb -report /tmp/urg_excl`
+   - Files appear in cwd: `fullexclude.line`, `fullexclude.branch`, `fullexclude.cond`, `fullexclude.tgl`
+   - Strip `// ` prefix from relevant entries; add `// CHECKSUM:` header and `MODULE:` per module
+   - File naming convention: `<module>_structural.cfg`, `<module>_waitstate.cfg`, `tgl_structural.cfg`
+
+4. **Fix test gaps** — for each FIXABLE-TEST item, add one test or update one directed sequence; run sim and gate-check before moving to the next.
+
+5. **Re-run regression** after all changes; verify scores meet gate.
+
+### Waiver file format (URG elfile Format Version 2)
+
+```
+//==================================================
+// <Module> Structural Dead-Code Waivers
+// Reason: <why unreachable>
+// Coverage types: LINE, BRANCH, COND   (or TOGGLE)
+// Usage: urg -elfile excl/<file>.cfg ...
+//==================================================
+
+// CHECKSUM: "<mod_cksum> <metric_cksum>"
+//
+// ANNOTATION: "ModuleName: <Module>"
+MODULE: <Module>
+//
+// ANNOTATION: "FileName: <file>, LineNumber: <N> — <reason>"
+Block <N> "<checksum>" "<statement signature>"
+Branch <N> "<checksum>" "<condition>" (<vec>) "<vecsig>"
+Condition <N> "<checksum>" "<expr> 1 -1" (<vec> "<val>")
+Toggle <signal> "<type declaration>"
+```
+
+### Review gate — Phase 6
+
+| # | Check |
+|---|-------|
+| G1 | Re-run `{{REGRESS_BATCH}}` after waivers + new tests: all runs PASS |
+| G2 | `urgReport/dashboard.html`: LINE > 90 %, COND > 90 %, TOGGLE > 90 %, FSM > 90 %, BRANCH > 90 %, ASSERT > 90 % |
+| G3 | Testplan score > 95 % |
+| G4 | No uncovered items outside `excl/` waivers |
+
+**If gate FAIL:** apply FIXABLE-TEST actions one at a time; re-run `{{REGRESS_BATCH}}` after each. See **`FIX.md`**.
 
 ---
 

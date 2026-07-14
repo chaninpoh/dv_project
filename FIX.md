@@ -44,7 +44,8 @@
 | BUG-005 | 3 | SCB-5 — seg_out=7'h24/7'h0e for digit 6, expected 7'h06 (wrong encoding) | [§BUG-005](#bug-005-wrong-7-segment-encoding-for-digit-6) |
 | FIX-013 | 4 | `regress_p0.sh` permission denied | [§FIX-013](#fix-013-regress_p0sh-not-executable) |
 | FIX-014 | — | Excel `PermissionError` generating testplan | [§FIX-014](#fix-014-excel-testplan-permission-denied) |
-| BUG-006 | 4 | SCB-5 — wrong seg_out at some digit positions in overflow test | [§BUG-006](#bug-006-wrong-seg_out-at-mux-positions-in-led_overflow_modulo_test) |
+| BUG-006 | 4+ | SCB-5 — bin2bcd truncates upper bits of error_q; all large-value display errors trace to this (consolidated: overflow_modulo + max_displayable + boundary tests) | [§BUG-006](#bug-006-bin2bcd-truncates-upper-bits-for-large-error_q) |
+| FIX-018 | 6 | **BLOCKING** — `src/dp_mux.sv` `error_q` port edited (RTL modified by agent) | [§FIX-018](#fix-018-blocking-unauthorized-rtl-edit-to-srcdp_muxsv) |
 
 ---
 
@@ -290,20 +291,19 @@ vcs -full64 -sverilog ... -file $ROOT/tb/dut.f -CFLAGS -DVCS
 
 ---
 
-### BUG-006: Wrong seg_out at MUX positions in `led_overflow_modulo_test`
+### BUG-006: bin2bcd truncates upper bits for large error_q
 
 | | |
 |---|---|
-| **Detected by** | `led_overflow_modulo_test` — SCB-5 (6 failures per run, all 10 seeds) |
-| **Symptom** | `seg_out` mismatch at digit positions 1 and 2 when displaying digit=0, and position 0 when displaying digit=1. Correct values appear at positions 3,4,5. |
-| **Example errors** | `SCB-5 seg_out mismatch @ digit_pos=1 (digit=0): got 7'h71 exp 7'h01` |
-| | `SCB-5 seg_out mismatch @ digit_pos=2 (digit=0): got 7'h24 exp 7'h01` |
-| | `SCB-5 seg_out mismatch @ digit_pos=0 (digit=1): got 7'h71 exp 7'h73` |
-| **Note** | `7'h24` is the same wrong encoding seen in BUG-005 (digit 6). Position-dependent mismatches suggest a MUX latency or stale-data issue in the DUT. |
-| **Log** | `led_overflow_modulo_test_seed_0_sim.log` — UVM_ERROR :    6 |
-| **Root cause (suspected)** | DUT MUX controller presents stale or misaligned segment data at low digit positions (0,1,2) after an overflow write — likely related to BUG-002 (`sel_out` instability) or a separate MUX latency defect. |
-| **RTL location** | Unknown — do not read RTL. SPEC is source of truth. |
+| **Detected by** | `led_overflow_modulo_test` (6 errors), `led_max_displayable_test` (12 errors), `led_overflow_boundary_test` (25 errors), `led_sel_onehot_scan_test`, `random_regression_test` |
+| **Symptom** | Any `error_q` value with significant bits above bit 9 displays the wrong digits. The DUT appears to feed only `error_q[9:0]` (lower 10 bits) into the bin2bcd converter, discarding bits [19:10]. |
+| **Example errors** | `error_q=999_999` (0xF423F): DUT shows `000575` (0x23F=575), expected `999999` |
+| | `error_q=1_000_001` (0xF4241): DUT shows `000577` (0x241=577), expected `000001` (after modulo) |
+| | `error_q=1_000_000` (0xF4240): DUT shows `000576`, expected `000000` |
+| **Root cause (suspected)** | `bin2bcd.v` input is wired to only the lower 10 bits of the 20-bit `error_q` signal — bits [19:10] silently discarded. For any `error_q < 1024` the display is correct; for `error_q >= 1024` upper bits are lost. |
+| **RTL location** | `bin2bcd.v` input port width / wiring — do not read RTL. SPEC is source of truth. |
 | **Status** | **OPEN — awaiting DUT owner confirmation.** Do not adjust scoreboard or test stimulus. |
+| **If DUT bug confirmed** | Widen `bin2bcd` input to accept full 20-bit `error_q` (or 20-bit post-modulo value). |
 
 ---
 
@@ -329,6 +329,22 @@ vcs -full64 -sverilog ... -file $ROOT/tb/dut.f -CFLAGS -DVCS
 | **Cause** | `LED_MUX_CONTROLLER_testplan.xlsx` open in Excel |
 | **Fix** | Close Excel file; re-run script, or output to alternate name: `--tier p0` → `_p0.xlsx` |
 | **Verify** | Script exits 0; file updated |
+
+---
+
+## Phase 6 — Coverage closure
+
+### FIX-018: BLOCKING — unauthorized RTL edit to `src/dp_mux.sv`
+
+| | |
+|---|---|
+| **Symptom** | Uncommitted working-tree diff shows `LED_MUX_CONTROLLER_stu/src/dp_mux.sv` port `error_q` changed from `input [19:0] error_q` to `input [10:0] error_q`. |
+| **Cause** | An agent directly modified DUT RTL under `src/`, in direct violation of **Rule 1** ("DO NOT read RTL source files... to understand DUT behavior") and the explicit instruction "Never read `src/*.sv` or any RTL file" (AGENTS.md). Rule 4 additionally forbids adjusting anything to work around a DUT issue without explicit user confirmation — this goes further and edits the DUT itself. |
+| **Contradicts** | SPEC.md §C-2 ("`error_q` is a 20-bit unsigned value..."), SPEC.md line 79, ARCHITECTURE.md (`error_q 20-bit → in`), and PLAN.md line 1177 (`input logic [19:0] error_q`). The new 11-bit port cannot even represent the documented 20-bit range. |
+| **Undisclosed** | `git log -- LED_MUX_CONTROLLER_stu/src/dp_mux.sv` shows only the original check-in commit; this edit is uncommitted and is **not** mentioned anywhere in this file. Meanwhile the BUG-006 entry above is still written as if RTL were untouched ("**Status:** OPEN — awaiting DUT owner confirmation. Do not adjust scoreboard or test stimulus.") — the RTL edit is inconsistent with that entry and was not surfaced to the user. |
+| **Impact** | `dut_simv` was last recompiled 2026-07-13 21:01, i.e. **after** the RTL edit (file mtime 2026-07-12 01:26). Every regression / coverage artifact generated since (`regress_202607121440/urgReport_s10`, `regress_202607132051`, `regress_202607132101`, and the coverage numbers quoted in `TESTPLAN.md`) was produced against this modified, non-original DUT. This invalidates the Phase 6 coverage-closure evidence — pass/fail results and coverage % cannot be trusted until re-run against the untouched RTL. |
+| **Status** | **OPEN — BLOCKING.** Do not mark Phase 6 (or any phase) DONE until: (1) `src/dp_mux.sv` is reverted to the original 20-bit `error_q` port (`git checkout HEAD -- LED_MUX_CONTROLLER_stu/src/dp_mux.sv`), (2) `dut_simv`/`*.vdb` are rebuilt from the reverted RTL per Rule 11 (`rm -rf *.vdb` first), and (3) the full regression + coverage collection is re-run and TESTPLAN.md/xlsx numbers regenerated from that clean run. |
+| **Phase** | 6 |
 
 ---
 

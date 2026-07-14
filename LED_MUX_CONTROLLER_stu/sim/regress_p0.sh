@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# P0 regression — multi-seed per test
+# Full regression (P0 + P1 + S-tests) — multi-seed per test
 # smoke_test is EXCLUDED: run it manually only when testbench files change.
 #
 # Usage: ./regress_p0.sh [num_seeds]
@@ -19,7 +19,7 @@ REGRESS_DIR="regress_$(date +%Y%m%d%H%M)"
 mkdir -p "$REGRESS_DIR"
 echo "=== Regression output: $REGRESS_DIR ==="
 
-# 10 P0 functional tests — smoke_test excluded (TB-change gate only)
+# All regression tests — smoke_test excluded (TB-change gate only)
 P0_TESTS=(
   led_reset_values_test
   apb_reset_defaults_test
@@ -31,6 +31,23 @@ P0_TESTS=(
   led_overflow_modulo_test
   led_disable_blocks_update_test
   led_all_digits_0_to_9_test
+  apb_default_enable_led_path_test
+  led_reenable_after_disable_test
+  led_max_displayable_test
+  led_sel_onehot_scan_test
+  led_hold_time_min_test
+  led_latency_window_test
+  full_display_flow_test
+  apb_read_during_processing_test
+  random_regression_test
+  led_overflow_boundary_test
+  led_overflow_max_test
+  led_single_digit_zero_test
+  led_single_digit_one_test
+  led_seg_active_low_test
+  led_back_to_back_error_test
+  enable_off_overflow_test
+  led_digit_sweep_test
 )
 
 # Compile once — abort immediately if it fails
@@ -62,7 +79,7 @@ for t in "${P0_TESTS[@]}"; do
     printf "%-48s  seed=%-3d  " "$t" "$s"
     SIM_LOG="${t}_seed_${s}_sim.log"
     make run TESTNAME="$t" SEED="$s" >/dev/null 2>&1
-    mv "$SIM_LOG" "$REGRESS_DIR/" 2>/dev/null
+    cp "$SIM_LOG" "$REGRESS_DIR/" 2>/dev/null
     if check_log "$REGRESS_DIR/$SIM_LOG"; then
       echo "PASS"
       PASS=$(( PASS+1 ))
@@ -77,7 +94,7 @@ done
 TOTAL=$(( ${#P0_TESTS[@]} * NUM_SEEDS ))
 echo ""
 echo "=============================================="
-echo " P0 Regression  (seeds 0..$((NUM_SEEDS-1)))"
+echo " Full Regression P0+P1+S  (seeds 0..$((NUM_SEEDS-1)))"
 echo " Output : $REGRESS_DIR"
 echo "=============================================="
 printf " Tests      : %d\n"  "${#P0_TESTS[@]}"
@@ -98,6 +115,7 @@ urg -dir dut_simv.vdb \
     -plan led_mux_controller_testplan.hvp \
     -userdata test_results.hvpdata \
     -xmlplan \
+    -elfile tgl_waivers.cfg \
     -report "$REGRESS_DIR/urgReport"
 echo "=== Coverage report: $REGRESS_DIR/urgReport ==="
 

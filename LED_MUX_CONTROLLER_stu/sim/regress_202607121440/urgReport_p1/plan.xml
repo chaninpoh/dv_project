@@ -1,0 +1,2332 @@
+<session version="1.1" release="W-2024.09-SP2" timestp="2026-07-12 06:41:21 GMT">
+  <hvp>
+    <datadef>
+      <metdef name="Line" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Cond" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="FSM" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Toggle" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Branch" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.assert" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.cover" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.ast_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Assert.cov_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group" type="percent" aggregator="average" builtin="1" />
+      <metdef name="Group.count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.grp_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.cvp_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.bin_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.covered_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.uncovered_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.excluded_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="SnpsAvg" type="percent" aggregator="average" builtin="1" isaggr="1">
+        <aggrdef name="Line" />
+        <aggrdef name="Cond" />
+        <aggrdef name="FSM" />
+        <aggrdef name="Toggle" />
+        <aggrdef name="Branch" />
+        <aggrdef name="Assert" />
+        <aggrdef name="Group" />
+      </metdef>
+      <metdef name="test" type="enum" aggregator="sum" builtin="1">
+        <enumdef name="pass" />
+        <enumdef name="fail" />
+        <enumdef name="warn" />
+        <enumdef name="assert" />
+        <enumdef name="unknown" />
+      </metdef>
+      <metdef name="test.completion" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="AssertResult" type="enum" aggregator="sum" builtin="1">
+        <enumdef name="successes" />
+        <enumdef name="failures" />
+        <enumdef name="unknown" />
+      </metdef>
+    </datadef>
+    <scope type="plan" name="led_mux_controller_testplan" active="1">
+      <scorelist type="total">
+        <score name="Assert" value="20/23" />
+        <score name="Branch" value="60/96" />
+        <score name="Cond" value="50/69" />
+        <score name="FSM" value="3/4" />
+        <score name="Line" value="173/203" />
+        <score name="SnpsAvg" value="67.539%" />
+        <score name="Toggle" value="829/3590" />
+        <score name="test" value="38">
+          <enumval name="pass" value="8" />
+          <enumval name="fail" value="12" />
+          <enumval name="warn" value="0" />
+          <enumval name="assert" value="0" />
+          <enumval name="unknown" value="18" />
+        </score>
+        <score name="Score" value="67.54%" />
+      </scorelist>
+      <attrdef name="owner" type="string" default="" propagate="1" builtin="1" />
+      <attrdef name="at_least" type="integer" default="0" propagate="1" builtin="0" />
+      <attrdef name="weight" type="integer" default="1" propagate="0" builtin="1" />
+      <attrdef name="description" type="string" default="" propagate="0" builtin="1" />
+      <attrdef name="numbering" type="integer" default="-1" propagate="0" builtin="0" />
+      <attrdef name="test.expected" type="integer" default="0" propagate="0" builtin="0" />
+      <attrdef name="priority" type="string" default="" propagate="0" builtin="0" />
+      <attrdef name="goal_ref" type="string" default="" propagate="0" builtin="0" />
+      <attrval name="owner" value="" />
+      <attrval name="at_least" value="0" />
+      <attrval name="weight" value="1" />
+      <attrval name="description" value="" />
+      <attrval name="numbering" value="-1" />
+      <attrval name="test.expected" value="0" />
+      <attrval name="priority" value="" />
+      <attrval name="goal_ref" value="" />
+      <scope type="feature" name="General_and_basic_sequence" active="1">
+        <scorelist type="total">
+          <score name="test" value="1">
+            <enumval name="pass" value="1" />
+            <enumval name="fail" value="0" />
+            <enumval name="warn" value="0" />
+            <enumval name="assert" value="0" />
+            <enumval name="unknown" value="0" />
+          </score>
+        </scorelist>
+        <attrval name="description" value="General and basic sequence" />
+        <attrval name="owner" value="slpoh" />
+        <attrval name="at_least" value="0" />
+        <attrval name="weight" value="1" />
+        <attrval name="numbering" value="-1" />
+        <attrval name="test.expected" value="0" />
+        <attrval name="priority" value="" />
+        <attrval name="goal_ref" value="" />
+        <scorelist type="measure">
+        </scorelist>
+        <scope type="feature" name="Reset_values_on_LED_interface" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Reset values on LED interface" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-R1, AC-R2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_reset_values_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_reset_values_test">
+              <scope type="region" name="led_reset_values_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+      </scope>
+      <scope type="feature" name="APB_Controller" active="1">
+        <scorelist type="total">
+          <score name="test" value="6">
+            <enumval name="pass" value="3" />
+            <enumval name="fail" value="2" />
+            <enumval name="warn" value="0" />
+            <enumval name="assert" value="0" />
+            <enumval name="unknown" value="1" />
+          </score>
+        </scorelist>
+        <attrval name="description" value="APB Controller" />
+        <attrval name="owner" value="slpoh" />
+        <attrval name="at_least" value="0" />
+        <attrval name="weight" value="1" />
+        <attrval name="numbering" value="-1" />
+        <attrval name="test.expected" value="0" />
+        <attrval name="priority" value="" />
+        <attrval name="goal_ref" value="" />
+        <scorelist type="measure">
+        </scorelist>
+        <scope type="feature" name="Reset_register_defaults" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Reset register defaults" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-R1, AC-R2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_reset_defaults_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_reset_defaults_test">
+              <scope type="region" name="apb_reset_defaults_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="LED_enable_write_and_read" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="LED_enable write and read" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-E1, AC-E2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_led_enable_write_read_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_led_enable_write_read_test">
+              <scope type="region" name="apb_led_enable_write_read_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Scratch_pad_write_and_read" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Scratch pad write and read" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-A1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_scratchpad_wr_rd_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_scratchpad_wr_rd_test">
+              <scope type="region" name="apb_scratchpad_wr_rd_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Done_register_read_only" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Done register read-only" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-D2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_done_read_only_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_done_read_only_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="APB_pready_no_wait_state" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="APB pready no-wait-state" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-A3" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_pready_no_wait_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_pready_no_wait_test">
+              <scope type="region" name="apb_pready_no_wait_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Default_LED_enable_display_path" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Default LED_enable display path" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-E1, AC-B1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_default_enable_led_path_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_default_enable_led_path_test">
+              <scope type="region" name="apb_default_enable_led_path_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+      </scope>
+      <scope type="feature" name="Corner_cases" active="1">
+        <scorelist type="total">
+          <score name="test" value="20">
+            <enumval name="pass" value="2" />
+            <enumval name="fail" value="5" />
+            <enumval name="warn" value="0" />
+            <enumval name="assert" value="0" />
+            <enumval name="unknown" value="13" />
+          </score>
+        </scorelist>
+        <attrval name="description" value="Corner cases" />
+        <attrval name="owner" value="slpoh" />
+        <attrval name="at_least" value="0" />
+        <attrval name="weight" value="1" />
+        <attrval name="numbering" value="-1" />
+        <attrval name="test.expected" value="0" />
+        <attrval name="priority" value="" />
+        <attrval name="goal_ref" value="" />
+        <scorelist type="measure">
+        </scorelist>
+        <scope type="feature" name="Invalid_APB_address" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Invalid APB address" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-A2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_invalid_addr_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_invalid_addr_test">
+              <scope type="region" name="apb_invalid_addr_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Done_poll_timeout_without_error_q" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Done poll timeout without error_q" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-D1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_done_poll_timeout_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_done_poll_timeout_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Scratch_pad_all_ones" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Scratch pad all-ones" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-A1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_scratchpad_all_ones_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_scratchpad_all_ones_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Scratch_pad_walking_one" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Scratch pad walking-one" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-A1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_scratchpad_walking_one_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_scratchpad_walking_one_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="LED_enable_toggle_stress" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="LED_enable toggle stress" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-E2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_enable_toggle_stress_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_enable_toggle_stress_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Read_Done_during_LED_processing" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Read Done during LED processing" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-D1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_apb_read_during_processing_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="apb_read_during_processing_test">
+              <scope type="region" name="apb_read_during_processing_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Overflow_modulo_display" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Overflow modulo display" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-B4" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_overflow_modulo_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_overflow_modulo_test">
+              <scope type="region" name="led_overflow_modulo_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Overflow_maximum_error_q" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Overflow maximum error_q" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-B4" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_overflow_max_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_overflow_max_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Overflow_boundary_values" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Overflow boundary values" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-B4" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_overflow_boundary_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_overflow_boundary_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="LED_enable_disables_propagation" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="LED_enable disables propagation" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-E2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_disable_blocks_update_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_disable_blocks_update_test">
+              <scope type="region" name="led_disable_blocks_update_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Re_enable_after_disable" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Re-enable after disable" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-E2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_reenable_after_disable_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_reenable_after_disable_test">
+              <scope type="region" name="led_reenable_after_disable_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Back_to_back_error_q_changes" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Back-to-back error_q changes" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-E1, C-5" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_back_to_back_error_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_back_to_back_error_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Reset_recovery_mid_display" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Reset recovery mid-display" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-R1, AC-R2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_reset_during_display_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_reset_during_display_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Done_clears_after_reset" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Done clears after reset" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-D2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_done_clear_after_reset_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_done_clear_after_reset_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Hold_below_minimum_negative" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Hold below minimum (negative)" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="C-4" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_hold_below_min_negative_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_hold_below_min_negative_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="All_decimal_digits_0_9_on_display" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="All decimal digits 0-9 on display" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-C1, AC-B1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_all_digits_0_to_9_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_all_digits_0_to_9_test">
+              <scope type="region" name="led_all_digits_0_to_9_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Random_regression" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Random regression" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-C1, AC-C2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_random_regression_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="random_regression_test">
+              <scope type="region" name="random_regression_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Virtual_sequence_stress_20x" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Virtual sequence stress (20x)" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-C2" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_virtual_seq_stress_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="virtual_seq_stress_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Disable_then_overflow_then_enable" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Disable then overflow then enable" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-E2, AC-B4" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_enable_off_overflow_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="enable_off_overflow_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Tight_Done_poll_stress" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Tight Done poll stress" />
+          <attrval name="priority" value="P2" />
+          <attrval name="goal_ref" value="AC-D1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_poll_until_done_stress_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="poll_until_done_stress_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+      </scope>
+      <scope type="feature" name="LED_MUX" active="1">
+        <scorelist type="total">
+          <score name="test" value="8">
+            <enumval name="pass" value="2" />
+            <enumval name="fail" value="3" />
+            <enumval name="warn" value="0" />
+            <enumval name="assert" value="0" />
+            <enumval name="unknown" value="3" />
+          </score>
+        </scorelist>
+        <attrval name="description" value="LED MUX" />
+        <attrval name="owner" value="slpoh" />
+        <attrval name="at_least" value="0" />
+        <attrval name="weight" value="1" />
+        <attrval name="numbering" value="-1" />
+        <attrval name="test.expected" value="0" />
+        <attrval name="priority" value="" />
+        <attrval name="goal_ref" value="" />
+        <scorelist type="measure">
+        </scorelist>
+        <scope type="feature" name="Single_digit_zero_display" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Single digit zero display" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-B1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_single_digit_zero_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_single_digit_zero_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Single_digit_one_display" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Single digit one display" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-B1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_single_digit_one_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_single_digit_one_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Binary_to_BCD_display_decimal_42" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Binary-to-BCD display (decimal 42)" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-B1, AC-M1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_decimal_42_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_decimal_42_test">
+              <scope type="region" name="led_decimal_42_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Max_displayable_value_999999" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Max displayable value (999999)" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-B1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_max_displayable_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_max_displayable_test">
+              <scope type="region" name="led_max_displayable_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="sel_out_one_hot_multiplex_scan" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="sel_out one-hot multiplex scan" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-M1, AC-M2, AC-M3" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_sel_onehot_scan_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_sel_onehot_scan_test">
+              <scope type="region" name="led_sel_onehot_scan_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="seg_out_active_low_encoding" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="seg_out active-low encoding" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-B2, AC-B3" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_seg_active_low_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_seg_active_low_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Minimum_hold_time_1002_cycles" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Minimum hold time (1002 cycles)" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-M2, AC-M3" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_hold_time_min_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_hold_time_min_test">
+              <scope type="region" name="led_hold_time_min_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Output_latency_window_60_80_cycles" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Output latency window (60-80 cycles)" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-E1, C-5" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="1" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_led_latency_window_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="1" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="led_latency_window_test">
+              <scope type="region" name="led_latency_window_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="1" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+      </scope>
+      <scope type="feature" name="Integration" active="1">
+        <scorelist type="total">
+          <score name="test" value="3">
+            <enumval name="pass" value="0" />
+            <enumval name="fail" value="2" />
+            <enumval name="warn" value="0" />
+            <enumval name="assert" value="0" />
+            <enumval name="unknown" value="1" />
+          </score>
+        </scorelist>
+        <attrval name="description" value="Integration" />
+        <attrval name="owner" value="slpoh" />
+        <attrval name="at_least" value="0" />
+        <attrval name="weight" value="1" />
+        <attrval name="numbering" value="-1" />
+        <attrval name="test.expected" value="0" />
+        <attrval name="priority" value="" />
+        <attrval name="goal_ref" value="" />
+        <scorelist type="measure">
+        </scorelist>
+        <scope type="feature" name="End_to_end_smoke" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="End-to-end smoke" />
+          <attrval name="priority" value="P0" />
+          <attrval name="goal_ref" value="AC-R1..AC-C3" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_smoke_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="smoke_test">
+              <scope type="region" name="smoke_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Full_display_flow_with_scratch_pad" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Full display flow with scratch pad" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-D1, AC-A1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="1" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="0" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_full_display_flow_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="1" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="0" />
+              </score>
+            </scorelist>
+            <scope type="source" name="full_display_flow_test">
+              <scope type="region" name="full_display_flow_test">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="fail" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="1" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="0" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+        <scope type="feature" name="Scratch_pad_then_LED_display" active="1">
+          <scorelist type="total">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <attrval name="description" value="Scratch pad then LED display" />
+          <attrval name="priority" value="P1" />
+          <attrval name="goal_ref" value="AC-A1, AC-D1" />
+          <attrval name="owner" value="slpoh" />
+          <attrval name="at_least" value="0" />
+          <attrval name="weight" value="1" />
+          <attrval name="numbering" value="-1" />
+          <attrval name="test.expected" value="0" />
+          <goalover name="test" value="(test.fail == 0)" />
+          <scorelist type="measure">
+            <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+              <enumval name="pass" value="0" />
+              <enumval name="fail" value="0" />
+              <enumval name="warn" value="0" />
+              <enumval name="assert" value="0" />
+              <enumval name="unknown" value="1" />
+            </score>
+          </scorelist>
+          <scope type="measure" name="t_scratch_then_display_test">
+            <metref name="test" />
+            <scorelist type="total">
+              <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                <enumval name="pass" value="0" />
+                <enumval name="fail" value="0" />
+                <enumval name="warn" value="0" />
+                <enumval name="assert" value="0" />
+                <enumval name="unknown" value="1" />
+              </score>
+            </scorelist>
+            <scope type="source" name="scratch_then_display_test">
+              <scope type="region" name="no matching region">
+                <scorelist type="total">
+                  <score name="test" value="1" goalstat="pass" goal="(test.fail == 0)">
+                    <enumval name="pass" value="0" />
+                    <enumval name="fail" value="0" />
+                    <enumval name="warn" value="0" />
+                    <enumval name="assert" value="0" />
+                    <enumval name="unknown" value="1" />
+                  </score>
+                </scorelist>
+              </scope>
+            </scope>
+          </scope>
+        </scope>
+      </scope>
+      <scope type="feature" name="Code_and_Functional_Coverage" active="1">
+        <scorelist type="total">
+          <score name="Assert" value="20/23" />
+          <score name="Branch" value="60/96" />
+          <score name="Cond" value="50/69" />
+          <score name="FSM" value="3/4" />
+          <score name="Line" value="173/203" goalstat="pass" goal="(Line &gt;=   0.8)" />
+          <score name="SnpsAvg" value="67.539%" />
+          <score name="Toggle" value="829/3590" />
+          <score name="Score" value="67.54%" />
+        </scorelist>
+        <attrval name="description" value="DUT code and functional coverage (top_tb.dut_inst)" />
+        <attrval name="owner" value="" />
+        <attrval name="at_least" value="0" />
+        <attrval name="weight" value="1" />
+        <attrval name="numbering" value="-1" />
+        <attrval name="test.expected" value="0" />
+        <attrval name="priority" value="" />
+        <attrval name="goal_ref" value="" />
+        <goalover name="Line" value="(Line &gt;=   0.8)" />
+        <scorelist type="measure">
+          <score name="Assert" value="20/23" />
+          <score name="Branch" value="60/96" />
+          <score name="Cond" value="50/69" />
+          <score name="FSM" value="3/4" />
+          <score name="Line" value="173/203" goalstat="pass" goal="(Line &gt;=   0.8)" />
+          <score name="SnpsAvg" value="67.539%" />
+          <score name="Toggle" value="829/3590" />
+          <score name="Score" value="67.54%" />
+        </scorelist>
+        <scope type="measure" name="dut_cov">
+          <metref name="SnpsAvg" />
+          <metref name="Line" />
+          <metref name="Cond" />
+          <metref name="Toggle" />
+          <metref name="FSM" />
+          <metref name="Branch" />
+          <metref name="Assert" />
+          <scorelist type="total">
+            <score name="Assert" value="20/23" />
+            <score name="Branch" value="60/96" />
+            <score name="Cond" value="50/69" />
+            <score name="FSM" value="3/4" />
+            <score name="Line" value="173/203" goalstat="pass" goal="(Line &gt;=   0.8)" />
+            <score name="SnpsAvg" value="67.539%" />
+            <score name="Toggle" value="829/3590" />
+            <score name="Score" value="67.54%" />
+          </scorelist>
+          <scope type="source" name="tree: top_tb.dut_inst">
+            <scope type="region" name="top_tb.dut_inst">
+              <scorelist type="total">
+                <score name="Assert" value="20/23" />
+                <score name="Branch" value="60/96" />
+                <score name="Cond" value="50/69" />
+                <score name="FSM" value="3/4" />
+                <score name="Line" value="173/203" goalstat="pass" goal="(Line &gt;=   0.8)" />
+                <score name="SnpsAvg" value="67.539%" />
+                <score name="Toggle" value="829/3590" />
+                <score name="Score" value="67.54%" />
+              </scorelist>
+            </scope>
+          </scope>
+        </scope>
+      </scope>
+    </scope>
+  </hvp>
+  <coverage>
+  <scope type="top" name="top">
+    <metric name="Line" value="209/633" />
+    <metric name="Cond" value="53/168" />
+    <metric name="Toggle" value="983/3884" />
+    <metric name="FSM" value="3/4" />
+    <metric name="Branch" value="69/289" />
+    <metric name="Assert" value="21/26" />
+    <metric name="Group" value="86.0555%" />
+  </scope>
+  <scope type="instance" name="top">
+  </scope>
+  <scope type="assert" name="Statistics">
+    <scorelist type="total" name="Design Hierarchy Assert">
+      <score name="Assert" value="21/26" />
+      <score name="Score" value="80.77" />
+    </scorelist>
+    <scorelist type="total" name="Module List Assert">
+      <score name="Assert" value="21/26" />
+      <score name="Score" value="80.77" />
+    </scorelist>
+    <scorelist type="total" name="Assertion">
+      <score name="Assert" value="21/26" />
+      <score name="Score" value="80.77" />
+    </scorelist>
+  </scope>
+  <scope type="test" name="test">
+    <test name="count" value="19" />
+  </scope>
+  </coverage>
+</session>

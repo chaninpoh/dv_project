@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Module :: bin2bcd</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<link type="text/css" rel="stylesheet" href="css/.breadcrumb.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript" src="js/.breadcrumb.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  if ($("#north-bread-crumb")) {
+    $("#north-bread-crumb").jBreadCrumb({easing:'swing'})
+  }
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    },
+    west: {
+      size: 500,
+      resizable: true,
+      initClosed: false
+    }
+  });
+  centerLayout = $('div.ui-layout-center').layout({
+    north__paneSelector: ".ui-layout-center-inner-north",
+    center__paneSelector: ".ui-layout-center-inner-center", 
+    north__size: 50,
+    spacing_open: 4,
+    spacing_closed: 4
+  });
+});
+</script>
+</head>
+<body onLoad="initPage();"><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Module Definition</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | <a href="groups.html" ><b>groups</b></a> | <a href="tests.html" ><b>tests</b></a> | <a href="asserts.html" ><b>asserts</b></a> | <a href="userdata.html" ><b>userdata</b></a> | <a href="hvp.led_mux_controller_testplan.html" ><b>hvp</b></a></div>
+
+</div>
+<div class="ui-layout-west">
+<div name='tag_bin2bcd'>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module : <a href="#"  onclick="showContent('tag_bin2bcd')">bin2bcd</a></span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td></tr><tr>
+<td class="s7 cl rt"> 73.25</td>
+<td class="s10 cl rt"><a href="mod12.html#Line" >100.00</a></td>
+<td class="s6 cl rt"><a href="mod12.html#Cond" > 66.67</a></td>
+<td class="s5 cl rt"><a href="mod12.html#Toggle" > 53.60</a></td>
+<td class="s7 cl rt"><a href="mod12.html#FSM" > 75.00</a></td>
+<td class="s7 cl rt"><a href="mod12.html#Branch" > 70.97</a></td>
+<td class="wht cl rt"></td>
+</tr></table><br clear=all>
+<span class=repname>Source File(s) : </span>
+<br clear=all>
+<a href="javascript:void(0);"  onclick="openSrcFile('/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/../src/bin2bcd.v')">/home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/../src/bin2bcd.v</a><br clear=all>
+<br clear=all>
+<span class=repname>Module self-instances :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td></tr><tr>
+<td class="wht cl wordwrap"><a href="mod12.html#inst_tag_12"  onclick="showContent('inst_tag_12')">top_tb.dut_inst.m3.m4</a></td>
+<td class="s7 cl rt"> 73.25</td>
+<td class="s10 cl rt"><a href="mod12.html#Line" >100.00</a></td>
+<td class="s6 cl rt"><a href="mod12.html#Cond" > 66.67</a></td>
+<td class="s5 cl rt"><a href="mod12.html#Toggle" > 53.60</a></td>
+<td class="s7 cl rt"><a href="mod12.html#FSM" > 75.00</a></td>
+<td class="s7 cl rt"><a href="mod12.html#Branch" > 70.97</a></td>
+<td class="wht cl rt"></td>
+</tr></table></div>
+</div>
+<br clear=all>
+<div name='tag_bin2bcd'>
+<hr>
+<a name="inst_tag_12"></a>
+<div class=modhdr>
+<br clear=all>
+<span class=titlename>Module Instance : <a href="hierarchy.html#tag_urg_inst_12" >top_tb.dut_inst.m3.m4</a></span>
+<br clear=all>
+<br clear=all>
+<span class=repname>Instance :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td></tr><tr>
+<td class="s7 cl rt"> 73.25</td>
+<td class="s10 cl rt"><a href="mod12.html#Line" >100.00</a></td>
+<td class="s6 cl rt"><a href="mod12.html#Cond" > 66.67</a></td>
+<td class="s5 cl rt"><a href="mod12.html#Toggle" > 53.60</a></td>
+<td class="s7 cl rt"><a href="mod12.html#FSM" > 75.00</a></td>
+<td class="s7 cl rt"><a href="mod12.html#Branch" > 70.97</a></td>
+<td class="wht cl rt"></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Instance's subtree :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td></tr><tr>
+<td class="s7 cl rt"> 73.25</td>
+<td class="s10 cl rt">100.00</td>
+<td class="s6 cl rt"> 66.67</td>
+<td class="s5 cl rt"> 53.60</td>
+<td class="s7 cl rt"> 75.00</td>
+<td class="s7 cl rt"> 70.97</td>
+<td class="wht cl rt"></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Parent : </span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td><td class="alfsrt">NAME</td></tr><tr>
+<td class="s5 cl rt"> 53.91</td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="s5 cl rt"> 53.91</td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td><a href="mod6.html#inst_tag_6" >m3</a></td>
+</tr></table><br clear=all>
+<br clear=all>
+<span class=repname>Subtrees :</span>
+<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td class="alfsrt">NAME</td><td>SCORE</td><td>LINE</td><td>COND</td><td>TOGGLE</td><td>FSM</td><td>BRANCH</td><td>ASSERT</td></tr><tr>
+<td colspan=8>no children</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<hr>
+Since this is the module's only instance, the coverage report is the same as for the module.</div>
+<div class="ui-layout-center">
+<div class="ui-layout-center-inner-center">
+<div name='tag_bin2bcd'>
+<a name="Line"></a>
+Line Coverage for Module : <a href="mod12.html" >bin2bcd</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="4" width="82">
+<tr><th></th><th>Line No.</th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s10"><td class="lf">TOTAL</td><td></td><td>103</td><td>103</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>22</td><td>52</td><td>52</td><td>100.00</td></tr>
+<tr class="s10"><td class="lf">ALWAYS</td><td>84</td><td>51</td><td>51</td><td>100.00</td></tr>
+</table>
+<pre class="code"><br clear=all>
+21                      	 always @(posedge clk,negedge rst_n) begin
+22         1/1          		 if(!rst_n) begin
+23         1/1          			state_reg&lt;=idle;
+24         1/1          			bin_reg&lt;=0;
+25         1/1          			dig0_reg&lt;=0;
+26         1/1          			dig1_reg&lt;=0;
+27         1/1          			dig2_reg&lt;=0;
+28         1/1          			dig3_reg&lt;=0; 
+29         1/1          			dig4_reg&lt;=0; 
+30         1/1          			dig5_reg&lt;=0; 
+31         1/1          			dig6_reg&lt;=0; 
+32         1/1          			dig7_reg&lt;=0; 
+33         1/1          			dig8_reg&lt;=0; 
+34         1/1          			dig9_reg&lt;=0; 
+35         1/1          			dig10_reg&lt;=0; 
+36         1/1          			n_reg&lt;=0;
+37                      		 end
+38                      		 else begin
+39         1/1          			state_reg&lt;=state_nxt;
+40         1/1          			bin_reg&lt;=bin_nxt;
+41         1/1          			dig0_reg&lt;=dig0_nxt;
+42         1/1          			dig1_reg&lt;=dig1_nxt;
+43         1/1          			dig2_reg&lt;=dig2_nxt;
+44         1/1          			dig3_reg&lt;=dig3_nxt;
+45         1/1          			dig4_reg&lt;=dig4_nxt;
+46         1/1          			dig5_reg&lt;=dig5_nxt;
+47         1/1          			dig6_reg&lt;=dig6_nxt;
+48         1/1          			dig7_reg&lt;=dig7_nxt;
+49         1/1          			dig8_reg&lt;=dig8_nxt;
+50         1/1          			dig9_reg&lt;=dig9_nxt;
+51         1/1          			dig10_reg&lt;=dig10_nxt;
+52         1/1          			n_reg&lt;=n_nxt;
+53                      			
+54         1/1          			if(done_tick) begin
+55         1/1          				dig0=dig0_reg;
+56         1/1          				dig1=dig1_reg;
+57         1/1          				dig2=dig2_reg;
+58         1/1          				dig3=dig3_reg;
+59         1/1          				dig4=dig4_reg;
+60         1/1          				dig5=dig5_reg;
+61         1/1          				dig6=dig6_reg;
+62         1/1          				dig7=dig7_reg;
+63         1/1          				dig8=dig8_reg;
+64         1/1          				dig9=dig9_reg;
+65         1/1          				dig10=dig10_reg;	 
+66                      			end
+67                      			else begin //retain previous value
+68         1/1          				dig0=dig0;
+69         1/1          				dig1=dig1;
+70         1/1          				dig2=dig2;
+71         1/1          				dig3=dig3;
+72         1/1          				dig4=dig4;
+73         1/1          				dig5=dig5;
+74         1/1          				dig6=dig6;
+75         1/1          				dig7=dig7;
+76         1/1          				dig8=dig8;
+77         1/1          				dig9=dig9;
+78         1/1          				dig10=dig10;
+79                      			end
+80                      		 end		 
+81                      	 end
+82                      	 //FSM next-state logics
+83                      	 always @* begin
+84         1/1          		state_nxt=state_reg;
+85         1/1          		bin_nxt=bin_reg;
+86         1/1          		dig0_nxt=dig0_reg;
+87         1/1          		dig1_nxt=dig1_reg;
+88         1/1          		dig2_nxt=dig2_reg;
+89         1/1          		dig3_nxt=dig3_reg;
+90         1/1          		dig4_nxt=dig4_reg;
+91         1/1          		dig5_nxt=dig5_reg;
+92         1/1          		dig6_nxt=dig6_reg;
+93         1/1          		dig7_nxt=dig7_reg;
+94         1/1          		dig8_nxt=dig8_reg;
+95         1/1          		dig9_nxt=dig9_reg;
+96         1/1          		dig10_nxt=dig10_reg;
+97         1/1          		n_nxt=n_reg;
+98         1/1          		done_tick=0;
+99         1/1          		ready=0;
+100        1/1          			case(state_reg) 
+101                     				idle: begin
+102        1/1          							ready=1;
+103        1/1          							if(start) begin
+104        1/1          								bin_nxt=bin;
+105        1/1          								dig0_nxt=0;
+106        1/1          								dig1_nxt=0;
+107        1/1          								dig2_nxt=0;
+108        1/1          								dig3_nxt=0;
+109        1/1          								dig4_nxt=0;
+110        1/1          								dig5_nxt=0;
+111        1/1          								dig6_nxt=0;
+112        1/1          								dig7_nxt=0;
+113        1/1          								dig8_nxt=0;
+114        1/1          								dig9_nxt=0;
+115        1/1          								dig10_nxt=0;
+116        1/1          								n_nxt=N;
+117        1/1          								state_nxt=op;
+118                     							end
+                   <font color = "red">==>  MISSING_ELSE</font>
+119                     						end
+120                     				  op: begin
+121        1/1          							dig0_nxt=(dig0_reg&lt;=4)?dig0_reg:dig0_reg+4'd3;
+122        1/1          							dig1_nxt=(dig1_reg&lt;=4)?dig1_reg:dig1_reg+4'd3;
+123        1/1          							dig2_nxt=(dig2_reg&lt;=4)?dig2_reg:dig2_reg+4'd3;
+124        1/1          							dig3_nxt=(dig3_reg&lt;=4)?dig3_reg:dig3_reg+4'd3;
+125        1/1          							dig4_nxt=(dig4_reg&lt;=4)?dig4_reg:dig4_reg+4'd3;
+126        1/1          							dig5_nxt=(dig5_reg&lt;=4)?dig5_reg:dig5_reg+4'd3;
+127        1/1          							dig6_nxt=(dig6_reg&lt;=4)?dig6_reg:dig6_reg+4'd3;
+128        1/1          							dig7_nxt=(dig7_reg&lt;=4)?dig7_reg:dig7_reg+4'd3;
+129        1/1          							dig8_nxt=(dig8_reg&lt;=4)?dig8_reg:dig8_reg+4'd3;
+130        1/1          							dig9_nxt=(dig9_reg&lt;=4)?dig9_reg:dig9_reg+4'd3;
+131        1/1          						   dig10_nxt=(dig10_reg&lt;=4)?dig10_reg:dig10_reg+4'd3;
+132                     							
+133        1/1          							{dig10_nxt,dig9_nxt,dig8_nxt,dig7_nxt,dig6_nxt,dig5_nxt,dig4_nxt,dig3_nxt,dig2_nxt,dig1_nxt,dig0_nxt,bin_nxt}
+134                     								={dig10_nxt,dig9_nxt,dig8_nxt,dig7_nxt,dig6_nxt,dig5_nxt,dig4_nxt,dig3_nxt,dig2_nxt,dig1_nxt,dig0_nxt,bin_nxt}&lt;&lt;1; //shift left by 1(just copy the left side to right side)
+135        1/1          							n_nxt=n_reg-1;
+136        2/2          							if(n_nxt==0) state_nxt=done;			
+                        MISSING_ELSE
+137                     						end
+138                     				done: begin
+139        1/1          							done_tick=1;
+140        1/1          							state_nxt=idle;
+141                     						end
+142        1/1          			default: state_nxt=idle;						
+</pre>
+<hr>
+<a name="Cond"></a>
+Cond Coverage for Module : <a href="mod12.html" >bin2bcd</a><br clear=all>
+<table class="noborder">
+<col width="122">
+<col span="3" width="82">
+<tr><th></th><th>Total</th><th>Covered</th><th>Percent</th></tr>
+<tr class="s6"><td class="lf">Conditions</td><td>24</td><td>16</td><td>66.67</td></tr>
+<tr class="s6"><td class="lf">Logical</td><td>24</td><td>16</td><td>66.67</td></tr>
+<tr class="wht"><td class="lf">Non-Logical</td><td>0</td><td>0</td><td></td></tr>
+<tr class="wht"><td class="lf">Event</td><td>0</td><td>0</td><td></td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       121
+ EXPRESSION ((dig0_reg &lt;= 4'h4) ? dig0_reg : ((dig0_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       122
+ EXPRESSION ((dig1_reg &lt;= 4'h4) ? dig1_reg : ((dig1_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       123
+ EXPRESSION ((dig2_reg &lt;= 4'h4) ? dig2_reg : ((dig2_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       124
+ EXPRESSION ((dig3_reg &lt;= 4'h4) ? dig3_reg : ((dig3_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       125
+ EXPRESSION ((dig4_reg &lt;= 4'h4) ? dig4_reg : ((dig4_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       126
+ EXPRESSION ((dig5_reg &lt;= 4'h4) ? dig5_reg : ((dig5_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       127
+ EXPRESSION ((dig6_reg &lt;= 4'h4) ? dig6_reg : ((dig6_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       128
+ EXPRESSION ((dig7_reg &lt;= 4'h4) ? dig7_reg : ((dig7_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       129
+ EXPRESSION ((dig8_reg &lt;= 4'h4) ? dig8_reg : ((dig8_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       130
+ EXPRESSION ((dig9_reg &lt;= 4'h4) ? dig9_reg : ((dig9_reg + 4'd3)))
+             ---------1--------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       131
+ EXPRESSION ((dig10_reg &lt;= 4'h4) ? dig10_reg : ((dig10_reg + 4'd3)))
+             ---------1---------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uRed"><td>0</td><td class="lf">Not Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<br clear=all>
+<pre class="code"> LINE       136
+ EXPRESSION (n_nxt == 6'b0)
+            -------1-------
+</pre>
+<table class="noborder">
+<col width="40">
+<tr><th>-1-</th><th>Status</th></tr>
+<tr class="uGreen"><td>0</td><td class="lf">Covered</td></tr>
+<tr class="uGreen"><td>1</td><td class="lf">Covered</td></tr>
+</table>
+<hr>
+<a name="Toggle"></a>
+Toggle Coverage for Module : <a href="mod12.html" >bin2bcd</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s3">
+<td>Totals</td>
+<td class="rt">45</td>
+<td class="rt">16</td>
+<td class="rt">35.56 </td>
+</tr><tr class="s5">
+<td>Total Bits</td>
+<td class="rt">528</td>
+<td class="rt">283</td>
+<td class="rt">53.60 </td>
+</tr><tr class="s5">
+<td nowrap>Total Bits 0->1</td>
+<td class="rt">264</td>
+<td class="rt">145</td>
+<td class="rt">54.92 </td>
+</tr><tr class="s5">
+<td nowrap>Total Bits 1->0</td>
+<td class="rt">264</td>
+<td class="rt">138</td>
+<td class="rt">52.27 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s2">
+<td>Ports</td>
+<td class="rt">17</td>
+<td class="rt">4</td>
+<td class="rt">23.53 </td>
+</tr><tr class="s2">
+<td>Port Bits</td>
+<td class="rt">172</td>
+<td class="rt">47</td>
+<td class="rt">27.33 </td>
+</tr><tr class="s3">
+<td nowrap>Port Bits 0->1</td>
+<td class="rt">86</td>
+<td class="rt">27</td>
+<td class="rt">31.40 </td>
+</tr><tr class="s2">
+<td nowrap>Port Bits 1->0</td>
+<td class="rt">86</td>
+<td class="rt">20</td>
+<td class="rt">23.26 </td>
+</tr></table><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80></th><th nowrap width=80></th><th nowrap width=80></th></tr><tr class="s4">
+<td>Signals</td>
+<td class="rt">28</td>
+<td class="rt">12</td>
+<td class="rt">42.86 </td>
+</tr><tr class="s6">
+<td>Signal Bits</td>
+<td class="rt">356</td>
+<td class="rt">236</td>
+<td class="rt">66.29 </td>
+</tr><tr class="s6">
+<td nowrap>Signal Bits 0->1</td>
+<td class="rt">178</td>
+<td class="rt">118</td>
+<td class="rt">66.29 </td>
+</tr><tr class="s6">
+<td nowrap>Signal Bits 1->0</td>
+<td class="rt">178</td>
+<td class="rt">118</td>
+<td class="rt">66.29 </td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Port Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td><td class="alfsrt">Direction</td></tr><tr>
+<td>clk</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>rst_n</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>start</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>bin[6:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>bin[8:7]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>bin[9]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>bin[10]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>INPUT</td>
+</tr><tr>
+<td>bin[36:11]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>INPUT</td>
+</tr><tr>
+<td>ready</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>done_tick</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig0[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig1[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig1[2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig1[3]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig2[0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig2[1]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig2[2]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig2[3]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig3[0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig3[1]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s9 cl">Yes</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig3[3:2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig4[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig5[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig6[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig7[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig8[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig9[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr><tr>
+<td>dig10[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td>OUTPUT</td>
+</tr></table><br clear=all>
+<table align=left class="sortable noborder">
+<caption><b>Signal Details</b></caption>
+<tr class="sortablehead">
+<td class="alfsrt">Name</td><td class="alfsrt">Toggle</td><td class="alfsrt">Toggle 1->0</td><td class="alfsrt">Toggle 0->1</td></tr><tr>
+<td>state_reg[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>state_nxt[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>bin_reg[36:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>bin_nxt[36:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig0_reg[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig1_reg[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig2_reg[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig3_reg[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig3_reg[3:2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig4_reg[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig5_reg[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig6_reg[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig7_reg[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig8_reg[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig9_reg[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig10_reg[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig0_nxt[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig1_nxt[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig2_nxt[3:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig3_nxt[1:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>dig3_nxt[3:2]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig4_nxt[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig5_nxt[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig6_nxt[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig7_nxt[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig8_nxt[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig9_nxt[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>dig10_nxt[3:0]</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+<td class="s3 cl">No</td>
+</tr><tr>
+<td>n_reg[5:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr><tr>
+<td>n_nxt[5:0]</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+<td class="s9 cl">Yes</td>
+</tr></table><br clear=all>
+<hr>
+<a name="FSM"></a>
+FSM Coverage for Module : <a href="mod12.html" >bin2bcd</a><br clear=all>
+<table align=left class="noborder">
+<caption><b>Summary for FSM :: state_reg</b></caption>
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th><th nowrap width=200></th></tr><tr class="wht">
+<td>States</td>
+<td class="rt">3</td>
+<td class="rt">3</td>
+<td class="rt">100.00</td>
+<td>(Not included in score)</td>
+</tr><tr class="s7">
+<td>Transitions</td>
+<td class="rt">4</td>
+<td class="rt">3</td>
+<td class="rt">75.00 </td>
+<td></td>
+</tr><tr class="wht">
+<td>Sequences</td>
+<td class="rt">0</td>
+<td class="rt">0</td>
+<td></td>
+<td></td>
+</tr></table><br clear=all>
+<b>State, Transition and Sequence Details for FSM :: state_reg</b><hr>
+<table align=left class="sortable noborder">
+<tr class="sortablehead">
+<td class="alfsrt">states</td><td>Line No.</td><td class="alfsrt">Covered</td></tr><tr class="uGreen">
+<td nowrap>done</td>
+<td class="rt">136</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>idle</td>
+<td class="rt">23</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>op</td>
+<td class="rt">117</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<br clear=all>
+<table align=left class="sortable noborder">
+<tr class="sortablehead">
+<td class="alfsrt">transitions</td><td>Line No.</td><td class="alfsrt">Covered</td></tr><tr class="uGreen">
+<td nowrap>done->idle</td>
+<td class="rt">23</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>idle->op</td>
+<td class="rt">117</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td nowrap>op->done</td>
+<td class="rt">136</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td nowrap>op->idle</td>
+<td class="rt">23</td>
+<td>Not&nbsp;Covered</td>
+</tr></table><br clear=all>
+<br clear=all>
+<hr>
+<a name="Branch"></a>
+Branch Coverage for Module : <a href="mod12.html" >bin2bcd</a><br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=120></th><th nowrap width=80>Line No.</th><th nowrap width=80>Total</th><th nowrap width=80>Covered</th><th nowrap width=80>Percent</th></tr><tr class="s7">
+<td>Branches</td>
+<td></td>
+<td class="rt">31</td>
+<td class="rt">22</td>
+<td class="rt">70.97 </td>
+</tr><tr class="s10">
+<td>IF</td>
+<td class="rt">22</td>
+<td class="rt">3</td>
+<td class="rt">3</td>
+<td class="rt">100.00</td>
+</tr><tr class="s6">
+<td>CASE</td>
+<td class="rt">100</td>
+<td class="rt">28</td>
+<td class="rt">19</td>
+<td class="rt">67.86 </td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+22         		 if(!rst_n) begin
+           		 <font color = "green">-1-</font>  
+23         			state_reg<=idle;
+           <font color = "green">			==></font>
+24         			bin_reg<=0;
+25         			dig0_reg<=0;
+26         			dig1_reg<=0;
+27         			dig2_reg<=0;
+28         			dig3_reg<=0; 
+29         			dig4_reg<=0; 
+30         			dig5_reg<=0; 
+31         			dig6_reg<=0; 
+32         			dig7_reg<=0; 
+33         			dig8_reg<=0; 
+34         			dig9_reg<=0; 
+35         			dig10_reg<=0; 
+36         			n_reg<=0;
+37         		 end
+38         		 else begin
+39         			state_reg<=state_nxt;
+40         			bin_reg<=bin_nxt;
+41         			dig0_reg<=dig0_nxt;
+42         			dig1_reg<=dig1_nxt;
+43         			dig2_reg<=dig2_nxt;
+44         			dig3_reg<=dig3_nxt;
+45         			dig4_reg<=dig4_nxt;
+46         			dig5_reg<=dig5_nxt;
+47         			dig6_reg<=dig6_nxt;
+48         			dig7_reg<=dig7_nxt;
+49         			dig8_reg<=dig8_nxt;
+50         			dig9_reg<=dig9_nxt;
+51         			dig10_reg<=dig10_nxt;
+52         			n_reg<=n_nxt;
+53         			
+54         			if(done_tick) begin
+           			<font color = "green">-2-</font>  
+55         				dig0=dig0_reg;
+           <font color = "green">				==></font>
+56         				dig1=dig1_reg;
+57         				dig2=dig2_reg;
+58         				dig3=dig3_reg;
+59         				dig4=dig4_reg;
+60         				dig5=dig5_reg;
+61         				dig6=dig6_reg;
+62         				dig7=dig7_reg;
+63         				dig8=dig8_reg;
+64         				dig9=dig9_reg;
+65         				dig10=dig10_reg;	 
+66         			end
+67         			else begin //retain previous value
+68         				dig0=dig0;
+           <font color = "green">				==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>-2-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>0</td>
+<td align=center>0</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+<pre class="code"><br clear=all>
+100        			case(state_reg) 
+           			<font color = "green">-1-</font>  
+101        				idle: begin
+102        							ready=1;
+103        							if(start) begin
+           							<font color = "red">-2-</font>  
+104        								bin_nxt=bin;
+           <font color = "green">								==></font>
+105        								dig0_nxt=0;
+106        								dig1_nxt=0;
+107        								dig2_nxt=0;
+108        								dig3_nxt=0;
+109        								dig4_nxt=0;
+110        								dig5_nxt=0;
+111        								dig6_nxt=0;
+112        								dig7_nxt=0;
+113        								dig8_nxt=0;
+114        								dig9_nxt=0;
+115        								dig10_nxt=0;
+116        								n_nxt=N;
+117        								state_nxt=op;
+118        							end
+           							MISSING_ELSE
+           <font color = "red">							==></font>
+119        						end
+120        				  op: begin
+121        							dig0_nxt=(dig0_reg<=4)?dig0_reg:dig0_reg+4'd3;
+           							                      <font color = "green">-3-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "green">==></font>  
+122        							dig1_nxt=(dig1_reg<=4)?dig1_reg:dig1_reg+4'd3;
+           							                      <font color = "green">-4-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "green">==></font>  
+123        							dig2_nxt=(dig2_reg<=4)?dig2_reg:dig2_reg+4'd3;
+           							                      <font color = "green">-5-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "green">==></font>  
+124        							dig3_nxt=(dig3_reg<=4)?dig3_reg:dig3_reg+4'd3;
+           							                      <font color = "red">-6-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "red">==></font>  
+125        							dig4_nxt=(dig4_reg<=4)?dig4_reg:dig4_reg+4'd3;
+           							                      <font color = "red">-7-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "red">==></font>  
+126        							dig5_nxt=(dig5_reg<=4)?dig5_reg:dig5_reg+4'd3;
+           							                      <font color = "red">-8-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "red">==></font>  
+127        							dig6_nxt=(dig6_reg<=4)?dig6_reg:dig6_reg+4'd3;
+           							                      <font color = "red">-9-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "red">==></font>  
+128        							dig7_nxt=(dig7_reg<=4)?dig7_reg:dig7_reg+4'd3;
+           							                      <font color = "red">-10-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "red">==></font>  
+129        							dig8_nxt=(dig8_reg<=4)?dig8_reg:dig8_reg+4'd3;
+           							                      <font color = "red">-11-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "red">==></font>  
+130        							dig9_nxt=(dig9_reg<=4)?dig9_reg:dig9_reg+4'd3;
+           							                      <font color = "red">-12-</font>  
+           							                      <font color = "green">==></font>  
+           							                      <font color = "red">==></font>  
+131        						   dig10_nxt=(dig10_reg<=4)?dig10_reg:dig10_reg+4'd3;
+           						                           <font color = "red">-13-</font>  
+           						                           <font color = "green">==></font>  
+           						                           <font color = "red">==></font>  
+132        							
+133        							{dig10_nxt,dig9_nxt,dig8_nxt,dig7_nxt,dig6_nxt,dig5_nxt,dig4_nxt,dig3_nxt,dig2_nxt,dig1_nxt,dig0_nxt,bin_nxt}
+134        								={dig10_nxt,dig9_nxt,dig8_nxt,dig7_nxt,dig6_nxt,dig5_nxt,dig4_nxt,dig3_nxt,dig2_nxt,dig1_nxt,dig0_nxt,bin_nxt}<<1; //shift left by 1(just copy the left side to right side)
+135        							n_nxt=n_reg-1;
+136        							if(n_nxt==0) state_nxt=done;			
+           							<font color = "green">-14-</font>  
+           <font color = "green">							==></font>
+           							MISSING_ELSE
+           <font color = "green">							==></font>
+137        						end
+138        				done: begin
+139        							done_tick=1;
+           <font color = "green">							==></font>
+140        							state_nxt=idle;
+141        						end
+142        			default: state_nxt=idle;						
+           <font color = "green">			==></font>
+</pre>
+<br clear=all>
+<span class=repname>Branches:</span>
+<br clear=all>
+<table align=left class="noborder">
+<tr>
+<th nowrap width=80>-1-</th><th nowrap width=80>-2-</th><th nowrap width=80>-3-</th><th nowrap width=80>-4-</th><th nowrap width=80>-5-</th><th nowrap width=80>-6-</th><th nowrap width=80>-7-</th><th nowrap width=80>-8-</th><th nowrap width=80>-9-</th><th nowrap width=80>-10-</th><th nowrap width=80>-11-</th><th nowrap width=80>-12-</th><th nowrap width=80>-13-</th><th nowrap width=80>-14-</th><th nowrap width=80>Status</th></tr><tr class="uGreen">
+<td align=center>idle </td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>idle </td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uRed">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td align=center nowrap>-</td>
+<td>Not Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>1</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>op </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center>0</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>done </td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr><tr class="uGreen">
+<td align=center>default</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td align=center nowrap>-</td>
+<td>Covered</td>
+</tr></table><br clear=all>
+</div>
+</div>
+<div class="ui-layout-center-inner-north">
+<div id="center-bread-crumb" class="breadCrumb module urg-margin-bottom">
+  <ul name="inst_tag_12">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Cond">Cond</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#FSM">FSM</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+  <ul name="tag_bin2bcd">
+    <li>
+      <a href="#Line">Line</a>    </li>
+    <li>
+      <a href="#Cond">Cond</a>    </li>
+    <li>
+      <a href="#Toggle">Toggle</a>    </li>
+    <li>
+      <a href="#FSM">FSM</a>    </li>
+    <li>
+      <a href="#Branch">Branch</a>    </li>
+  </ul>
+</div>
+</div>
+</div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>

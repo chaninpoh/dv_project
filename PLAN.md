@@ -1591,15 +1591,117 @@ Then prompt agent: **`check logfiles for regress_p0`**
 
 **If gate FAIL:** see **`FIX.md`** — Phase 5; also Phase 4 per-test entries for the failing test.
 
+### Live testplan.xml — HVP annotated report
+
+Once the regression gate passes, regenerate the annotated `testplan.xml` so it reflects live P0 pass/fail results and coverage, rather than the static Phase 1 skeleton:
+
+```bash
+python3.11 .claude/skills/testplan-xml/generate_hvp_testplan.py --tier p0
+```
+
+(equivalently, invoke the `testplan-xml` skill). This reads the `ROWS` test list from `scripts/generate_testplan.py`, derives each test's pass/fail from its `sim/<test>_seed_*_sim.log` using the same gate as G2/G3 above, and writes:
+
+- `LED_MUX_CONTROLLER_stu/sim/led_mux_controller_testplan.hvp` — HVP plan source, one `measure Group` per test
+- `LED_MUX_CONTROLLER_stu/sim/test_results.hvpdata` — HVP userdata for the built-in `Group` metric (percent type): `100%` on pass, `0%` on fail, per `v_planner.pdf`'s External User Data format
+- `LED_MUX_CONTROLLER_stu/sim/testplan.xml` — via `urg -xmlplan`, the final annotated report
+
+Re-run any time after a new regression (`regress_p0.sh`) or test-list change (`ROWS`) to refresh the scores; it does not run simulations itself.
+
 ---
 
-## Phase 6 — Coverage closure (goal only)
+## Phase 6 — Coverage closure
 
-**Goal:** P1 tests + `random_regression_test`; TESTPLAN Excel annotated with PASS and coverage %.
+**Passing criteria:** every code-coverage metric > 90% AND testplan score > 95%.
 
-**Gate:** Functional covergroups ≥ target; code coverage report merged.
+**Last run:** `regress_202607132101` (27 tests, 10 seeds). Testplan-scope scores (pre-waiver):
 
-**If gate FAIL:** see **`FIX.md`** — tooling (FIX-014) and Phase 3 simulation errors.
+| Metric  | Score   | Target | Gap     |
+|---------|---------|--------|---------|
+| LINE    | 85.22 % | > 90 % | –4.78 % |
+| COND    | 73.91 % | > 90 % | –16.1 % |
+| TOGGLE  | 24.68 % | > 90 % | –65.3 % |
+| FSM     | 75.00 % | > 90 % | –15.0 % |
+| BRANCH  | 63.54 % | > 90 % | –26.5 % |
+| ASSERT  | 86.96 % | > 90 % | –3.04 % |
+| Testplan score | 68.22 % | > 95 % | –26.8 % |
+
+---
+
+### Coverage gap analysis
+
+#### A — Structural (waived via `sim/excl/`)
+
+| File | Gap | Waiver |
+|------|-----|--------|
+| `LED_mux.v` L77–95 | hex decoder arms 5'd10–5'd28 (A–OFF) — BCD always 0–9 | `excl/led_mux_structural.cfg` |
+| `LED_mux.v` casez | `out_counter` MISSING_DEFAULT (values 6–7, counter wraps at 5) | `excl/led_mux_structural.cfg` |
+| `APB_Slave.sv` L70,75-76,81,85-87,92 | WAIT_WRITE=0, WAIT_READ=0 → wait-state state machine is dead code | `excl/apb_slave_waitstate.cfg` |
+| `APB_Slave.sv` cond | WAIT_WRITE≠0, WAIT_READ≠0, count==WAIT-1 all impossible; write+pready=0 only with WAIT>0 | `excl/apb_slave_waitstate.cfg` |
+| `bin2bcd.v` L127–131 | dig6–dig10 always 0 (20-bit input ≤ 6 digits); add-3 correction `(dig>4)` structurally false | `excl/bin2bcd_structural.cfg` |
+| `APB_Slave.sv` toggle | `mem[31:0][31:0]` entries [4:31] — no register map; `o_pslverr` — BUG-003 hardwired 0 | `excl/tgl_structural.cfg` |
+| `dut.sv` toggle | `o_pslverr` — BUG-003 propagated from APB_Slave | `excl/tgl_structural.cfg` |
+| `apb_if.sv` toggle | `pslverr` — BUG-003 propagated to TB interface | `excl/tgl_structural.cfg` |
+
+All four waiver files are loaded by `regress_p0.sh` via `-elfile excl/<file>.cfg`.
+
+---
+
+#### B — Fixable via new / updated tests
+
+| Gap | Affected metrics | Action |
+|-----|-----------------|--------|
+| `rst_n` never re-asserted after initial deassert | LINE (LED_mux reset branch L34–36), BRANCH (Branch 1 vector 0), FSM (op→idle arc), TOGGLE (rst_n 1→0 across all modules) | Add `led_rst_reassert_test`: drive `rst_n=0` mid-simulation for ≥ 1 cycle, then deassert; verify LED outputs go to reset state |
+| `scratchpad` written with all-1 patterns | TOGGLE (`pwdata[31:8]`, `prdata[31:8]` stuck at 0) | Update `apb_scratchpad_wr_rd_test` directed sequence: write `32'hFFFF_FFFF` and `32'hA5A5_A5A5` to `0x4008`/`0x400C` |
+| `bin2bcd` dig3–dig5 add-3 correction not exercised | COND (dig3_reg>4 through dig5_reg>4 false) | Add directed sequence driving values > 999 in third-digit positions; or extend `led_overflow_modulo_test` / `led_max_displayable_test` with specific boundary values |
+| `led_if.seg_out[7]` (decimal point) never toggles | TOGGLE (seg_out[7]) | Structural: `seg_out[7] = !hex_out[5]`; BCD never sets `hex_out[5]`; document as STRUCTURAL if confirmed by spec |
+| SVA assertion hit-rate below 90 % | ASSERT | After rst_n reassert test, re-evaluate; add assertions for reset arc if missing |
+
+---
+
+#### C — Fixable via RTL bug fix
+
+| Bug | Gap | Status |
+|-----|-----|--------|
+| BUG-006: `bin2bcd` only uses `bin[9:0]`; `bin[36:10]` never driven | TOGGLE (`bin2bcd` input bits 36:10 stuck at 0; `LED_mux in4/in5` never driven) | OPEN — requires RTL fix; blocked until DUT owner confirms |
+
+---
+
+### Phase 6 action items (ordered)
+
+1. **Re-run regression with new waivers** — `rm -rf *.vdb` then `./regress_p0.sh 10`; compare new scores vs. pre-waiver baseline.
+2. **Add `led_rst_reassert_test`** — drives rst_n=0 for 2 cycles mid-sim; highest-impact single test (closes LINE, BRANCH, FSM, TOGGLE gaps simultaneously).
+3. **Update `apb_scratchpad_wr_rd_test`** — add 32-bit all-ones and alternating patterns to scratchpad writes.
+4. **Add directed bin2bcd digit-boundary sequence** — drive values that make dig3–dig5 > 4 (i.e., input digits 3–5 in 5..9 range).
+5. **Confirm `seg_out[7]` / decimal-point spec** — if no decimal-point path exists in spec, waive in `excl/led_mux_structural.cfg`.
+6. **BUG-006 RTL fix** (blocked on DUT owner) — unblocks the largest remaining TOGGLE gap.
+
+---
+
+### Waiver files created (`sim/excl/`)
+
+| File | Scope | Metrics |
+|------|-------|---------|
+| `apb_slave_waitstate.cfg` | APB_Slave wait-state dead code (WAIT_WRITE=0, WAIT_READ=0) | LINE, BRANCH, COND |
+| `led_mux_structural.cfg` | LED_mux hex decoder 5'd10–5'd28 + MISSING_DEFAULT | LINE, BRANCH |
+| `bin2bcd_structural.cfg` | bin2bcd dig6–dig10 add-3 false branch | COND |
+| `tgl_structural.cfg` | APB_Slave mem + o_pslverr (BUG-003), dut o_pslverr, apb_if pslverr | TOGGLE |
+
+`regress_p0.sh` passes all four files to `urg` via `-elfile excl/<file>.cfg`.
+
+---
+
+### Review gate — Phase 6
+
+| # | Check |
+|---|-------|
+| G1 | Re-run `regress_p0.sh` after waiver addition: all tests still PASS |
+| G2 | `urgReport/dashboard.html`: LINE > 90 %, COND > 90 %, TOGGLE > 90 %, FSM > 90 %, BRANCH > 90 %, ASSERT > 90 % |
+| G3 | Testplan score > 95 % |
+| G4 | No uncovered lines/branches outside `excl/` waivers |
+
+**If gate FAIL:** apply B-category actions above in order; re-run regression after each.
+
+---
 
 ---
 

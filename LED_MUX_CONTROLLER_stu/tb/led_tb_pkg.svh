@@ -25,5 +25,14 @@ package led_tb_pkg;
   `include "sequences/apb_done_poll_seq.sv"
   `include "sequences/led_mux_virtual_seq.sv"
   `include "sequences/led_all_digits_vseq.sv"
+  `include "sequences/apb_default_enable_vseq.sv"
+  `include "sequences/led_reenable_vseq.sv"
+  `include "sequences/full_display_vseq.sv"
+  `include "sequences/apb_read_during_processing_vseq.sv"
+  `include "sequences/random_regression_vseq.sv"
+  `include "sequences/led_overflow_boundary_vseq.sv"
+  `include "sequences/led_back_to_back_vseq.sv"
+  `include "sequences/enable_off_overflow_vseq.sv"
+  `include "sequences/led_digit_sweep_vseq.sv"
 
 endpackage

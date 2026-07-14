@@ -1,0 +1,115 @@
+<session version="1.1" release="W-2024.09-SP2" timestp="2026-07-12 06:40:40 GMT">
+  <info>
+    <attr name="datetime" value="Sun Jul 12 14:40:40 2026
+"/>
+    <attr name="command" value="urg -dir dut_simv.vdb -plan led_mux_controller_testplan.hvp -userdata test_results.hvpdata -xmlplan -report regress_202607121440/urgReport"/>
+    <attr name="top_instance" value="uvm_custom_install_verdi_recording,top_tb,uvm_pkg"/>
+  </info>
+  <hvp>
+    <datadef>
+      <metdef name="Line" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Cond" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="FSM" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Toggle" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Branch" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.assert" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.cover" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="Assert.ast_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Assert.cov_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group" type="percent" aggregator="average" builtin="1" />
+      <metdef name="Group.count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.grp_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.cvp_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.bin_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.covered_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.uncovered_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="Group.excluded_count" type="integer" aggregator="sum" builtin="1" />
+      <metdef name="SnpsAvg" type="percent" aggregator="average" builtin="1" isaggr="1">
+        <aggrdef name="Line" />
+        <aggrdef name="Cond" />
+        <aggrdef name="FSM" />
+        <aggrdef name="Toggle" />
+        <aggrdef name="Branch" />
+        <aggrdef name="Assert" />
+        <aggrdef name="Group" />
+      </metdef>
+      <metdef name="test" type="enum" aggregator="sum" builtin="1">
+        <enumdef name="pass" />
+        <enumdef name="fail" />
+        <enumdef name="warn" />
+        <enumdef name="assert" />
+        <enumdef name="unknown" />
+      </metdef>
+      <metdef name="test.completion" type="ratio" aggregator="average" builtin="1" />
+      <metdef name="AssertResult" type="enum" aggregator="sum" builtin="1">
+        <enumdef name="successes" />
+        <enumdef name="failures" />
+        <enumdef name="unknown" />
+      </metdef>
+    </datadef>
+    <scope type="plan" name="led_mux_controller_testplan" active="1">
+      <scorelist type="total">
+        <score name="Assert" value="20/23" />
+        <score name="Branch" value="60/96" />
+        <score name="Cond" value="50/69" />
+        <score name="FSM" value="3/4" />
+        <score name="Line" value="173/203" />
+        <score name="SnpsAvg" value="66.4526%" />
+        <score name="Toggle" value="595/3590" />
+        <score name="test" value="38">
+          <enumval name="pass" value="8" />
+          <enumval name="fail" value="12" />
+          <enumval name="warn" value="0" />
+          <enumval name="assert" value="0" />
+          <enumval name="unknown" value="18" />
+        </score>
+        <score name="Score" value="66.45%" />
+      </scorelist>
+    </scope>
+  </hvp>
+  <old_coverage>
+  <scope type="top" name="top">
+    <metric name="Line" value="209/633" />
+    <metric name="Cond" value="53/168" />
+    <metric name="Toggle" value="663/3884" />
+    <metric name="FSM" value="3/4" />
+    <metric name="Branch" value="69/289" />
+    <metric name="Assert" value="21/26" />
+    <metric name="Group" value="78.4444%" />
+  </scope>
+  <scope type="instance" name="top">
+  </scope>
+  <scope type="group" name="top">
+    <scope type="group" name="led_tb_pkg::led_coverage::cg_error_q">
+      <metric name="Group" value="50%" />
+    </scope>
+    <scope type="group" name="led_tb_pkg::led_coverage::cg_enable">
+      <metric name="Group" value="66.6667%" />
+    </scope>
+    <scope type="group" name="led_tb_pkg::led_coverage::cg_digits">
+      <metric name="Group" value="75.5555%" />
+    </scope>
+    <scope type="group" name="led_tb_pkg::led_coverage::cg_overflow">
+      <metric name="Group" value="100%" />
+    </scope>
+    <scope type="group" name="led_tb_pkg::led_coverage::cg_done">
+      <metric name="Group" value="100%" />
+    </scope>
+  </scope>
+  <scope type="assert" name="Statistics">
+    <scorelist type="total" name="Design Hierarchy Assert">
+      <score name="Assert" value="21/26" />
+      <score name="Score" value="80.77" />
+    </scorelist>
+    <scorelist type="total" name="Module List Assert">
+      <score name="Assert" value="21/26" />
+      <score name="Score" value="80.77" />
+    </scorelist>
+    <scorelist type="total" name="Assertion">
+      <score name="Assert" value="21/26" />
+      <score name="Score" value="80.77" />
+    </scorelist>
+  </scope>
+  </old_coverage>
+</session>

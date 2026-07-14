@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="Author" content="<username>"> <meta name="GENERATOR" content="urg/version [en] (platform name) [urg]">
+<title>Unified Coverage Report :: Dashboard</title>
+<link type="text/css" rel="stylesheet" href="css/.urg.css">
+<link type="text/css" rel="stylesheet" href="css/.layout.css">
+<script type="text/javascript" src="js/.jquery.js"></script>
+<script type="text/javascript" src="js/.jquery-ui.js"></script>
+<script type="text/javascript" src="js/.sortable.js"></script>
+<script type="text/javascript" src="js/.colResizable.js"></script>
+<script type="text/javascript" src="js/.layout.js"></script>
+<script type="text/javascript">
+var layout, westLayout, centerLayout;
+$(document).ready(function () {
+  layout = $("body").layout({ 
+    resizable: true,
+    spacing_open: 4,
+    spacing_closed: 4,
+    north: {
+      size: 76
+    },
+    south: {
+      size: 45,
+      initClosed: true
+    }  });
+  $("table").colResizable({    liveDrag:true,
+    fixed:false,
+    draggingClass:"dragging"
+  });
+});
+</script>
+</head>
+<body><div class="ui-layout-north">
+<div class="logo"></div>
+<center class="pagetitle">Dashboard</center>
+<div align="center"><a href="dashboard.html" ><b>dashboard</b></a> | <a href="hierarchy.html" ><b>hierarchy</b></a> | <a href="modlist.html" ><b>modlist</b></a> | <a href="groups.html" ><b>groups</b></a> | <a href="tests.html" ><b>tests</b></a> | <a href="asserts.html" ><b>asserts</b></a> | <a href="userdata.html" ><b>userdata</b></a> | <a href="hvp.led_mux_controller_testplan.html" ><b>hvp</b></a></div>
+
+</div>
+<div class="ui-layout-center">
+Date: Sun Jul 12 01:22:31 2026
+<br clear=all>
+User: pohsl
+<br clear=all>
+Version: W-2024.09-SP2<br clear=all>
+Command line: urg -dir dut_simv.vdb -plan led_mux_controller_testplan.hvp -userdata test_results.hvpdata -xmlplan -report regress_202607120121/urgReport 
+<br clear=all>
+Number of tests: 101<br clear=all>
+<hr>
+<b>Scores for Verification Plan</b><br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td nowrap width=65>SCORE</td><td nowrap width=65>LINE</td><td nowrap width=65>COND</td><td nowrap width=65>TOGGLE</td><td nowrap width=65>FSM</td><td nowrap width=65>BRANCH</td><td nowrap width=65>ASSERT</td><td nowrap width=65>SNPSAVG</td><td nowrap width=65>test</td><td nowrap width=65>pass</td><td nowrap width=65>fail</td><td nowrap width=65>warn</td><td nowrap width=65>assert</td><td nowrap width=65>unknown</td><td nowrap width=65 class="alfsrt">NAME</td></tr><tr>
+<td class="s6 cl rt"> 68.30</td>
+<td class="s8 cl rt"> 85.22</td>
+<td class="s7 cl rt"> 78.26</td>
+<td class="s1 cl rt"> 17.68</td>
+<td class="s7 cl rt"> 75.00</td>
+<td class="s6 cl rt"> 66.67</td>
+<td class="s8 cl rt"> 86.96</td>
+<td class="s6 cl rt"> 68.30</td>
+<td class="s1 cl rt">38    </td>
+<td class="s1 cl rt">6     </td>
+<td class="s1 cl rt">5     </td>
+<td class="s1 cl rt">0     </td>
+<td class="s1 cl rt">0     </td>
+<td class="s1 cl rt">27    </td>
+<td><a href="hvp.led_mux_controller_testplan.html#tag_urg_hvp_led_mux_controller_testplan" >led_mux_controller_testplan</a></td>
+</tr></table><br clear=all>
+<hr>
+<b>Total Coverage Summary</b>&nbsp;<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td nowrap width=65>SCORE</td><td nowrap width=65>LINE</td><td nowrap width=65>COND</td><td nowrap width=65>TOGGLE</td><td nowrap width=65>FSM</td><td nowrap width=65>BRANCH</td><td nowrap width=65>ASSERT</td><td nowrap width=65>GROUP</td></tr><tr>
+<td class="s4 cl rt"> 49.22</td>
+<td class="s3 cl rt"> 33.02</td>
+<td class="s3 cl rt"> 33.93</td>
+<td class="s1 cl rt"> 18.09</td>
+<td class="s7 cl rt"> 75.00</td>
+<td class="s2 cl rt"> 25.26</td>
+<td class="s8 cl rt"> 80.77</td>
+<td class="s7 cl rt"> 78.44</td>
+</tr></table><br clear=all>
+<hr>
+<b>Hierarchical coverage data for top-level instances</b>&nbsp;<br clear=all>
+<table align=left class="sortable">
+<tr class="sortablehead">
+<td nowrap width=65>SCORE</td><td nowrap width=65>LINE</td><td nowrap width=65>COND</td><td nowrap width=65>TOGGLE</td><td nowrap width=65>FSM</td><td nowrap width=65>BRANCH</td><td nowrap width=65>ASSERT</td><td class="alfsrt">NAME</td></tr><tr>
+<td class="s6 cl rt"> 68.55</td>
+<td class="s8 cl rt"> 86.24</td>
+<td class="s7 cl rt"> 78.26</td>
+<td class="s1 cl rt"> 18.15</td>
+<td class="s7 cl rt"> 75.00</td>
+<td class="s6 cl rt"> 66.67</td>
+<td class="s8 cl rt"> 86.96</td>
+<td class="wordwrap"><a href="mod15.html#inst_tag_15" >top_tb</a></td>
+</tr><tr>
+<td class="s0 cl rt">  3.19</td>
+<td class="s0 cl rt">  5.06</td>
+<td class="s0 cl rt">  3.03</td>
+<td class="s0 cl rt">  0.00</td>
+<td class="wht cl rt"></td>
+<td class="s0 cl rt">  4.66</td>
+<td class="wht cl rt"></td>
+<td class="wordwrap"><a href="mod14.html#inst_tag_14" >uvm_custom_install_verdi_recording</a></td>
+</tr><tr>
+<td class="s3 cl rt"> 33.33</td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="wht cl rt"></td>
+<td class="s3 cl rt"> 33.33</td>
+<td class="wordwrap"><a href="mod5.html#inst_tag_5" >uvm_pkg</a></td>
+</tr></table><br clear=all>
+<hr>
+<b>Total Module Definition Coverage Summary</b>&nbsp;<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td nowrap width=65>SCORE</td><td nowrap width=65>LINE</td><td nowrap width=65>COND</td><td nowrap width=65>TOGGLE</td><td nowrap width=65>FSM</td><td nowrap width=65>BRANCH</td><td nowrap width=65>ASSERT</td></tr><tr>
+<td class="s4 cl rt"> 44.34</td>
+<td class="s3 cl rt"> 33.02</td>
+<td class="s3 cl rt"> 33.93</td>
+<td class="s1 cl rt"> 18.09</td>
+<td class="s7 cl rt"> 75.00</td>
+<td class="s2 cl rt"> 25.26</td>
+<td class="s8 cl rt"> 80.77</td>
+</tr></table><br clear=all>
+<hr>
+<b>Total Groups Coverage Summary</b>&nbsp;<br clear=all>
+<table align=left>
+<tr class="sortablehead">
+<td nowrap width=65>SCORE</td><td nowrap width=65>INST SCORE</td><td nowrap width=65>WEIGHT</td></tr><tr>
+<td class="s7 cl rt"> 78.44</td>
+<td class="s7 cl rt"> 78.44</td>
+<td class="wht cl rt">1     </td>
+</tr></table></div>
+<div class="ui-layout-south">
+<table align=center><tr><td class="s0 cl">0%</td>
+<td class="s1 cl">10%</td>
+<td class="s2 cl">20%</td>
+<td class="s3 cl">30%</td>
+<td class="s4 cl">40%</td>
+<td class="s5 cl">50%</td>
+<td class="s6 cl">60%</td>
+<td class="s7 cl">70%</td>
+<td class="s8 cl">80%</td>
+<td class="s9 cl">90%</td>
+<td class="s10 cl">100%</td></tr></table></div>
+</body>
+</html>

@@ -137,3 +137,21 @@ All files under `tb/` must follow this layout:
 | No TB files changed | Do not run `smoke_test` unnecessarily |
 
 **Never add `smoke_test` back to `regress_p0.sh`.** If a future regression script is created, apply the same exclusion.
+
+---
+
+## Rule 11 — Delete *.vdb before running regression or collecting coverage
+
+**Always** delete all `*.vdb` directories from `sim/` before running a regression or before invoking `urg` to collect fresh coverage data.
+
+```bash
+cd /home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim
+rm -rf *.vdb
+```
+
+Stale `.vdb` data accumulates across runs and will produce incorrect or inflated coverage numbers if not cleared first.
+
+Workflow for coverage collection:
+1. `rm -rf *.vdb` in `sim/`
+2. Run all tests (individual `make dv` calls or regression script)
+3. Run `urg -dir dut_simv.vdb -plan led_mux_controller_testplan.hvp -userdata test_results.hvpdata -xmlplan -report <report_dir>`

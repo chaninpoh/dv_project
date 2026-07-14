@@ -1,0 +1,1818 @@
+Command: /home/pohsl/ai_dv_project/dv_project/LED_MUX_CONTROLLER_stu/sim/./dut_simv +UVM_TESTNAME=led_reenable_after_disable_test +ntb_random_seed=0 -l led_reenable_after_disable_test_seed_0_sim.log +UVM_NO_RELNOTES -cm line+tgl+cond+fsm+branch+assert -assert summary -assert report=dut_sva.rpt -debug_access+all -cm_name led_reenable_after_disable_test_0 +fsdb+sva_success
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09-SP2_Full64; Runtime version W-2024.09-SP2_Full64;  Jul 12 14:41 2026
+UVM_INFO @ 0: reporter [RNTST] Running test led_reenable_after_disable_test...
+*Verdi* Loading libsscore_vcs202409.so
+FSDB Dumper for VCS, Release Verdi_W-2024.09-SP2, Linux x86_64/64bit, 03/03/2025
+(C) 1996 - 2025 by Synopsys, Inc.
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'waveform.fsdb'
+*Verdi* : Begin traversing the scope (top_tb), layer (0).
+*Verdi* : End of traversing.
+UVM_INFO ../tb/test/base_test.sv(15) @ 0: uvm_test_top [led_reenable_after_disable_test] Build phase for base_test
+UVM_INFO ../tb/led_env.sv(16) @ 0: uvm_test_top.env [led_env] Build phase for led_env
+UVM_INFO ../tb/apb_agent/apb_agent.sv(23) @ 0: uvm_test_top.env.apb_agt [apb_agent] Build phase for apb_agent
+UVM_INFO ../tb/apb_agent/apb_driver.sv(20) @ 0: uvm_test_top.env.apb_agt.driver [apb_driver] Build phase for apb_driver
+UVM_INFO ../tb/apb_agent/apb_monitor.sv(26) @ 0: uvm_test_top.env.apb_agt.monitor [apb_monitor] Build phase for apb_monitor
+UVM_INFO ../tb/led_coverage.sv(100) @ 0: uvm_test_top.env.cov [led_coverage] Build phase for led_coverage
+UVM_INFO ../tb/led_agent/led_agent.sv(24) @ 0: uvm_test_top.env.led_agt [led_agent] Build phase for led_agent
+UVM_INFO ../tb/led_agent/led_driver.sv(20) @ 0: uvm_test_top.env.led_agt.driver [led_driver] Build phase for led_driver
+UVM_INFO ../tb/led_agent/led_monitor.sv(24) @ 0: uvm_test_top.env.led_agt.monitor [led_monitor] Build phase for led_monitor
+UVM_INFO ../tb/led_scoreboard.sv(26) @ 0: uvm_test_top.env.scb [led_scoreboard] Build phase for led_scoreboard
+UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_factory.svh(1645) @ 0: reporter [UVM/FACTORY/PRINT] 
+#### Factory Configuration (*)
+
+  No instance or type overrides are registered with this factory
+
+All types registered with the factory: 111 total
+  Type Name
+  ---------
+  apb_agent
+  apb_default_enable_led_path_test
+  apb_default_enable_vseq
+  apb_done_poll_seq
+  apb_driver
+  apb_invalid_addr_test
+  apb_invalid_addr_vseq
+  apb_led_enable_wr_rd_vseq
+  apb_led_enable_write_read_test
+  apb_monitor
+  apb_pready_no_wait_test
+  apb_pready_no_wait_vseq
+  apb_read_during_processing_test
+  apb_read_during_processing_vseq
+  apb_read_seq
+  apb_reset_defaults_test
+  apb_reset_defaults_vseq
+  apb_scratchpad_wr_rd_test
+  apb_scratchpad_wr_rd_vseq
+  apb_transaction
+  apb_write_seq
+  base_test
+  full_display_flow_test
+  full_display_vseq
+  led_agent
+  led_all_digits_0_to_9_test
+  led_all_digits_vseq
+  led_coverage
+  led_decimal_42_test
+  led_disable_blocks_update_test
+  led_driver
+  led_env
+  led_error_seq
+  led_hold_time_min_test
+  led_latency_window_test
+  led_max_displayable_test
+  led_monitor
+  led_mux_virtual_seq
+  led_overflow_modulo_test
+  led_reenable_after_disable_test
+  led_reenable_vseq
+  led_reset_seq
+  led_reset_values_test
+  led_reset_vseq
+  led_scoreboard
+  led_sel_onehot_scan_test
+  led_transaction
+  led_virtual_sequencer
+  phase1_tb_top_test
+  phase2_agent_sanity_test
+  random_regression_test
+  random_regression_vseq
+  smoke_test
+  snps_uvm_reg_bank_group
+  snps_uvm_reg_map
+(*) Types with no associated type name will be printed as <unknown>
+
+####
+
+
+UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_root.svh(589) @ 0: reporter [UVMTOP] UVM testbench topology:
+-----------------------------------------------------------------------
+Name                       Type                             Size  Value
+-----------------------------------------------------------------------
+uvm_test_top               led_reenable_after_disable_test  -     @346 
+  env                      led_env                          -     @366 
+    apb_agt                apb_agent                        -     @377 
+      driver               apb_driver                       -     @689 
+        rsp_port           uvm_analysis_port                -     @708 
+        seq_item_port      uvm_seq_item_pull_port           -     @698 
+      monitor              apb_monitor                      -     @718 
+        analysis_port      uvm_analysis_port                -     @732 
+      sequencer            uvm_sequencer                    -     @552 
+        rsp_export         uvm_analysis_export              -     @561 
+        seq_item_export    uvm_seq_item_pull_imp            -     @679 
+        arbitration_queue  array                            0     -    
+        lock_queue         array                            0     -    
+        num_last_reqs      integral                         32    'd1  
+        num_last_rsps      integral                         32    'd1  
+    cov                    led_coverage                     -     @404 
+      apb_imp              uvm_analysis_imp_cov_apb         -     @750 
+      led_imp              uvm_analysis_imp_cov_led         -     @760 
+    led_agt                led_agent                        -     @386 
+      driver               led_driver                       -     @784 
+        rsp_port           uvm_analysis_port                -     @803 
+        seq_item_port      uvm_seq_item_pull_port           -     @793 
+      monitor              led_monitor                      -     @775 
+        analysis_port      uvm_analysis_port                -     @955 
+      sequencer            uvm_sequencer                    -     @813 
+        rsp_export         uvm_analysis_export              -     @822 
+        seq_item_export    uvm_seq_item_pull_imp            -     @940 
+        arbitration_queue  array                            0     -    
+        lock_queue         array                            0     -    
+        num_last_reqs      integral                         32    'd1  
+        num_last_rsps      integral                         32    'd1  
+    scb                    led_scoreboard                   -     @395 
+      apb_imp              uvm_analysis_imp_apb             -     @973 
+      led_imp              uvm_analysis_imp_led             -     @983 
+    v_seqr                 led_virtual_sequencer            -     @413 
+      rsp_export           uvm_analysis_export              -     @422 
+      seq_item_export      uvm_seq_item_pull_imp            -     @540 
+      arbitration_queue    array                            0     -    
+      lock_queue           array                            0     -    
+      num_last_reqs        integral                         32    'd1  
+      num_last_rsps        integral                         32    'd1  
+-----------------------------------------------------------------------
+
+UVM_INFO ../tb/sequences/led_reset_seq.sv(17) @ 0: uvm_test_top.env.led_agt.sequencer@@reset_seq [led_reset_seq] Asserting rst_n=0
+"../tb/sva/led_mux_sva.sv", 23: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 30000ps failed at 30000ps
+	Offending '(sel_out == 6'h3e)'
+"../tb/sva/led_mux_sva.sv", 23: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 50000ps failed at 50000ps
+	Offending '(sel_out == 6'h3e)'
+"../tb/sva/led_mux_sva.sv", 23: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 70000ps failed at 70000ps
+	Offending '(sel_out == 6'h3e)'
+"../tb/sva/led_mux_sva.sv", 23: top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset: started at 90000ps failed at 90000ps
+	Offending '(sel_out == 6'h3e)'
+UVM_INFO ../tb/sequences/led_reset_seq.sv(21) @ 100000: uvm_test_top.env.led_agt.sequencer@@reset_seq [led_reset_seq] Deasserting rst_n=1
+SEL_OUT 000000
+--------------------------------------------------------------------------------------------------
+Name                           Type             Size  Value                                       
+--------------------------------------------------------------------------------------------------
+tr                             apb_transaction  -     @1107                                       
+  delay                        integral         32    'h0                                         
+  wait_cycle                   integral         32    'h0                                         
+  data                         integral         32    'h1                                         
+  addr                         integral         32    'h4000                                      
+  op                           op_t             32    WRITE                                       
+  slverr                       integral         1     'h1                                         
+  begin_time                   time             64    210000                                      
+  depth                        int              32    'd2                                         
+  parent sequence (name)       string           9     enable_on                                   
+  parent sequence (full name)  string           44    uvm_test_top.env.apb_agt.sequencer.enable_on
+  sequencer                    string           34    uvm_test_top.env.apb_agt.sequencer          
+--------------------------------------------------------------------------------------------------
+UVM_INFO ../tb/apb_agent/apb_monitor.sv(56) @ 270000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Printing...
+----------------------------------------------
+Name             Type             Size  Value 
+----------------------------------------------
+collected_trans  apb_transaction  -     @1013 
+  delay          integral         32    'h0   
+  wait_cycle     integral         32    'h0   
+  data           integral         32    'h1   
+  addr           integral         32    'h4000
+  op             op_t             32    WRITE 
+  slverr         integral         1     'h0   
+----------------------------------------------
+---------------------------------------------------------------------------------------------------
+Name                           Type             Size  Value                                        
+---------------------------------------------------------------------------------------------------
+tr                             apb_transaction  -     @1124                                        
+  delay                        integral         32    'h0                                          
+  wait_cycle                   integral         32    'h0                                          
+  data                         integral         32    'h0                                          
+  addr                         integral         32    'h4000                                       
+  op                           op_t             32    WRITE                                        
+  slverr                       integral         1     'h1                                          
+  begin_time                   time             64    270000                                       
+  depth                        int              32    'd2                                          
+  parent sequence (name)       string           10    enable_off                                   
+  parent sequence (full name)  string           45    uvm_test_top.env.apb_agt.sequencer.enable_off
+  sequencer                    string           34    uvm_test_top.env.apb_agt.sequencer           
+---------------------------------------------------------------------------------------------------
+UVM_INFO ../tb/apb_agent/apb_monitor.sv(56) @ 330000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Printing...
+----------------------------------------------
+Name             Type             Size  Value 
+----------------------------------------------
+collected_trans  apb_transaction  -     @1013 
+  delay          integral         32    'h0   
+  wait_cycle     integral         32    'h0   
+  data           integral         32    'h0   
+  addr           integral         32    'h4000
+  op             op_t             32    WRITE 
+  slverr         integral         1     'h0   
+----------------------------------------------
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 1730000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h80    
+  sel_out        integral         6     'b111110
+  error_q        integral         20    'h0     
+------------------------------------------------
+SEL_OUT 111110
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 3430000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111101
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 111101
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 5130000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111011
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 111011
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 6830000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b110111
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 110111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 8530000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b101111
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 101111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 10230000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+-----------------------------------------------
+Name             Type             Size  Value  
+-----------------------------------------------
+collected_trans  led_transaction  -     @1017  
+  seg_out        integral         8     'h81   
+  sel_out        integral         6     'b11111
+  error_q        integral         20    'h37   
+-----------------------------------------------
+SEL_OUT 011111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 11930000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111110
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 111110
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 13630000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111101
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 111101
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 15330000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111011
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 111011
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 17030000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b110111
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 110111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 18730000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b101111
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 101111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 20430000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+-----------------------------------------------
+Name             Type             Size  Value  
+-----------------------------------------------
+collected_trans  led_transaction  -     @1017  
+  seg_out        integral         8     'h81   
+  sel_out        integral         6     'b11111
+  error_q        integral         20    'h37   
+-----------------------------------------------
+SEL_OUT 011111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 22130000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111110
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 111110
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 23830000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111101
+  error_q        integral         20    'h37    
+------------------------------------------------
+SEL_OUT 111101
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 25530000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111011
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 111011
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 27230000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b110111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 110111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 28930000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b101111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 101111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 30630000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+-----------------------------------------------
+Name             Type             Size  Value  
+-----------------------------------------------
+collected_trans  led_transaction  -     @1017  
+  seg_out        integral         8     'h81   
+  sel_out        integral         6     'b11111
+  error_q        integral         20    'h2a   
+-----------------------------------------------
+SEL_OUT 011111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 32330000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111110
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 111110
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 34030000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111101
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 111101
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 35730000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111011
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 111011
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 37430000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b110111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 110111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 39130000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b101111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 101111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 40830000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+-----------------------------------------------
+Name             Type             Size  Value  
+-----------------------------------------------
+collected_trans  led_transaction  -     @1017  
+  seg_out        integral         8     'h81   
+  sel_out        integral         6     'b11111
+  error_q        integral         20    'h2a   
+-----------------------------------------------
+SEL_OUT 011111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 42530000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111110
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 111110
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 44230000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111101
+  error_q        integral         20    'h2a    
+------------------------------------------------
+SEL_OUT 111101
+--------------------------------------------------------------------------------------------------------
+Name                           Type             Size  Value                                             
+--------------------------------------------------------------------------------------------------------
+tr                             apb_transaction  -     @1220                                             
+  delay                        integral         32    'h0                                               
+  wait_cycle                   integral         32    'h0                                               
+  data                         integral         32    'h1                                               
+  addr                         integral         32    'h4000                                            
+  op                           op_t             32    WRITE                                             
+  slverr                       integral         1     'h1                                               
+  begin_time                   time             64    44370000                                          
+  depth                        int              32    'd2                                               
+  parent sequence (name)       string           15    enable_reenable                                   
+  parent sequence (full name)  string           50    uvm_test_top.env.apb_agt.sequencer.enable_reenable
+  sequencer                    string           34    uvm_test_top.env.apb_agt.sequencer                
+--------------------------------------------------------------------------------------------------------
+UVM_INFO ../tb/apb_agent/apb_monitor.sv(56) @ 44430000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Printing...
+----------------------------------------------
+Name             Type             Size  Value 
+----------------------------------------------
+collected_trans  apb_transaction  -     @1013 
+  delay          integral         32    'h0   
+  wait_cycle     integral         32    'h0   
+  data           integral         32    'h1   
+  addr           integral         32    'h4000
+  op             op_t             32    WRITE 
+  slverr         integral         1     'h0   
+----------------------------------------------
+--------------------------------------------------------------------------------------------------
+Name                           Type             Size  Value                                       
+--------------------------------------------------------------------------------------------------
+tr                             apb_transaction  -     @1256                                       
+  delay                        integral         32    'h0                                         
+  wait_cycle                   integral         32    'h0                                         
+  data                         integral         32    'h6f7822b6                                  
+  addr                         integral         32    'h4004                                      
+  op                           op_t             32    READ                                        
+  slverr                       integral         1     'h1                                         
+  begin_time                   time             64    44430000                                    
+  depth                        int              32    'd2                                         
+  parent sequence (name)       string           9     rd_done_0                                   
+  parent sequence (full name)  string           44    uvm_test_top.env.apb_agt.sequencer.rd_done_0
+  sequencer                    string           34    uvm_test_top.env.apb_agt.sequencer          
+--------------------------------------------------------------------------------------------------
+UVM_INFO ../tb/apb_agent/apb_monitor.sv(56) @ 44490000: uvm_test_top.env.apb_agt.monitor [apb_monitor] Printing...
+----------------------------------------------
+Name             Type             Size  Value 
+----------------------------------------------
+collected_trans  apb_transaction  -     @1013 
+  delay          integral         32    'h0   
+  wait_cycle     integral         32    'h0   
+  data           integral         32    'h1   
+  addr           integral         32    'h4004
+  op             op_t             32    READ  
+  slverr         integral         1     'h0   
+----------------------------------------------
+UVM_INFO ../tb/sequences/apb_done_poll_seq.sv(29) @ 44490000: uvm_test_top.env.apb_agt.sequencer@@poll_seq [apb_done_poll_seq] Done=1 seen after 1 polls
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 45930000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111011
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 45930000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=2 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 111011
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 47630000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b110111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 47630000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=3 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 110111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 49330000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b101111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 49330000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=4 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 101111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 51030000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+-----------------------------------------------
+Name             Type             Size  Value  
+-----------------------------------------------
+collected_trans  led_transaction  -     @1017  
+  seg_out        integral         8     'h81   
+  sel_out        integral         6     'b11111
+  error_q        integral         20    'h2a   
+-----------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 51030000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=5 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 011111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 52730000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'hca    
+  sel_out        integral         6     'b111110
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_ERROR ../tb/led_scoreboard.sv(133) @ 52730000: uvm_test_top.env.scb [SCB-5] seg_out mismatch @ digit_pos=0 (digit=2): got 7'h4a exp 7'h48 | error_q=42
+SEL_OUT 111110
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 54430000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'hb2    
+  sel_out        integral         6     'b111101
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 54430000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=1 digit=4 seg_out=7'h32 error_q=42
+SEL_OUT 111101
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 56130000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111011
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 56130000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=2 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 111011
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 57830000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b110111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 57830000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=3 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 110111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 59530000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b101111
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 59530000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=4 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 101111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 61230000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+-----------------------------------------------
+Name             Type             Size  Value  
+-----------------------------------------------
+collected_trans  led_transaction  -     @1017  
+  seg_out        integral         8     'h81   
+  sel_out        integral         6     'b11111
+  error_q        integral         20    'h2a   
+-----------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 61230000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=5 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 011111
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 62930000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'hca    
+  sel_out        integral         6     'b111110
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_ERROR ../tb/led_scoreboard.sv(133) @ 62930000: uvm_test_top.env.scb [SCB-5] seg_out mismatch @ digit_pos=0 (digit=2): got 7'h4a exp 7'h48 | error_q=42
+SEL_OUT 111110
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 64630000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'hb2    
+  sel_out        integral         6     'b111101
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 64630000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=1 digit=4 seg_out=7'h32 error_q=42
+SEL_OUT 111101
+UVM_INFO ../tb/led_agent/led_monitor.sv(53) @ 66330000: uvm_test_top.env.led_agt.monitor [uvm_test_top.env.led_agt.monitor] this is what i capture
+------------------------------------------------
+Name             Type             Size  Value   
+------------------------------------------------
+collected_trans  led_transaction  -     @1017   
+  seg_out        integral         8     'h81    
+  sel_out        integral         6     'b111011
+  error_q        integral         20    'h2a    
+------------------------------------------------
+UVM_INFO ../tb/led_scoreboard.sv(137) @ 66330000: uvm_test_top.env.scb [SCB-5] PASS digit_pos=2 digit=0 seg_out=7'h01 error_q=42
+SEL_OUT 111011
+UVM_INFO ../tb/test/led_reenable_after_disable_test.sv(16) @ 66450000: uvm_test_top [PHASE3_P0] PHASE 3 : P0 led_reenable_after_disable_test complete
+UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_objection.svh(1276) @ 67450000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+UVM_INFO ../tb/led_coverage.sv(185) @ 67450000: uvm_test_top.env.cov [led_coverage] COV: cg_enable=83.3% cg_done=25.0% cg_error_q=25.0% cg_overflow=50.0% cg_digits=46.7%
+UVM_INFO /home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_report_server.svh(904) @ 67450000: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   73
+UVM_WARNING :    0
+UVM_ERROR :    2
+UVM_FATAL :    0
+** Report counts by id
+[PHASE3_P0]     1
+[RNTST]     1
+[SCB-5]    13
+[TEST_DONE]     1
+[UVM/FACTORY/PRINT]     1
+[UVMTOP]     1
+[apb_agent]     1
+[apb_done_poll_seq]     1
+[apb_driver]     1
+[apb_monitor]     5
+[led_agent]     1
+[led_coverage]     2
+[led_driver]     1
+[led_env]     1
+[led_monitor]     1
+[led_reenable_after_disable_test]     1
+[led_reset_seq]     2
+[led_scoreboard]     1
+[uvm_test_top.env.led_agt.monitor]    39
+
+$finish called from file "/home/synopsys/vcs/W-2024.09-SP2/etc/uvm-1.2/base/uvm_root.svh", line 527.
+$finish at simulation time             67450000
+"../tb/sva/led_mux_sva.sv", 77: top_tb.dut_inst.i_led_mux_sva.assert_apb_pslerr_invalid_addr: Antecedent of the implication never satisfied.
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66270000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66290000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66310000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66330000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66350000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66370000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66390000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66410000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66430000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66450000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66470000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66490000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66510000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66530000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66550000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66570000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66590000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66610000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66630000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66650000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66670000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66690000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66710000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66730000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66750000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66770000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66790000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66810000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66830000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66850000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66870000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66890000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66910000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66930000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66950000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66970000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66990000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67010000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67030000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67050000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67070000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67090000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67110000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67130000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67150000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67170000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67190000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67210000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67230000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67250000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67270000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67290000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67310000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67330000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67350000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67370000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67390000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67410000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 67430000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66190000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66210000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66230000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency: started at 66250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 47990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 48990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 49990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 50990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 51990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 52990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 53990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 54990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 55990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 56990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 57990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 58990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 59990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 60990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 61990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 62990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 63990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 64990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 65990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66410000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66450000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66470000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66490000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66510000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66530000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66550000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66570000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66590000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66610000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66630000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66650000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66670000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66690000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66710000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66730000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66750000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66770000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66790000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66810000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66830000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66850000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66870000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66890000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66910000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66930000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66950000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66970000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 66990000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67010000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67030000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67050000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67070000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67090000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67110000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67130000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67150000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67170000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67190000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67210000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67230000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67250000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67270000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67290000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67310000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67330000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67350000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67370000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67390000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67430000ps not finished
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle: started at 67410000ps not finished
+"../tb/sva/led_mux_sva.sv", 102: top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency, 3372 attempts, 1121 match
+"../tb/sva/led_mux_sva.sv", 111: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_0, 3372 attempts, 2960 match
+"../tb/sva/led_mux_sva.sv", 112: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_1, 3372 attempts, 0 match
+"../tb/sva/led_mux_sva.sv", 113: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_2, 3372 attempts, 0 match
+"../tb/sva/led_mux_sva.sv", 114: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_3, 3372 attempts, 0 match
+"../tb/sva/led_mux_sva.sv", 115: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_4, 3372 attempts, 184 match
+"../tb/sva/led_mux_sva.sv", 116: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_5, 3372 attempts, 0 match
+"../tb/sva/led_mux_sva.sv", 117: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_6, 3372 attempts, 0 match
+"../tb/sva/led_mux_sva.sv", 118: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_7, 3372 attempts, 0 match
+"../tb/sva/led_mux_sva.sv", 119: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_8, 3372 attempts, 39 match
+"../tb/sva/led_mux_sva.sv", 120: top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_9, 3372 attempts, 0 match
+"../tb/sva/led_mux_sva.sv", 128: top_tb.dut_inst.i_led_mux_sva.cover_sel_out_digit_position, 3372 attempts, 3367 match
+"../tb/sva/led_mux_sva.sv", 135: top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle, 3372 attempts, 1350 match
+
+=========== Generating Assertion Summary ==========
+
+"top_tb.dut_inst.i_led_mux_sva.assert_sel_out_stable_during_reset", 3372 attempts, 3368 successes, 4 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_seg_out_stable_during_reset", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_sel_out_reset_value", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_seg_out_reset_value", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_apb_setup_phase", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_apb_access_phase", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_apb_pready_complete", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_apb_pslerr_invalid_addr", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_sel_out_onehot_active_low", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.assert_seg_out_bit7_always_one", 3372 attempts, 3372 successes, 0 failures, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_change_latency", 3372 attempts, 1121 matches, 2188 mismatches, 63 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_0", 3372 attempts, 2960 matches, 412 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_1", 3372 attempts, 0 matches, 3372 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_2", 3372 attempts, 0 matches, 3372 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_3", 3372 attempts, 0 matches, 3372 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_4", 3372 attempts, 184 matches, 3188 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_5", 3372 attempts, 0 matches, 3372 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_6", 3372 attempts, 0 matches, 3372 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_7", 3372 attempts, 0 matches, 3372 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_8", 3372 attempts, 39 matches, 3333 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_seg_out_decimal_digit_9", 3372 attempts, 0 matches, 3372 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.cover_sel_out_digit_position", 3372 attempts, 3367 matches, 5 mismatches, 0 incompletes
+"top_tb.dut_inst.i_led_mux_sva.check_hold_1002_cycle", 3372 attempts, 1350 matches, 20 mismatches, 2002 incompletes
+"uvm_pkg.\uvm_reg_map::do_read .unnamed$$_0.unnamed$$_1", 0 attempts, 0 successes, 0 failures, 0 incompletes
+"uvm_pkg.\uvm_reg_map::do_write .unnamed$$_0.unnamed$$_1", 0 attempts, 0 successes, 0 failures, 0 incompletes
+"vcs_paramclassrepository.\uvm_component_name_check_visitor::visit .unnamed$$_0", 63 attempts, 63 successes, 0 failures, 0 incompletes
+Summary: 13 assertions, 11 with attempts, 1 with failures
+         13 covers, 13 with attempts
+
+===========     End Assertion Summary    ==========
+
+
+---------------------------------------------------------------------------
+VCS Coverage Metrics: during simulation line, cond, FSM, branch, tgl was monitored
+---------------------------------------------------------------------------
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 67450000 ps
+CPU Time:      1.020 seconds;       Data structure size:  43.1Mb
+Sun Jul 12 14:41:16 2026

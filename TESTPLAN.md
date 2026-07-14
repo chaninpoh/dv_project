@@ -6,6 +6,72 @@
 
 This testplan is the build checklist. **Start with §1 P0 essential tests (11)**; add P1 good-to-have and P2 stretch only after P0 passes.
 
+## Phase status (as of 2026-07-12, regress_202607121440)
+
+| Phase | Tests | PASS | FAIL | UNKNOWN | Notes |
+|---|---|---|---|---|---|
+| P0 | 10 | 6 | 4 | 0 | Failures all known DUT bugs |
+| P1 | 9 | 2 | 7 | 0 | All implemented and run |
+| P2 | 18 | — | — | 18 | Not yet implemented |
+
+**Testplan coverage score: 67.54%** | TOGGLE: 23.09% | Groups avg: 86.06%
+
+### P0 gate results
+
+| Test | Result | Root cause |
+|---|---|---|
+| `led_reset_values_test` | PASS | — |
+| `apb_reset_defaults_test` | FAIL | BUG-001 (LED_enable reads 0 after reset) |
+| `apb_pready_no_wait_test` | PASS | — |
+| `apb_led_enable_write_read_test` | PASS | — |
+| `apb_scratchpad_wr_rd_test` | PASS | — |
+| `apb_invalid_addr_test` | PASS | — |
+| `led_decimal_42_test` | FAIL | BUG-004 (digit 2 wrong encoding) |
+| `led_overflow_modulo_test` | FAIL | BUG-004 + BUG-006 |
+| `led_disable_blocks_update_test` | PASS | — |
+| `led_all_digits_0_to_9_test` | FAIL | BUG-004, BUG-005 |
+
+### P1 gate results
+
+| Test | Result | Root cause |
+|---|---|---|
+| `apb_default_enable_led_path_test` | FAIL | BUG-001 |
+| `led_reenable_after_disable_test` | FAIL | BUG-004 |
+| `led_max_displayable_test` | FAIL | BUG-007 (bin2bcd truncation) |
+| `led_sel_onehot_scan_test` | FAIL | BUG-005 + encoding errors |
+| `led_hold_time_min_test` | **PASS** | — |
+| `led_latency_window_test` | **PASS** | — |
+| `full_display_flow_test` | FAIL | BUG-004 |
+| `apb_read_during_processing_test` | FAIL | BUG-004 |
+| `random_regression_test` | FAIL | BUG-004 + BUG-005 |
+
+### Remaining coverage gaps (after P0+P1)
+
+| Covergroup | Score | Missing bins |
+|---|---|---|
+| `cg_error_q` | 62.50% | `b99`, `b1_000_000`, `b1_048_575` |
+| `cg_enable` | 83.33% | `default_at_reset` (blocked by BUG-001) |
+| `cg_digits` cross | 53.33% | 28/60 cross bins (all 6 pos × all 10 val combos not seen) |
+| `cg_overflow` | 100.00% | — |
+| `cg_done` | 100.00% | — |
+
+### P2 implementation priority (coverage-driven)
+
+Implement in this order:
+
+| Priority | ID | Test | Coverage target |
+|---|---|---|---|
+| 1 | S10 | `led_overflow_boundary_test` | `b99`, `b1_000_000` in `cg_error_q`; high-position cross bins |
+| 2 | S09 | `led_overflow_max_test` | `b1_048_575` in `cg_error_q`; `Overflow_maximum_error_q` HVP |
+| 3 | S06 | `led_single_digit_zero_test` | Cross `(pos5, val0)`; `Single_digit_zero_display` HVP |
+| 4 | S07 | `led_single_digit_one_test` | Cross `(pos5, val1)`; `Single_digit_one_display` HVP |
+| 5 | S08 | `led_seg_active_low_test` | `seg_out_active_low_encoding` HVP |
+| 6 | S11 | `led_back_to_back_error_test` | `Back_to_back_error_q_changes` HVP |
+| 7 | S17 | `enable_off_overflow_test` | `Disable_then_overflow_then_enable` HVP |
+| 8+ | S01–S05, S12–S16, S18 | Stress/redundancy | Implement last if time permits |
+
+---
+
 **Deliverable format:** The final testplan must be exported to Excel using `LED_MUX_CONTROLLER_stu/Template-TestPlan.xlsx`. See **§9** for column layout, row rules, and mapping from this document into the template.
 
 ---

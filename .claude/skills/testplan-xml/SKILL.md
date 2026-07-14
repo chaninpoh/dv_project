@@ -26,7 +26,9 @@ produces.
    Tests with no log yet are left out of the userdata (reported as
    no-score / not-yet-run, not silently marked pass).
 3. Writes `led_mux_controller_testplan.hvp` (HVP plan source) and
-   `test_results.hvpdata` (HVP userdata for the `test` metric — there's no
+   `test_results.hvpdata` (HVP userdata for the built-in `Group` metric —
+   a percent-type metric, per v_planner.pdf's External User Data section —
+   with each test emitted as `100%` on pass or `0%` on fail; there's no
    Execution Manager in this flow, so results are supplied externally).
 4. Runs `urg -dir dut_simv.vdb -plan <plan>.hvp -userdata test_results.hvpdata
    -xmlplan -report urgReport` (after sourcing `proj1.setup`) to produce
